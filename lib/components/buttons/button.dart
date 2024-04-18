@@ -15,6 +15,9 @@ class ButtonText extends StatelessWidget{
       child: ElevatedButton(
         onPressed: () { functionClick(); },
         style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8), // <-- Radius
+            ),
             minimumSize: const Size.fromHeight(60),
             textStyle: const TextStyle(fontWeight: FontWeight.bold)),
         child: Text(textButton),
