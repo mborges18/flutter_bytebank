@@ -2,21 +2,22 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_bitybank/home/home_screen.dart';
 import 'package:flutter_bitybank/util/validator/validator.dart';
-import '../components/buttons/button.dart';
+import '../components/buttons/button_filled.dart';
 import '../components/inputs/input_text.dart';
 import '../components/inputs/input_text_form.dart';
+import '../util/string/strings.dart';
 import '../util/util.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key, required this.title});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key, required this.title});
 
   final String title;
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   String? _email;
   String? _password;
   final String _emailDb = "ctl_mborges@uolinc.com";
@@ -96,7 +97,10 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+            widget.title.toUpperCase(),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0,)
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -132,7 +136,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           _password = null;
                         }),
 
-                    ButtonText('ACESSAR', functionClick: () {
+                    ButtonFilled(actionAccess, functionClick: () {
                       _login();
                     }),
                   ],

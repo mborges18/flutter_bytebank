@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class ButtonText extends StatelessWidget{
+class ButtonFilled extends StatelessWidget{
 
   final String textButton;
   final Function() functionClick;
 
-  ButtonText(this.textButton, {required this.functionClick});
+  const ButtonFilled(this.textButton, {super.key, required this.functionClick});
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +16,12 @@ class ButtonText extends StatelessWidget{
         onPressed: () { functionClick(); },
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8), // <-- Radius
+              borderRadius: BorderRadius.circular(8),
             ),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            foregroundColor: Theme.of(context).colorScheme.onPrimary,
+            disabledBackgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+            disabledForegroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
             minimumSize: const Size.fromHeight(60),
             textStyle: const TextStyle(fontWeight: FontWeight.bold)),
         child: Text(textButton),
