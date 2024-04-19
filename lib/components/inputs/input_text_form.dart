@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 class InputTextForm extends StatefulWidget {
   final String textHint;
   final String textLabel;
+  final Icon? icon;
   final TextEditingController _controller;
   final Function() validator;
   final Function() onTextChange;
 
-  const InputTextForm(this. textHint, this.textLabel, this._controller, {super.key, required this.validator, required this.onTextChange});
+  const InputTextForm(this.textHint, this.textLabel, this._controller, {super.key, this.icon, required this.validator, required this.onTextChange});
 
   @override
   InputTextFormCustom createState() {
@@ -33,6 +34,7 @@ class InputTextFormCustom extends State<InputTextForm> {
           border: const OutlineInputBorder(),
           hintText: widget.textHint,
           labelText: widget.textLabel,
+          prefixIcon: widget.icon
         ),
         onSaved: (value) {},
         validator: (value) {

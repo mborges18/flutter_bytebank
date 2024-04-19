@@ -1,4 +1,4 @@
-# flutter_bitybank
+# flutter_bytebank
 
 A BityBank Flutter project.
 

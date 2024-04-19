@@ -1,33 +1,23 @@
 import 'dart:core';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bitybank/home/home.dart';
+import 'package:flutter_bitybank/home/home_screen.dart';
 import 'package:flutter_bitybank/util/validator/validator.dart';
-
-import '../components/buttons/button.dart';
+import '../components/buttons/button_filled.dart';
 import '../components/inputs/input_text.dart';
 import '../components/inputs/input_text_form.dart';
+import '../util/string/strings.dart';
 import '../util/util.dart';
 
-class Authenticator extends StatelessWidget {
-  const Authenticator({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Login(title: "Login");
-  }
-}
-
-class Login extends StatefulWidget {
-  const Login({super.key, required this.title});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key, required this.title});
 
   final String title;
 
   @override
-  State<Login> createState() => _LoginState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginState extends State<Login> {
+class _SignUpScreenState extends State<SignUpScreen> {
   String? _email;
   String? _password;
   final String _emailDb = "ctl_mborges@uolinc.com";
@@ -107,7 +97,10 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+            widget.title.toUpperCase(),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0,)
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -130,20 +123,20 @@ class _LoginState extends State<Login> {
                   children: <Widget>[
                     InputTextForm('ex@@ex.com', 'E-mail', emailController,
                         validator: () {
-                      return handleErrorEmail();
-                    }, onTextChange: () {
-                      _visibilityStateMsg(false);
-                      _email = null;
-                    }),
+                          return handleErrorEmail();
+                        }, onTextChange: () {
+                          _visibilityStateMsg(false);
+                          _email = null;
+                        }),
                     InputTextForm('******', 'Senha', passwordController,
                         validator: () {
-                      return handleErrorPass();
-                    }, onTextChange: () {
-                      _visibilityStateMsg(false);
-                      _password = null;
-                    }),
+                          return handleErrorPass();
+                        }, onTextChange: () {
+                          _visibilityStateMsg(false);
+                          _password = null;
+                        }),
 
-                    ButtonText('ACESSAR', functionClick: () {
+                    ButtonFilled(actionAccess, functionClick: () {
                       _login();
                     }),
                   ],
