@@ -1,22 +1,24 @@
 import 'dart:core';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bitybank/components/buttons/button_outline.dart';
 import 'package:flutter_bitybank/home/home_screen.dart';
 import 'package:flutter_bitybank/util/validator/validator.dart';
-import '../components/buttons/button.dart';
-import '../components/inputs/input_text.dart';
+import '../components/buttons/button_filled.dart';
 import '../components/inputs/input_text_form.dart';
+import '../util/string/strings.dart';
 import '../util/util.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key, required this.title});
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key, required this.title});
 
   final String title;
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignInScreenState extends State<SignInScreen> {
   String? _email;
   String? _password;
   final String _emailDb = "ctl_mborges@uolinc.com";
@@ -40,7 +42,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     final FormState? form = _formKey.currentState;
     if (form!.validate()) {
-
       if (_email!.isNotEmpty && _password!.isNotEmpty) {
         if (_email == _emailDb && _password == _passwordDb) {
           Navigator.push(
@@ -54,6 +55,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     } else {
       print('Form is invalid');
     }
+  }
+
+  void _forgotPassword() {
+    print('Forgot password');
   }
 
   String? handleErrorEmail() {
@@ -95,45 +100,66 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              Padding(
+                  padding: const EdgeInsets.only(
+                      left: 0.0, top: 32.0, right: 0.0, bottom: 10.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.lock, size: 26),
+                   Padding(
+                      padding: const EdgeInsets.only(top: 4.0, left: 4.0),
+                      child:Text(widget.title.toUpperCase(),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 26.0)))
+                      ])),
               const Padding(
-                padding: EdgeInsets.symmetric(vertical: 50.0, horizontal: 0.0),
-                child: Text(
-                  "POR FAVOR INFORME SEUS DADOS",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-                ),
+                padding: EdgeInsets.only(
+                    left: 0.0, top: 32.0, right: 0.0, bottom: 10.0),
+                child: Text(titleWellCome,
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
               ),
+              const Padding(
+                  padding: EdgeInsets.only(
+                      left: 0.0, top: 0.0, right: 0.0, bottom: 10.0),
+                  child: Text(
+                    descriptionWellCome,
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+                  )),
               Form(
                 key: _formKey,
                 child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    InputTextForm('ex@@ex.com', 'E-mail', emailController,
+                    InputTextForm(placeHolderEmail, hintEmail, emailController,
+                        icon: const Icon(Icons.alternate_email),
                         validator: () {
-                          return handleErrorEmail();
-                        }, onTextChange: () {
-                          _visibilityStateMsg(false);
-                          _email = null;
-                        }),
-                    InputTextForm('******', 'Senha', passwordController,
+                      return handleErrorEmail();
+                    }, onTextChange: () {
+                      _visibilityStateMsg(false);
+                      _email = null;
+                    }),
+                    InputTextForm(
+                        placeHolderPassword, hintPassword, passwordController,
+                        icon: const Icon(Icons.key),
                         validator: () {
-                          return handleErrorPass();
-                        }, onTextChange: () {
-                          _visibilityStateMsg(false);
-                          _password = null;
-                        }),
-
-                    ButtonText('ACESSAR', functionClick: () {
+                      return handleErrorPass();
+                    }, onTextChange: () {
+                      _visibilityStateMsg(false);
+                      _password = null;
+                    }),
+                    ButtonFilled(actionAccess.toUpperCase(), functionClick: () {
                       _login();
+                    }),
+                    ButtonOutline(actionForgotPassword.toUpperCase(), functionClick: () {
+                      _forgotPassword();
                     }),
                   ],
                 ),

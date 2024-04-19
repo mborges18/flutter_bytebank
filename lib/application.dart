@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bitybank/util/theme/theme_constants.dart';
 
-import 'auth/authenticator_screen.dart';
+import 'authenticator/authenticator_screen.dart';
 import 'package:device_preview/device_preview.dart';
 
 class Application extends StatelessWidget {
@@ -12,11 +13,9 @@ class Application extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder,
-        theme: ThemeData(
-            useMaterial3: false,
-            colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue),
-            primaryColor: const Color(0xFF023B8F)),
-        darkTheme: ThemeData.dark(),
+        themeMode: ThemeMode.system,
+        theme: lightTheme,
+        darkTheme: darkTheme,
         home: const AuthenticatorScreen());
   }
 }
