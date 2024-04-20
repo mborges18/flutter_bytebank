@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 
 class InputText extends StatefulWidget {
-  final TextEditingController _controller;
-  final String _textLabel;
-  final String hintText;
+  final String textHint;
+  final String textLabel;
   final IconData? iconStart;
   final IconData? iconEnd;
-  final int maxLength;
   final bool isToggleSecret;
-  final String? Function() textError;
-  final Function() onTextChangeListener;
+  final int maxLength;
+  final TextEditingController? controller;
+  final Function() onValidatorListener;
+  final Function(String?) onTextChangeListener;
   final Function()? onIconEndClickListener;
 
-  const InputText(
-      this._textLabel, this.hintText, this._controller, this.textError,
+  const InputText(this.textHint, this.textLabel,
       {super.key,
-      this.iconStart,
-      this.iconEnd,
-      this.maxLength = 55,
-      this.isToggleSecret = false,
-      required this.onTextChangeListener,
-      this.onIconEndClickListener});
+        this.controller,
+        this.iconStart,
+        this.iconEnd,
+        this.isToggleSecret = false,
+        this.maxLength = 55,
+        required this.onValidatorListener,
+        required this.onTextChangeListener,
+        this.onIconEndClickListener});
 
   @override
   InputTextCustom createState() {
@@ -48,17 +49,17 @@ class InputTextCustom extends State<InputText> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
       child: TextField(
-        controller: widget._controller,
+        controller: widget.controller,
         onChanged: (text) {
-          widget.onTextChangeListener();
+          widget.onTextChangeListener(text);
         },
         maxLength: widget.maxLength,
         obscureText: widget.isToggleSecret,
         decoration: InputDecoration(
           border: const OutlineInputBorder(),
-          labelText: widget._textLabel,
-          hintText: widget.hintText,
-          errorText: widget.textError(),
+          labelText: widget.textLabel,
+          hintText: widget.textHint,
+          errorText: widget.onValidatorListener(),
           prefixIcon: Icon(widget.iconStart),
           suffixIcon: IconButton(
                 onPressed: () {

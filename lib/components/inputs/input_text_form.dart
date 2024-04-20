@@ -7,12 +7,12 @@ class InputTextForm extends StatefulWidget {
   final IconData? iconEnd;
   final bool isToggleSecret;
   final int maxLength;
-  final TextEditingController controller;
+  final TextEditingController _controller;
   final Function() onValidatorListener;
   final Function() onTextChangeListener;
   final Function()? onIconEndClickListener;
 
-  const InputTextForm(this.textHint, this.textLabel, this.controller,
+  const InputTextForm(this.textHint, this.textLabel, this._controller,
       {super.key,
       this.iconStart,
       this.iconEnd,
@@ -47,10 +47,9 @@ class InputTextFormCustom extends State<InputTextForm> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
       child: TextFormField(
-        maxLength: widget.maxLength,
         obscureText: widget.isToggleSecret,
         //autovalidateMode: AutovalidateMode.always,
-        controller: widget.controller,
+        controller: widget._controller,
         onChanged: (text) {
           widget.onTextChangeListener();
         },

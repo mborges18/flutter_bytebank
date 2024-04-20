@@ -136,7 +136,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           _password = null;
                         }),
 
-                    ButtonFilled(actionAccess, functionClick: () {
+                    ButtonFilled(textButton: actionAccess, isEnabled: true, functionClick: () {
                       _login();
                     }),
                   ],

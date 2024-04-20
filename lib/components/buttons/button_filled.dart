@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 class ButtonFilled extends StatelessWidget{
 
   final String textButton;
+  final bool isEnabled;
   final Function() functionClick;
 
-  const ButtonFilled(this.textButton, {super.key, required this.functionClick});
+  const ButtonFilled({super.key, required this.textButton, required this.isEnabled, required this.functionClick});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class ButtonFilled extends StatelessWidget{
       padding:
       const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
       child: ElevatedButton(
-        onPressed: () { functionClick(); },
+        onPressed: isEnabled ? functionClick : null,
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
