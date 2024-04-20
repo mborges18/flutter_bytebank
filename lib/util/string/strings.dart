@@ -2,6 +2,7 @@
 const titleAccess = "Acesso";
 const titleRegister = "Cadastro";
 const titleWellCome = "Seja bem vindo!";
+const titleKeepConnected = "Continuar conectado";
 
 const descriptionWellCome = "Com a sua carteira de cartões de crédito você pode fazer suas transações de qualquer lugar.";
 

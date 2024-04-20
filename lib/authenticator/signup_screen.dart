@@ -122,16 +122,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     InputTextForm('ex@@ex.com', 'E-mail', emailController,
-                        validator: () {
+                        onValidatorListener: () {
                           return handleErrorEmail();
-                        }, onTextChange: () {
+                        }, onTextChangeListener: () {
                           _visibilityStateMsg(false);
                           _email = null;
                         }),
                     InputTextForm('******', 'Senha', passwordController,
-                        validator: () {
+                        onValidatorListener: () {
                           return handleErrorPass();
-                        }, onTextChange: () {
+                        }, onTextChangeListener: () {
                           _visibilityStateMsg(false);
                           _password = null;
                         }),

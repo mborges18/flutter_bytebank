@@ -26,11 +26,18 @@ class _SignInScreenState extends State<SignInScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool _isVisible = false;
+  bool _isKeepConnectd = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _visibilityStateMsg(bool isVisible) {
     setState(() {
       _isVisible = isVisible;
+    });
+  }
+
+  void _setKeepConnected(bool value) {
+    setState(() {
+      _isKeepConnectd = value;
     });
   }
 
@@ -113,15 +120,16 @@ class _SignInScreenState extends State<SignInScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Icon(Icons.lock, size: 26),
-                   Padding(
-                      padding: const EdgeInsets.only(top: 4.0, left: 4.0),
-                      child:Text(widget.title.toUpperCase(),
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 26.0)))
+                        Padding(
+                            padding: const EdgeInsets.only(top: 4.0, left: 4.0),
+                            child: Text(widget.title.toUpperCase(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 26.0)))
                       ])),
               const Padding(
                 padding: EdgeInsets.only(
-                    left: 0.0, top: 32.0, right: 0.0, bottom: 10.0),
+                    left: 0.0, top: 20.0, right: 0.0, bottom: 10.0),
                 child: Text(titleWellCome,
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
@@ -138,27 +146,53 @@ class _SignInScreenState extends State<SignInScreen> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
-                    InputTextForm(placeHolderEmail, hintEmail, emailController,
-                        icon: const Icon(Icons.alternate_email),
-                        validator: () {
-                      return handleErrorEmail();
-                    }, onTextChange: () {
-                      _visibilityStateMsg(false);
-                      _email = null;
-                    }),
+                    InputTextForm(
+                        placeHolderEmail, hintEmail, emailController,
+                        iconStart: Icons.alternate_email,
+                        onValidatorListener: () {
+                          return handleErrorEmail();
+                        },
+                        onTextChangeListener: () {
+                          _visibilityStateMsg(false);
+                          _email = null;
+                        }),
                     InputTextForm(
                         placeHolderPassword, hintPassword, passwordController,
-                        icon: const Icon(Icons.key),
-                        validator: () {
-                      return handleErrorPass();
-                    }, onTextChange: () {
-                      _visibilityStateMsg(false);
-                      _password = null;
-                    }),
+                        iconStart: Icons.key,
+                        isToggleSecret: true,
+                        onValidatorListener: () {
+                          return handleErrorPass();
+                        },
+                        onTextChangeListener: () {
+                          _visibilityStateMsg(false);
+                          _password = null;
+                        }),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Row(
+                          children: [
+                            CupertinoSwitch(
+                              activeColor:
+                                  Theme.of(context).colorScheme.primary,
+                              value: _isKeepConnectd,
+                              onChanged: (value) {
+                                _setKeepConnected(value);
+                              },
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 4.0),
+                              child: Text(titleKeepConnected,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16.0)),
+                            )
+                          ],
+                        )),
                     ButtonFilled(actionAccess.toUpperCase(), functionClick: () {
                       _login();
                     }),
-                    ButtonOutline(actionForgotPassword.toUpperCase(), functionClick: () {
+                    ButtonOutline(actionForgotPassword.toUpperCase(),
+                        functionClick: () {
                       _forgotPassword();
                     }),
                   ],
