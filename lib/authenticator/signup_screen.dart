@@ -41,7 +41,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     final FormState? form = _formKey.currentState;
     if (form!.validate()) {
-
       if (_email!.isNotEmpty && _password!.isNotEmpty) {
         if (_email == _emailDb && _password == _passwordDb) {
           Navigator.push(
@@ -97,10 +96,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            widget.title.toUpperCase(),
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0,)
-        ),
+        title: Text(widget.title.toUpperCase(),
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20.0,
+            )),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -123,22 +123,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   children: <Widget>[
                     InputTextForm('ex@@ex.com', 'E-mail', emailController,
                         onValidatorListener: () {
-                          return handleErrorEmail();
-                        }, onTextChangeListener: () {
-                          _visibilityStateMsg(false);
-                          _email = null;
-                        }),
+                      return handleErrorEmail();
+                    }, onTextChangeListener: () {
+                      _visibilityStateMsg(false);
+                      _email = null;
+                    }),
                     InputTextForm('******', 'Senha', passwordController,
                         onValidatorListener: () {
-                          return handleErrorPass();
-                        }, onTextChangeListener: () {
-                          _visibilityStateMsg(false);
-                          _password = null;
-                        }),
-
-                    ButtonFilled(textButton: actionAccess, isEnabled: true, functionClick: () {
-                      _login();
+                      return handleErrorPass();
+                    }, onTextChangeListener: () {
+                      _visibilityStateMsg(false);
+                      _password = null;
                     }),
+                    ButtonFilled(
+                        textButton: actionAccess,
+                        isEnabled: true,
+                        functionClick: () {
+                          _login();
+                        }),
                   ],
                 ),
               ),

@@ -14,14 +14,14 @@ class InputText extends StatefulWidget {
 
   const InputText(this.textHint, this.textLabel,
       {super.key,
-        this.controller,
-        this.iconStart,
-        this.iconEnd,
-        this.isToggleSecret = false,
-        this.maxLength = 55,
-        required this.onValidatorListener,
-        required this.onTextChangeListener,
-        this.onIconEndClickListener});
+      this.controller,
+      this.iconStart,
+      this.iconEnd,
+      this.isToggleSecret = false,
+      this.maxLength = 55,
+      required this.onValidatorListener,
+      required this.onTextChangeListener,
+      this.onIconEndClickListener});
 
   @override
   InputTextCustom createState() {
@@ -30,7 +30,6 @@ class InputText extends StatefulWidget {
 }
 
 class InputTextCustom extends State<InputText> {
-
   bool isToggleSecretVisible = false;
 
   IconData? isToggleSecret() {
@@ -45,7 +44,6 @@ class InputTextCustom extends State<InputText> {
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
       child: TextField(
@@ -56,12 +54,12 @@ class InputTextCustom extends State<InputText> {
         maxLength: widget.maxLength,
         obscureText: widget.isToggleSecret,
         decoration: InputDecoration(
-          border: const OutlineInputBorder(),
-          labelText: widget.textLabel,
-          hintText: widget.textHint,
-          errorText: widget.onValidatorListener(),
-          prefixIcon: Icon(widget.iconStart),
-          suffixIcon: IconButton(
+            border: const OutlineInputBorder(),
+            labelText: widget.textLabel,
+            hintText: widget.textHint,
+            errorText: widget.onValidatorListener(),
+            prefixIcon: Icon(widget.iconStart),
+            suffixIcon: IconButton(
                 onPressed: () {
                   setState(() {
                     isToggleSecretVisible = !isToggleSecretVisible;
