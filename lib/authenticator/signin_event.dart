@@ -10,6 +10,6 @@ class SignInSetPassword extends SignInEvent {
   SignInSetPassword({required this.password});
 }
 
-class SignInLoading extends SignInEvent {}
+class SignInSetLoading extends SignInEvent {}
 
-class SignInSubmitted extends SignInEvent {}
+class SignInSetSubmitted extends SignInEvent {}

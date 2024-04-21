@@ -40,7 +40,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
     bloc.add(SignInSetEmail(email: _email!));
     bloc.add(SignInSetPassword(password: _password!));
-    bloc.add(SignInSubmitted());
+    bloc.add(SignInSetSubmitted());
 
     if (_email != null && _password != null) {
       if (_email!.isNotEmpty && _password!.isNotEmpty) {
