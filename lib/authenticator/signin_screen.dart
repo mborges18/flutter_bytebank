@@ -1,6 +1,8 @@
 import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bitybank/authenticator/signin_bloc.dart';
+import 'package:flutter_bitybank/authenticator/signin_event.dart';
 import 'package:flutter_bitybank/components/buttons/button_outline.dart';
 import 'package:flutter_bitybank/home/home_screen.dart';
 import 'package:flutter_bitybank/util/validator/validator.dart';
@@ -28,15 +30,19 @@ class _SignInScreenState extends State<SignInScreen> {
   String? _password;
   bool _isEnabledButton = false;
   bool _isKeepConnected = false;
+  late final SignInBloc bloc;
 
   void _login() {
     Util.closeKeyboard(context);
 
     // _email = emailController.text;
     // _password = passwordController.text;
-    print('Dados---------------------'+_email! + _password!);
 
-    if(_email != null && _password != null) {
+    bloc.add(SignInSetEmail(email: _email!));
+    bloc.add(SignInSetPassword(password: _password!));
+    bloc.add(SignInSubmitted());
+
+    if (_email != null && _password != null) {
       if (_email!.isNotEmpty && _password!.isNotEmpty) {
         if (_email == _emailDb && _password == _passwordDb) {
           Navigator.push(
@@ -49,15 +55,15 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   String? _handleErrorEmail() {
-      if (_email != null && _email!.isEmpty) {
-        return 'Campo obrigatório';
+    if (_email != null && _email!.isEmpty) {
+      return 'Campo obrigatório';
+    } else {
+      if (_email != null && !Validator.isValidEmail(_email)) {
+        return 'E-mail inválido';
       } else {
-        if (_email!=null && !Validator.isValidEmail(_email)) {
-          return 'E-mail inválido';
-        } else {
-          return null;
-        }
+        return null;
       }
+    }
   }
 
   String? _handleErrorPass() {
@@ -66,15 +72,25 @@ class _SignInScreenState extends State<SignInScreen> {
 
   void _handlerEnableButton() {
     setState(() {
-      _isEnabledButton = _password != null && _password!.isNotEmpty
-      && _email != null && _email!.isNotEmpty && Validator.isValidEmail(_email);
+      _isEnabledButton = _password != null &&
+          _password!.isNotEmpty &&
+          _email != null &&
+          _email!.isNotEmpty &&
+          Validator.isValidEmail(_email);
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = SignInBloc();
   }
 
   @override
   void dispose() {
     //emailController.dispose();
     //passwordController.dispose();
+    bloc.close();
     super.dispose();
   }
 
@@ -121,66 +137,59 @@ class _SignInScreenState extends State<SignInScreen> {
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
                   )),
               Column(
-                  children: <Widget>[
-                    InputText(
-                        placeHolderEmail, hintEmail,
-                        iconStart: Icons.alternate_email,
-                        onValidatorListener: () {
-                          return _handleErrorEmail();
-                        },
-                        onTextChangeListener: (text) {
-                          setState(() {
-                            _email = text;
-                            _handlerEnableButton();
-                          });
-                        }),
-                    InputText(
-                        placeHolderPassword, hintPassword,
-                        iconStart: Icons.key,
-                        isToggleSecret: true,
-                        onValidatorListener: () {
-                          return _handleErrorPass();
-                        },
-                        onTextChangeListener: (text) {
-                          setState(() {
-                            _password = text;
-                          });
-                          _handlerEnableButton();
-                        }),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child: Row(
-                          children: [
-                            CupertinoSwitch(
-                              activeColor:
-                                  Theme.of(context).colorScheme.primary,
-                              value: _isKeepConnected,
-                              onChanged: (value) {
-                                setState(() {
-                                  _isKeepConnected = value;
-                                });
-                              },
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 4.0),
-                              child: Text(titleKeepConnected,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16.0)),
-                            )
-                          ],
-                        )),
-                    ButtonFilled(
-                        textButton: actionAccess.toUpperCase(),
-                        isEnabled: _isEnabledButton,
-                        functionClick: () {
-                          _login();
-                        }),
-                    ButtonOutline(actionForgotPassword.toUpperCase(),
-                        functionClick: () {
-                    }),
-                  ],
-                ),
+                children: <Widget>[
+                  InputText(placeHolderEmail, hintEmail,
+                      iconStart: Icons.alternate_email,
+                      onValidatorListener: () {
+                    return _handleErrorEmail();
+                  }, onTextChangeListener: (text) {
+                    setState(() {
+                      _email = text;
+                      _handlerEnableButton();
+                    });
+                  }),
+                  InputText(placeHolderPassword, hintPassword,
+                      iconStart: Icons.key,
+                      isToggleSecret: true, onValidatorListener: () {
+                    return _handleErrorPass();
+                  }, onTextChangeListener: (text) {
+                    setState(() {
+                      _password = text;
+                    });
+                    _handlerEnableButton();
+                  }),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: Row(
+                        children: [
+                          CupertinoSwitch(
+                            activeColor: Theme.of(context).colorScheme.primary,
+                            value: _isKeepConnected,
+                            onChanged: (value) {
+                              setState(() {
+                                _isKeepConnected = value;
+                              });
+                            },
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 4.0),
+                            child: Text(titleKeepConnected,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0)),
+                          )
+                        ],
+                      )),
+                  ButtonFilled(
+                      textButton: actionAccess.toUpperCase(),
+                      isEnabled: _isEnabledButton,
+                      functionClick: () {
+                        _login();
+                      }),
+                  ButtonOutline(actionForgotPassword.toUpperCase(),
+                      functionClick: () {}),
+                ],
+              ),
             ],
           ),
         ),
