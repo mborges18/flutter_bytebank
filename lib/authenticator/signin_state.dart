@@ -1,46 +1,13 @@
-class SignInState {
-  final String email;
-  final String password;
-  final FormStatus formStatus;
+import 'package:flutter/cupertino.dart';
 
-  SignInState(
-      {this.email = '',
-      this.password = '',
-      this.formStatus = const InitialFormStatus()});
+@immutable
+abstract class SignInState {}
 
-  SignInState setEamil({required String email}) {
-    return SignInState(
-        email: email, password: password, formStatus: formStatus);
-  }
-
-  SignInState setPassword({
-    required String password,
-  }) {
-    return SignInState(
-        email: email, password: password, formStatus: formStatus);
-  }
-
-  SignInState setSubimitted({
-    required FormStatus formStatus,
-  }) {
-    return SignInState(
-        email: email, password: password, formStatus: formStatus);
-  }
+class SignInStateInitial extends SignInState {}
+class SignInStateLoading extends SignInState {}
+class SignInStateSuccess extends SignInState {
+  SignInStateSuccess(String s);
 }
-
-abstract class FormStatus {
-  const FormStatus();
-}
-
-class InitialFormStatus extends FormStatus {
-  const InitialFormStatus();
-}
-
-class SubimittingFormStatus extends FormStatus {}
-
-class SuccessFormStatus extends FormStatus {}
-
-class ErrorFormStatus extends FormStatus {
-  final Exception exception;
-  ErrorFormStatus({required this.exception});
+class SignInStateError extends SignInState {
+  SignInStateError(Object? error);
 }

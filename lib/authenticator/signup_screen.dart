@@ -3,16 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bitybank/home/home_screen.dart';
 import 'package:flutter_bitybank/util/validator/validator.dart';
 import '../components/buttons/button_filled.dart';
-import '../components/inputs/input_text.dart';
 import '../components/inputs/input_text_form.dart';
 import '../util/string/strings.dart';
 import '../util/util.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key, required this.title});
-
-  final String title;
-
+  const SignUpScreen({super.key});
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
@@ -96,7 +92,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title.toUpperCase(),
+        title: Text(titleRegister.toUpperCase(),
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20.0,
@@ -138,6 +134,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ButtonFilled(
                         textButton: actionAccess,
                         isEnabled: true,
+                        isLoading: false,
                         functionClick: () {
                           _login();
                         }),

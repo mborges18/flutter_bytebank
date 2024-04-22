@@ -1,15 +1,11 @@
+import 'package:flutter/cupertino.dart';
+
+@immutable
 abstract class SignInEvent {}
 
-class SignInSetEmail extends SignInEvent {
+class SignIn extends SignInEvent {
   final String email;
-  SignInSetEmail({required this.email});
-}
-
-class SignInSetPassword extends SignInEvent {
   final String password;
-  SignInSetPassword({required this.password});
+
+  SignIn({required this.email, required this.password});
 }
-
-class SignInSetLoading extends SignInEvent {}
-
-class SignInSetSubmitted extends SignInEvent {}

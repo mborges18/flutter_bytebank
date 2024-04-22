@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 class ButtonFilled extends StatelessWidget {
   final String textButton;
   final bool isEnabled;
+  final bool isLoading;
   final Function() functionClick;
 
-  const ButtonFilled(
-      {super.key,
-      required this.textButton,
-      required this.isEnabled,
-      required this.functionClick});
+  const ButtonFilled({
+    super.key,
+    required this.textButton,
+    required this.isEnabled,
+    required this.isLoading,
+    required this.functionClick,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,7 @@ class ButtonFilled extends StatelessWidget {
                 Theme.of(context).colorScheme.onSurfaceVariant,
             minimumSize: const Size.fromHeight(60),
             textStyle: const TextStyle(fontWeight: FontWeight.bold)),
-        child: Text(textButton),
+        child: isLoading==false ? Text(textButton) : CircularProgressIndicator(color: Theme.of(context).colorScheme.onPrimary),
       ),
     );
   }

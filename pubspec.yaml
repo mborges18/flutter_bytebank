@@ -39,6 +39,7 @@ dependencies:
   device_preview: ^1.1.0
   bloc: ^8.0.3
   flutter_bloc: ^8.0.1
+  http: ^1.2.1
 
 dev_dependencies:
   flutter_test:

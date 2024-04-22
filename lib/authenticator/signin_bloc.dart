@@ -4,13 +4,19 @@ import 'package:flutter_bitybank/authenticator/signin_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
-  final repository = SignInRespository();
+  final repository = SignInRepository();
 
-  SignInBloc() : super(SignInState()) {
-    on<SignInSetLoading>((event, emit) =>
-        emit(SignInState().setSubimitted(formStatus: SubimittingFormStatus())));
-
-    on<SignInSetSubmitted>((event, emit) =>
-        emit(SignInState().setSubimitted(formStatus: SuccessFormStatus())));
+  SignInBloc() : super(SignInStateInitial()) {
+    on<SignInEvent>((event, emit) async {
+      if (event is SignIn) {
+        emit(SignInStateLoading());
+        try {
+          var response = await repository.signIn(event.email, event.password);
+          emit(SignInStateSuccess(response));
+        } catch(error) {
+          emit(SignInStateError(error));
+        }
+      }
+    });
   }
 }
