@@ -11,7 +11,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       if (event is SignIn) {
         emit(SignInStateLoading());
         try {
-          var response = await repository.signIn(event.email, event.password);
+          var response = await repository.signIns(event.email, event.password);
           emit(SignInStateSuccess(response));
         } catch(error) {
           emit(SignInStateError(error));

@@ -101,10 +101,10 @@ class _SignInScreenState extends State<SignInScreen> {
               print('listener-------------------------------$state');
             }
             else if(state is SignInStateError) {
-              print('listener-------------------------------$state');
+              print('listener-------------------------------$state ${state.error} - errpr');
             }
             else if(state is SignInStateSuccess) {
-              print('listener-------------------------------$state');
+              print('listener-------------------------------$state ${state.value}');
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const Home()),
