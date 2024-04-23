@@ -1,19 +1,51 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
+import '../clienthttp/ClientHttp.dart';
 
 class SignInRepository {
+  Future<StatusResponse> signIn(String email, String password) async {
+    var data = SignInModel(email: email, password: password);
 
-  Future<String> signIn(String email, String password) async {
     final response = await http.post(
-      Uri.parse('https://api-credit-card-792613245.development.catalystserverless.com/server/signin'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String> {
-        "email": email, "password": password
-      }),
+      ClientHttps.setUrl('signin'),
+      headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'},
+      body: jsonEncode(data.toJson()),
     );
-
-    return response.body;
+    if(response.statusCode==200){
+      return Success(response.body);
+    }
+    else if(response.statusCode==401){
+      return Unauthorized(response.body);
+    }
+    else {
+      return Error(response.body);
+    }
   }
+}
+
+class SignInModel {
+  String email;
+  String password;
+  SignInModel({required this.email, required this.password});
+
+  Map toJson() => {
+    'email': email,
+    'password': password
+  };
+}
+
+abstract class StatusResponse {}
+class Success extends StatusResponse {
+  Object object;
+  Success(this.object);
+}
+class Error extends StatusResponse {
+  Object object;
+  Error(this.object);
+}
+class Exists extends StatusResponse {}
+class Unauthorized extends StatusResponse {
+  Object object;
+  Unauthorized(this.object);
 }

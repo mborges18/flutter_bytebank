@@ -12,7 +12,13 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         emit(SignInStateLoading());
         try {
           var response = await repository.signIn(event.email, event.password);
-          emit(SignInStateSuccess(response));
+          if((response is Success)) {
+            emit(SignInStateSuccess(response.object.toString()));
+          } else if(response is Unauthorized) {
+            emit(SignInStateUnauthorized(response.object));
+          } else {
+            emit(SignInStateError((response as Error).object));
+          }
         } catch(error) {
           emit(SignInStateError(error));
         }

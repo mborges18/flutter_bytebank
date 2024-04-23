@@ -51,20 +51,27 @@ class _SignInScreenState extends State<SignInScreen> {
     // }
   }
 
-  String? _handleErrorEmail() {
+  String? _handleErrorEmail(SignInState state) {
     if (_email != null && _email!.isEmpty) {
       return 'Campo obrigatório';
+    } else if (_email != null && !Validator.isValidEmail(_email)) {
+      return 'E-mail inválido';
+    } else if(state is SignInStateUnauthorized) {
+      return 'Seu e-mail pode estar errado';
     } else {
-      if (_email != null && !Validator.isValidEmail(_email)) {
-        return 'E-mail inválido';
-      } else {
-        return null;
-      }
+      return null;
     }
+
   }
 
-  String? _handleErrorPass() {
-    return _password != null && _password!.isEmpty ? 'Campo obrigatório' : null;
+  String? _handleErrorPass(SignInState state) {
+    if(_password != null && _password!.isEmpty) {
+      return 'Campo obrigatório';
+    } else if(state is SignInStateUnauthorized) {
+      return 'Sua senha pode estar errada';
+    } else {
+      return null;
+    }
   }
 
   void _handlerEnableButton() {
@@ -101,7 +108,10 @@ class _SignInScreenState extends State<SignInScreen> {
               print('listener-------------------------------$state');
             }
             else if(state is SignInStateError) {
-              print('listener-------------------------------$state ${state.error} - errpr');
+              print('listener-------------------------------$state ${state.object}');
+            }
+            else if(state is SignInStateUnauthorized) {
+              print('listener-------------------------------$state ${state.object}');
             }
             else if(state is SignInStateSuccess) {
               print('listener-------------------------------$state ${state.value}');
@@ -117,6 +127,10 @@ class _SignInScreenState extends State<SignInScreen> {
               return viewSignIn(state);
             }
             else if(state is SignInStateError) {
+              print('builder-------------------------------$state');
+              return viewSignIn(state);
+            }
+            else if(state is SignInStateUnauthorized) {
               print('builder-------------------------------$state');
               return viewSignIn(state);
             }
@@ -171,11 +185,8 @@ class _SignInScreenState extends State<SignInScreen> {
                 InputText(placeHolderEmail, hintEmail,
                     iconStart: Icons.alternate_email,
                     onValidatorListener: () {
-                      return _handleErrorEmail();
+                      return _handleErrorEmail(state);
                     }, onTextChangeListener: (text) {
-                      if(text!=null) {
-                        //bloc.add(SignInSetEmail(email: text));
-                      }
                       setState(() {
                         _email = text;
                         _handlerEnableButton();
@@ -183,12 +194,10 @@ class _SignInScreenState extends State<SignInScreen> {
                     }),
                 InputText(placeHolderPassword, hintPassword,
                     iconStart: Icons.key,
-                    isToggleSecret: true, onValidatorListener: () {
-                      return _handleErrorPass();
+                    isToggleSecret: true,
+                    onValidatorListener: () {
+                      return _handleErrorPass(state);
                     }, onTextChangeListener: (text) {
-                      if(text!=null) {
-                        //bloc.add(SignInSetPassword(password: text));
-                      }
                       setState(() {
                         _password = text;
                       });
