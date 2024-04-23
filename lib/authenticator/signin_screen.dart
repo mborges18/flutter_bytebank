@@ -5,11 +5,12 @@ import 'package:flutter_bitybank/authenticator/signin_bloc.dart';
 import 'package:flutter_bitybank/authenticator/signin_event.dart';
 import 'package:flutter_bitybank/authenticator/signin_state.dart';
 import 'package:flutter_bitybank/components/buttons/button_outline.dart';
+import 'package:flutter_bitybank/components/titles/title_center.dart';
 import 'package:flutter_bitybank/home/home_screen.dart';
-import 'package:flutter_bitybank/util/validator/validator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../components/buttons/button_filled.dart';
 import '../components/inputs/input_text.dart';
+import '../components/titles/subtitle_left.dart';
 import '../util/string/strings.dart';
 import '../util/util.dart';
 
@@ -20,12 +21,8 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  final String _emailDb = "ctl_mborges@uolinc.com";
-  final String _passwordDb = "123456";
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  String? _email;
-  String? _password;
+  String _email = "";
+  String _password = "";
   bool _isEnabledButton = false;
   bool _isKeepConnected = false;
   late final SignInBloc bloc;
@@ -36,64 +33,55 @@ class _SignInScreenState extends State<SignInScreen> {
     bloc = SignInBloc();
   }
 
-  void _login() {
-    Util.closeKeyboard(context);
-
-    // if (_email != null && _password != null) {
-    //   if (_email!.isNotEmpty && _password!.isNotEmpty) {
-    //     if (_email == _emailDb && _password == _passwordDb) {
-    //       Navigator.push(
-    //         context,
-    //         MaterialPageRoute(builder: (context) => const Home()),
-    //       );
-    //     }
-    //   }
-    // }
+  void _handlerStateEmail(String text) {
+    setState(() {
+      _email = text;
+    });
+    BlocProvider.of<SignInBloc>(context).add(SignInSetEmailEvent(email: text));
   }
 
   String? _handleErrorEmail(SignInState state) {
-    if (_email != null && _email!.isEmpty) {
-      return 'Campo obrigatório';
-    } else if (_email != null && !Validator.isValidEmail(_email)) {
-      return 'E-mail inválido';
-    } else if(state is SignInStateUnauthorized) {
-      return 'Seu e-mail pode estar errado';
-    } else {
-      return null;
+    if(state is SignInStateField) {
+      return state.stateEmail.message;
+    } else if(state is SignInStateEmail){
+      return state.message;
     }
+    return null;
+  }
 
+  void _handlerStatePassword(String text) {
+    setState(() {
+      _password = text;
+    });
+    BlocProvider.of<SignInBloc>(context).add(SignInSetPasswordEvent(password: text));
   }
 
   String? _handleErrorPass(SignInState state) {
-    if(_password != null && _password!.isEmpty) {
-      return 'Campo obrigatório';
-    } else if(state is SignInStateUnauthorized) {
-      return 'Sua senha pode estar errada';
-    } else {
-      return null;
+    if(state is SignInStateField) {
+      return state.statePassword.message;
+    } else if(state is SignInStatePassword){
+      return state.message;
     }
+    return null;
   }
 
-  void _handlerEnableButton() {
+  void _handlerEnableButton(SignInState state) {
     setState(() {
-      _isEnabledButton = _password != null &&
-          _password!.isNotEmpty &&
-          _email != null &&
-          _email!.isNotEmpty &&
-          Validator.isValidEmail(_email);
+      _isEnabledButton =
+          _email.isNotEmpty && _email.length > 5 &&
+              _password.isNotEmpty && _password.length > 5;
     });
+  }
+
+  void _login(SignInState state) {
+    Util.closeKeyboard(context);
+    BlocProvider.of<SignInBloc>(context).add(SignInSubmitEvent(email: _email, password: _password));
   }
 
   @override
   void dispose() {
-    //emailController.dispose();
-    //passwordController.dispose();
     bloc.close();
     super.dispose();
-  }
-
-  void validateAndSave() {
-    print('Form is valid');
   }
 
   @override
@@ -101,20 +89,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return Scaffold(
       body: BlocConsumer<SignInBloc, SignInState>(
           listener: (context, state) {
-            if(state is SignInStateInitial) {
-              print('listener-------------------------------$state');
-            }
-            else if(state is SignInStateLoading) {
-              print('listener-------------------------------$state');
-            }
-            else if(state is SignInStateError) {
-              print('listener-------------------------------$state ${state.object}');
-            }
-            else if(state is SignInStateUnauthorized) {
-              print('listener-------------------------------$state ${state.object}');
-            }
-            else if(state is SignInStateSuccess) {
-              print('listener-------------------------------$state ${state.value}');
+            if(state is SignInStateSuccess) {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const Home()),
@@ -122,23 +97,7 @@ class _SignInScreenState extends State<SignInScreen> {
             }
           },
           builder: (context, state){
-            if(state is SignInStateLoading) {
-              print('builder-------------------------------$state');
-              return viewSignIn(state);
-            }
-            else if(state is SignInStateError) {
-              print('builder-------------------------------$state');
-              return viewSignIn(state);
-            }
-            else if(state is SignInStateUnauthorized) {
-              print('builder-------------------------------$state');
-              return viewSignIn(state);
-            }
-            else  {
-              //success
-              //print('listener-------------------------------$state');
-              return viewSignIn(state);
-            }
+            return viewSignIn(state);
           }
       )
     );
@@ -151,35 +110,18 @@ class _SignInScreenState extends State<SignInScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-                padding: const EdgeInsets.only(
-                    left: 0.0, top: 32.0, right: 0.0, bottom: 10.0),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.lock, size: 26),
-                      Padding(
-                          padding: const EdgeInsets.only(top: 4.0, left: 4.0),
-                          child: Text(titleAccess.toUpperCase(),
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 26.0)))
-                    ])),
+             Padding(
+                padding: const EdgeInsets.only(top: 24.0, bottom: 10.0),
+                child: TitleCenter(text: titleAccess.toUpperCase(), icon: Icons.lock)),
+            const SubTitleLeft(text: titleWellCome),
             const Padding(
-              padding: EdgeInsets.only(
-                  left: 0.0, top: 20.0, right: 0.0, bottom: 10.0),
-              child: Text(titleWellCome,
-                  style:
-                  TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
-            ),
-            const Padding(
-                padding: EdgeInsets.only(
-                    left: 0.0, top: 0.0, right: 0.0, bottom: 10.0),
+                padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
                 child: Text(
                   descriptionWellCome,
                   style:
                   TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
                 )),
+            const SizedBox(height: 8.0),
             Column(
               children: <Widget>[
                 InputText(placeHolderEmail, hintEmail,
@@ -187,10 +129,8 @@ class _SignInScreenState extends State<SignInScreen> {
                     onValidatorListener: () {
                       return _handleErrorEmail(state);
                     }, onTextChangeListener: (text) {
-                      setState(() {
-                        _email = text;
-                        _handlerEnableButton();
-                      });
+                      _handlerStateEmail(text ?? "");
+                      _handlerEnableButton(state);
                     }),
                 InputText(placeHolderPassword, hintPassword,
                     iconStart: Icons.key,
@@ -198,13 +138,11 @@ class _SignInScreenState extends State<SignInScreen> {
                     onValidatorListener: () {
                       return _handleErrorPass(state);
                     }, onTextChangeListener: (text) {
-                      setState(() {
-                        _password = text;
-                      });
-                      _handlerEnableButton();
+                      _handlerStatePassword(text ?? "");
+                      _handlerEnableButton(state);
                     }),
                 Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    padding: const EdgeInsets.only(bottom: 16),
                     child: Row(
                       children: [
                         CupertinoSwitch(
@@ -230,8 +168,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     isEnabled: _isEnabledButton,
                     isLoading: (state is SignInStateLoading)==true ? true : false,
                     functionClick: () {
-                      _login();
-                      BlocProvider.of<SignInBloc>(context).add(SignIn(email: _email!, password: _password!));
+                      _login(state);
                     }),
                 ButtonOutline(actionForgotPassword.toUpperCase(),
                     functionClick: () {}),
