@@ -91,13 +91,12 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<SignInBloc, SignInState>(
+          listenWhen: (context, state) { return (state is SignInStateSuccess); },
           listener: (context, state) {
-            if(state is SignInStateSuccess) {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const Home()),
               );
-            }
           },
           builder: (context, state){
             return viewSignIn(state);
