@@ -9,8 +9,10 @@ import 'package:flutter_bitybank/components/titles/title_center.dart';
 import 'package:flutter_bitybank/home/home_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../components/buttons/button_filled.dart';
+import '../components/buttons/button_switch.dart';
 import '../components/inputs/input_text.dart';
 import '../components/titles/subtitle_left.dart';
+import '../components/titles/text_normal.dart';
 import '../util/string/strings.dart';
 import '../util/util.dart';
 
@@ -65,6 +67,12 @@ class _SignInScreenState extends State<SignInScreen> {
     return null;
   }
 
+  void _handlerCheckButtonSwitch(bool isChecked) {
+    setState(() {
+      _isKeepConnected = isChecked;
+    });
+  }
+
   void _handlerEnableButton(SignInState state) {
     setState(() {
       _isEnabledButton =
@@ -114,13 +122,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 padding: const EdgeInsets.only(top: 24.0, bottom: 10.0),
                 child: TitleCenter(text: titleAccess.toUpperCase(), icon: Icons.lock)),
             const SubTitleLeft(text: titleWellCome),
-            const Padding(
-                padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-                child: Text(
-                  descriptionWellCome,
-                  style:
-                  TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-                )),
+            const TextNormal(text: descriptionWellCome),
             const SizedBox(height: 8.0),
             Column(
               children: <Widget>[
@@ -135,34 +137,16 @@ class _SignInScreenState extends State<SignInScreen> {
                 InputText(placeHolderPassword, hintPassword,
                     iconStart: Icons.key,
                     isToggleSecret: true,
+                    maxLength: 12,
                     onValidatorListener: () {
                       return _handleErrorPass(state);
                     }, onTextChangeListener: (text) {
                       _handlerStatePassword(text ?? "");
                       _handlerEnableButton(state);
                     }),
-                Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: Row(
-                      children: [
-                        CupertinoSwitch(
-                          activeColor: Theme.of(context).colorScheme.primary,
-                          value: _isKeepConnected,
-                          onChanged: (value) {
-                            setState(() {
-                              _isKeepConnected = value;
-                            });
-                          },
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 4.0),
-                          child: Text(titleKeepConnected,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.0)),
-                        )
-                      ],
-                    )),
+                ButtonSwitch(onChecked: _isKeepConnected, onCheckedListener: (isChecked) {
+                  _handlerCheckButtonSwitch(isChecked);
+                }),
                 ButtonFilled(
                     textButton: actionAccess.toUpperCase(),
                     isEnabled: _isEnabledButton,
