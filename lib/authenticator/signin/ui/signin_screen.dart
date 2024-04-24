@@ -1,20 +1,19 @@
 import 'dart:core';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bitybank/authenticator/signin_bloc.dart';
-import 'package:flutter_bitybank/authenticator/signin_event.dart';
-import 'package:flutter_bitybank/authenticator/signin_state.dart';
-import 'package:flutter_bitybank/components/buttons/button_outline.dart';
-import 'package:flutter_bitybank/components/titles/title_center.dart';
-import 'package:flutter_bitybank/home/home_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../components/buttons/button_filled.dart';
-import '../components/buttons/button_switch.dart';
-import '../components/inputs/input_text.dart';
-import '../components/titles/subtitle_left.dart';
-import '../components/titles/text_normal.dart';
-import '../util/string/strings.dart';
-import '../util/util.dart';
+import '../../../components/buttons/button_filled.dart';
+import '../../../components/buttons/button_outline.dart';
+import '../../../components/buttons/button_switch.dart';
+import '../../../components/inputs/input_text.dart';
+import '../../../components/titles/subtitle_left.dart';
+import '../../../components/titles/text_normal.dart';
+import '../../../components/titles/title_center.dart';
+import '../../../home/home_screen.dart';
+import '../../../util/string/strings.dart';
+import '../../../util/util.dart';
+import '../bloc/signin_bloc.dart';
+import '../bloc/signin_event.dart';
+import '../bloc/signin_state.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});

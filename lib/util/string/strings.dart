@@ -15,3 +15,8 @@ const hintPassword = "Senha";
 
 const placeHolderEmail = "nome@dominio.com";
 const placeHolderPassword = "A@123";
+
+const msgEmailInvalid = "E-mail inválido";
+const msgEmailUnauthorized = "Seu e-mail pode estar errado";
+const msgPasswordInvalid = "Senha inválida";
+const msgPasswordUnauthorized = "Sua senha pode estar errada";

@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'authenticator/authenticator_screen.dart';
 import 'package:device_preview/device_preview.dart';
 
-import 'authenticator/signin_bloc.dart';
+import 'authenticator/signin/bloc/signin_bloc.dart';
 
 class Application extends StatelessWidget {
   const Application({super.key});

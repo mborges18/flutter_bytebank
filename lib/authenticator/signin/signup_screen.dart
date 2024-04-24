@@ -2,10 +2,10 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_bitybank/home/home_screen.dart';
 import 'package:flutter_bitybank/util/validator/validator.dart';
-import '../components/buttons/button_filled.dart';
-import '../components/inputs/input_text_form.dart';
-import '../util/string/strings.dart';
-import '../util/util.dart';
+import '../../components/buttons/button_filled.dart';
+import '../../components/inputs/input_text_form.dart';
+import '../../util/string/strings.dart';
+import '../../util/util.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});

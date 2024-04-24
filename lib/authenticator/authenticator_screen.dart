@@ -1,7 +1,7 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:flutter_bitybank/authenticator/signin_screen.dart';
-import 'package:flutter_bitybank/authenticator/signup_screen.dart';
+import 'package:flutter_bitybank/authenticator/signin/ui/signin_screen.dart';
+import 'package:flutter_bitybank/authenticator/signin/signup_screen.dart';
 import '../util/string/strings.dart';
 
 class AuthenticatorScreen extends StatelessWidget {

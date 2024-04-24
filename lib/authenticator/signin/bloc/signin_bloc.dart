@@ -1,9 +1,10 @@
-import 'package:flutter_bitybank/authenticator/signin_event.dart';
-import 'package:flutter_bitybank/authenticator/signin_repository.dart';
-import 'package:flutter_bitybank/authenticator/signin_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../util/validator/validator.dart';
+import '../../../clienthttp/StatusRequest.dart';
+import '../../../util/string/strings.dart';
+import '../../../util/validator/validator.dart';
+import '../data/signin_repository.dart';
+import 'signin_event.dart';
+import 'signin_state.dart';
 
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
   final repository = SignInRepository();
@@ -16,22 +17,22 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     });
 
     on<SignInSetEmailEvent>((event, emit) async {
-      //Validation email could be here
+      ///Validation email could be here
       emit(SignInStateEmail(null));
     });
 
     on<SignInSetPasswordEvent>((event, emit) async {
-      //Validation password could be here
+      ///Validation password could be here
       emit(SignInStatePassword(null));
     });
 
     on<SignInSubmitEvent>((event, emit) async {
-      //Validation is be done when form is submitted
+      ///Validation is be done when form is submitted
       if (!Validator.isValidEmail(event.email)) {
-        emit(SignInStateEmail("E-mail inválido"));
+        emit(SignInStateEmail(msgEmailInvalid));
       }
       if (event.password.length < 5) {
-        emit(SignInStatePassword("Senha inválida"));
+        emit(SignInStatePassword(msgPasswordInvalid));
       }
       if (Validator.isValidEmail(event.email) && event.password.length > 5) {
         emit(SignInStateEmail(null));
@@ -42,12 +43,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           if ((response is Success)) {
             emit(SignInStateSuccess(response.object.toString()));
           } else if (response is Unauthorized) {
-            // emit(SignInStateField(
-            //     SignInStateEmail("Seu e-mail pode estar errado"),
-            //     SignInStatePassword("Sua senha pode estar errada")
-            // ));
-            emit(SignInStateEmail("Seu e-mail pode estar errado"));
-            emit(SignInStatePassword("Sua senha pode estar errada"));
+            emit(SignInStateEmail(msgEmailUnauthorized));
+            emit(SignInStatePassword(msgPasswordUnauthorized));
           } else {
             emit(SignInStateError((response as Error).object));
           }

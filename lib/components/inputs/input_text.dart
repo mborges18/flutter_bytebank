@@ -10,18 +10,19 @@ class InputText extends StatefulWidget {
   final TextEditingController? controller;
   final Function() onValidatorListener;
   final Function(String?) onTextChangeListener;
-  final Function()? onIconEndClickListener;
 
-  const InputText(this.textHint, this.textLabel,
-      {super.key,
-      this.controller,
-      this.iconStart,
-      this.iconEnd,
-      this.isToggleSecret = false,
-      this.maxLength = 55,
-      required this.onValidatorListener,
-      required this.onTextChangeListener,
-      this.onIconEndClickListener});
+  const InputText(
+    this.textHint,
+    this.textLabel, {
+    super.key,
+    this.controller,
+    this.iconStart,
+    this.iconEnd,
+    this.isToggleSecret = false,
+    this.maxLength = 55,
+    required this.onValidatorListener,
+    required this.onTextChangeListener,
+  });
 
   @override
   InputTextCustom createState() {
@@ -54,20 +55,26 @@ class InputTextCustom extends State<InputText> {
         maxLength: widget.maxLength,
         obscureText: widget.isToggleSecret && !isToggleSecretVisible,
         decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            labelText: widget.textLabel,
-            hintText: widget.textHint,
-            errorText: widget.onValidatorListener(),
-            prefixIcon: Icon(widget.iconStart),
-            suffixIcon: IconButton(
-                onPressed: () {
-                  setState(() {
-                    isToggleSecretVisible = !isToggleSecretVisible;
-                  });
-                  widget.isToggleSecret==true ? widget.onIconEndClickListener!() : null;
-                },
-                icon: Icon(isToggleSecret()))),
+          border: const OutlineInputBorder(),
+          labelText: widget.textLabel,
+          hintText: widget.textHint,
+          errorText: widget.onValidatorListener(),
+          prefixIcon: Icon(widget.iconStart),
+          suffixIcon: _suffixButton(),
+        ),
       ),
     );
+  }
+
+  Widget? _suffixButton() {
+    return widget.isToggleSecret == true
+        ? IconButton(
+            onPressed: () {
+              setState(() {
+                isToggleSecretVisible = !isToggleSecretVisible;
+              });
+            },
+            icon: Icon(isToggleSecret()))
+        : null;
   }
 }
