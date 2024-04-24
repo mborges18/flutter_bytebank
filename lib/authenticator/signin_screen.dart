@@ -34,7 +34,7 @@ class _SignInScreenState extends State<SignInScreen> {
     bloc = SignInBloc();
   }
 
-  void _handlerStateEmail(String text) {
+  void _handlerEventEmail(String text) {
     setState(() {
       _email = text;
     });
@@ -50,7 +50,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return null;
   }
 
-  void _handlerStatePassword(String text) {
+  void _handlerEventPassword(String text) {
     setState(() {
       _password = text;
     });
@@ -72,7 +72,7 @@ class _SignInScreenState extends State<SignInScreen> {
     });
   }
 
-  void _handlerEnableButton(SignInState state) {
+  void _handlerEventButton(SignInState state) {
     BlocProvider.of<SignInBloc>(context).add(SignInEnableButtonEvent(email: _email, password: _password));
   }
 
@@ -90,22 +90,11 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<SignInBloc, SignInState>(
-          listenWhen: (context, state) { return (state is SignInStateSuccess); },
-          listener: (context, state) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Home()),
-              );
-          },
-          builder: (context, state){
-            return viewSignIn(state);
-          }
-      )
+      body: viewSignIn()
     );
   }
 
-  Widget viewSignIn(SignInState state) {
+  Widget viewSignIn() {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -120,34 +109,60 @@ class _SignInScreenState extends State<SignInScreen> {
             const SizedBox(height: 8.0),
             Column(
               children: <Widget>[
-                InputText(placeHolderEmail, hintEmail,
-                    iconStart: Icons.alternate_email,
-                    onValidatorListener: () {
-                      return _handleErrorEmail(state);
-                    }, onTextChangeListener: (text) {
-                      _handlerStateEmail(text ?? "");
-                      _handlerEnableButton(state);
-                    }),
-                InputText(placeHolderPassword, hintPassword,
-                    iconStart: Icons.key,
-                    isToggleSecret: true,
-                    maxLength: 12,
-                    onValidatorListener: () {
-                      return _handleErrorPass(state);
-                    }, onTextChangeListener: (text) {
-                      _handlerStatePassword(text ?? "");
-                      _handlerEnableButton(state);
-                    }),
+                BlocConsumer<SignInBloc, SignInState>(
+                    listenWhen: (context, state) { return (state is SignInStateField) || (state is SignInStateEmail);},
+                    listener: (context, state) { },
+                    buildWhen: (context, state) { return (state is SignInStateField) || (state is SignInStateEmail); },
+                    builder: (context, state) {
+                      return InputText(placeHolderEmail, hintEmail,
+                          iconStart: Icons.alternate_email,
+                          onValidatorListener: () {
+                            return _handleErrorEmail(state);
+                          }, onTextChangeListener: (text) {
+                            _handlerEventEmail(text ?? "");
+                            _handlerEventButton(state);
+                          });
+                    }
+                ),
+                BlocConsumer<SignInBloc, SignInState>(
+                    listenWhen: (context, state) { return (state is SignInStateField) || (state is SignInStatePassword);},
+                    listener: (context, state) { },
+                    buildWhen: (context, state) { return (state is SignInStateField) || (state is SignInStatePassword); },
+                    builder: (context, state) {
+                      return InputText(placeHolderPassword, hintPassword,
+                          iconStart: Icons.key,
+                          isToggleSecret: true,
+                          maxLength: 12,
+                          onValidatorListener: () {
+                            return _handleErrorPass(state);
+                          }, onTextChangeListener: (text) {
+                            _handlerEventPassword(text ?? "");
+                            _handlerEventButton(state);
+                          });
+                    }
+                ),
                 ButtonSwitch(onChecked: _isKeepConnected, onCheckedListener: (isChecked) {
                   _handlerCheckButtonSwitch(isChecked);
                 }),
-                ButtonFilled(
-                    textButton: actionAccess.toUpperCase(),
-                    isEnabled: (state is SignInStateButton) ? state.isEnabled : false,
-                    isLoading: (state is SignInStateLoading)==true ? true : false,
-                    functionClick: () {
-                      _login(state);
-                    }),
+                BlocConsumer<SignInBloc, SignInState>(
+                    listenWhen: (context, state) { return (state is SignInStateSuccess);},
+                    listener: (context, state) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Home()),
+                      );
+                    },
+                    //buildWhen: (context, state) { return (state is SignInStateButton) || (state is SignInStateLoading); },
+                    builder: (context, state) {
+                      return ButtonFilled(
+                          textButton: actionAccess.toUpperCase(),
+                          isEnabled: (state is SignInStateButton) ? state.isEnabled : false,
+                          isLoading: (state is SignInStateLoading)==true ? true : false,
+                          functionClick: () {
+                            _login(state);
+                          });
+                    }
+                ),
                 ButtonOutline(actionForgotPassword.toUpperCase(),
                     functionClick: () {}),
               ],

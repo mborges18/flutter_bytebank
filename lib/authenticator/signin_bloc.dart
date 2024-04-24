@@ -35,6 +35,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         emit(SignInStatePassword("Senha inválida"));
       }
       if (Validator.isValidEmail(event.email) && event.password.length > 5) {
+        emit(SignInStateEmail(null));
+        emit(SignInStatePassword(null));
         emit(SignInStateLoading());
         try {
           var response = await repository.signIn(event.email, event.password);
