@@ -25,7 +25,6 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   String _email = "";
   String _password = "";
-  bool _isEnabledButton = false;
   bool _isKeepConnected = false;
   late final SignInBloc bloc;
 
@@ -74,11 +73,6 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   void _handlerEnableButton(SignInState state) {
-    setState(() {
-      _isEnabledButton =
-          _email.isNotEmpty && _email.length > 5 &&
-              _password.isNotEmpty && _password.length > 5;
-    });
     BlocProvider.of<SignInBloc>(context).add(SignInEnableButtonEvent(email: _email, password: _password));
   }
 
