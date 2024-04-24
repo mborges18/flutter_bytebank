@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 
-@immutable
 abstract class SignInEvent {}
 
 class SignInSubmitEvent extends SignInEvent {
