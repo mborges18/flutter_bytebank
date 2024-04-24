@@ -79,6 +79,7 @@ class _SignInScreenState extends State<SignInScreen> {
           _email.isNotEmpty && _email.length > 5 &&
               _password.isNotEmpty && _password.length > 5;
     });
+    BlocProvider.of<SignInBloc>(context).add(SignInEnableButtonEvent(email: _email, password: _password));
   }
 
   void _login(SignInState state) {
@@ -149,7 +150,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 }),
                 ButtonFilled(
                     textButton: actionAccess.toUpperCase(),
-                    isEnabled: _isEnabledButton,
+                    isEnabled: (state is SignInStateButton) ? state.isEnabled : false,
                     isLoading: (state is SignInStateLoading)==true ? true : false,
                     functionClick: () {
                       _login(state);

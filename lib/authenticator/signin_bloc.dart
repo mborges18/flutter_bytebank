@@ -9,6 +9,12 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   final repository = SignInRepository();
 
   SignInBloc() : super(SignInStateInitial()) {
+
+    on<SignInEnableButtonEvent>((event, emit) async {
+      var isEnabled = event.email.length > 5 && event.password.length > 5;
+      emit(SignInStateButton(isEnabled));
+    });
+
     on<SignInSetEmailEvent>((event, emit) async {
       //Validation email could be here
       emit(SignInStateEmail(null));

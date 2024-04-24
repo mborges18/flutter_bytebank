@@ -18,3 +18,9 @@ class SignInSetPasswordEvent extends SignInEvent {
   final String password;
   SignInSetPasswordEvent({required this.password});
 }
+
+class SignInEnableButtonEvent extends SignInEvent {
+  final String email;
+  final String password;
+  SignInEnableButtonEvent({required this.email, required this.password});
+}
