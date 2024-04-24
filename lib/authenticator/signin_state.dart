@@ -15,12 +15,6 @@ class SignInStateError extends SignInState {
   SignInStateError(this.object);
 }
 
-class SignInStateField extends SignInState {
-  SignInStateEmail stateEmail;
-  SignInStatePassword statePassword;
-  SignInStateField(this.stateEmail, this.statePassword);
-}
-
 class SignInStateEmail extends SignInState {
   String? message;
   SignInStateEmail(this.message);

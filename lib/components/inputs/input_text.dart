@@ -52,7 +52,7 @@ class InputTextCustom extends State<InputText> {
           widget.onTextChangeListener(text);
         },
         maxLength: widget.maxLength,
-        obscureText: widget.isToggleSecret,
+        obscureText: widget.isToggleSecret && !isToggleSecretVisible,
         decoration: InputDecoration(
             border: const OutlineInputBorder(),
             labelText: widget.textLabel,
@@ -64,7 +64,7 @@ class InputTextCustom extends State<InputText> {
                   setState(() {
                     isToggleSecretVisible = !isToggleSecretVisible;
                   });
-                  widget.onIconEndClickListener!();
+                  widget.isToggleSecret==true ? widget.onIconEndClickListener!() : null;
                 },
                 icon: Icon(isToggleSecret()))),
       ),

@@ -27,7 +27,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
     on<SignInSubmitEvent>((event, emit) async {
       //Validation is be done when form is submitted
-
       if (!Validator.isValidEmail(event.email)) {
         emit(SignInStateEmail("E-mail inválido"));
       }
@@ -43,9 +42,12 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           if ((response is Success)) {
             emit(SignInStateSuccess(response.object.toString()));
           } else if (response is Unauthorized) {
-            emit(SignInStateField(
-                SignInStateEmail("Seu e-mail pode estar errado"),
-                SignInStatePassword("Sua senha pode estar errada")));
+            // emit(SignInStateField(
+            //     SignInStateEmail("Seu e-mail pode estar errado"),
+            //     SignInStatePassword("Sua senha pode estar errada")
+            // ));
+            emit(SignInStateEmail("Seu e-mail pode estar errado"));
+            emit(SignInStatePassword("Sua senha pode estar errada"));
           } else {
             emit(SignInStateError((response as Error).object));
           }
