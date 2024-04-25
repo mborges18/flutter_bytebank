@@ -10,18 +10,18 @@ const actionAccess = "Acessar";
 const actionRegister = "Cadastrar";
 const actionForgotPassword = "Esqueci a senha";
 
-const hintName = "Nome e sobrenome";
-const hintBirthDate = "Data de Nascimento";
-const hintPhone = "Celular";
-const hintEmail = "E-mail";
-const hintPassword = "Senha";
-const hintPasswordConfirm = "Confirmar senha";
+const placeHolderName = "Nome e sobrenome";
+const placeHolderBirthDate = "Data de Nascimento";
+const placeHolderPhone = "Celular";
+const placeHolderEmail = "E-mail";
+const placeHolderPassword = "Senha";
+const placeHolderPasswordConfirm = "Confirmar senha";
 
-const placeHolderName = "José Roberto";
-const placeHolderBirthDate = "00/00/0000";
-const placeHolderPhone = "(00) 00000-0000";
-const placeHolderEmail = "nome@dominio.com";
-const placeHolderPassword = "A@123";
+const hintName = "Ex: José Roberto";
+const hintBirthDate = "Ex: 00/00/0000";
+const hintPhone = "Ex: (00) 00000-0000";
+const hintEmail = "Ex: nome@dominio.com";
+const hintPassword = "Ex: A@123";
 
 const msgEmailInvalid = "E-mail inválido";
 const msgEmailUnauthorized = "Seu e-mail pode estar errado";

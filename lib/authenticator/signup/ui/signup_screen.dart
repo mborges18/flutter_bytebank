@@ -137,7 +137,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             const TextNormal(text: descriptionWellCome),
             const SizedBox(height: 8.0),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                const SubTitleLeft(text: "Dados pessoais"),
+                const SizedBox(height: 16.0),
                 BlocConsumer<SignUpBloc, SignUpState>(
                     listenWhen: (context, state) {
                       return (state is SignUpStateName);
@@ -232,6 +235,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         },
                       );
                     }),
+                const SizedBox(height: 16.0),
+                const SubTitleLeft(text: "Dados de acesso"),
+                const SizedBox(height: 16.0),
                 BlocConsumer<SignUpBloc, SignUpState>(
                     listenWhen: (context, state) {
                       return (state is SignUpStatePassword);
@@ -267,7 +273,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     builder: (context, state) {
                       return InputText(
                         textLabel: placeHolderPassword,
-                        textHint: hintPasswordConfirm,
+                        textHint: hintPassword,
                         iconStart: Icons.key,
                         isToggleSecret: true,
                         maxLength: 12,
