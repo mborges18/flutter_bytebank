@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 
+import 'MaskType.dart';
+
 class InputText extends StatefulWidget {
   final String textHint;
   final String textLabel;
-  final String? maskType;
+  final MaskType? maskType;
   final IconData? iconStart;
   final IconData? iconEnd;
   final bool isToggleSecret;
   final int? maxLength;
   final TextInputType inputType;
-  final TextEditingController? controller;
   final Function() onValidatorListener;
   final Function(String?) onTextChangeListener;
 
-  const InputText(
-    this.textHint,
-    this.textLabel,
-     {
+  const InputText({
     super.key,
+    required this.textHint,
+    required this.textLabel,
     this.maskType,
-    this.controller,
     this.iconStart,
     this.iconEnd,
     this.isToggleSecret = false,
@@ -37,6 +36,7 @@ class InputText extends StatefulWidget {
 
 class InputTextCustom extends State<InputText> {
   bool isToggleSecretVisible = false;
+  String newText = "";
 
   IconData? isToggleSecret() {
     if (widget.isToggleSecret) {
@@ -53,10 +53,12 @@ class InputTextCustom extends State<InputText> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
       child: TextField(
-        controller: widget.controller,
+        controller: TextEditingController.fromValue(TextEditingValue(
+          text: newText,
+          selection: TextSelection.collapsed(offset: newText.length),
+        )),
         onChanged: (text) {
-          text = handlerMaskType('date', text);
-          widget.onTextChangeListener(text);
+          _handlerMaskType(text);
         },
         keyboardType: widget.inputType,
         maxLength: widget.maxLength,
@@ -85,36 +87,24 @@ class InputTextCustom extends State<InputText> {
         : null;
   }
 
-  String handlerMaskType(maskType, text) {
-    switch (maskType) {
-      case 'cep':
-        text = maskCustom("#####-###", text);
-        //handlerLimitAndText(text, 10);
-        return text;
-        break;
-
-      case 'phone':
-        text = maskCustom("(##) ######-####", text);
-        //handlerLimitAndText(text, 19);
-        return text;
-        break;
-
-      case 'cpf':
-        text = maskCustom("###.###.###-##",text);
-        //handlerLimitAndText(text, 15);
-        return text;
-        break;
-
-      case 'date':
-        text = maskCustom("##/##/####", text);
-        //handlerLimitAndText(text, 11);
-        return text;
-        break;
+  void _handlerMaskType(String text) {
+    if(widget.maskType != null) {
+      text = text.replaceAll(RegExp('[^0-9]'), '');
+      setState(() {
+        newText = _handlerApplyMaskType(widget.maskType, text);
+      });
+      widget.onTextChangeListener(newText);
+    } else {
+      widget.onTextChangeListener(text);
     }
+  }
+
+  String _handlerApplyMaskType(MaskType? maskType, String text) {
+    text = maskType != null ? _maskCustom(maskType.value, text) : text;
     return text;
   }
 
-  String maskCustom(String maskCustom, String text) {
+  String _maskCustom(String maskCustom, String text) {
     int i = 0;
     int lastReplaceIndex = -1;
     final filledMask = maskCustom.replaceAllMapped(RegExp(r'#'), (match) {
@@ -124,12 +114,6 @@ class InputTextCustom extends State<InputText> {
       lastReplaceIndex = match.start;
       return text[i++];
     });
-    print(filledMask.substring(0, lastReplaceIndex + 1));
     return filledMask.substring(0, lastReplaceIndex + 1);
-  }
-
-  void handlerLimitAndText(text, limit){
-  widget.onTextChangeListener(text);
-  //text.length < limit ? setDigit(text) : '';
   }
 }

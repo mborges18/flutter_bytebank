@@ -103,18 +103,27 @@ class _SignInScreenState extends State<SignInScreen> {
             Column(
               children: <Widget>[
                 BlocConsumer<SignInBloc, SignInState>(
-                    listenWhen: (context, state) => (state is SignInStateEmail),
+                    listenWhen: (context, state) {
+                      return (state is SignInStateEmail);
+                    },
                     listener: (context, state) {},
-                    buildWhen: (context, state) => (state is SignInStateEmail),
+                    buildWhen: (context, state) {
+                      return (state is SignInStateEmail);
+                    },
                     builder: (context, state) {
-                      return InputText(placeHolderEmail, hintEmail,
-                          iconStart: Icons.alternate_email,
-                          onValidatorListener: () {
-                        return _handleErrorEmail(state);
-                      }, onTextChangeListener: (text) {
-                        _handlerEventEmail(text ?? "");
-                        _handlerEventButton(state);
-                      });
+                      return InputText(
+                        textLabel: placeHolderEmail,
+                        textHint: hintEmail,
+                        inputType: TextInputType.emailAddress,
+                        iconStart: Icons.alternate_email,
+                        onValidatorListener: () {
+                          return _handleErrorEmail(state);
+                        },
+                        onTextChangeListener: (text) {
+                          _handlerEventEmail(text ?? "");
+                          _handlerEventButton(state);
+                        },
+                      );
                     }),
                 BlocConsumer<SignInBloc, SignInState>(
                     listenWhen: (context, state) {
@@ -125,15 +134,20 @@ class _SignInScreenState extends State<SignInScreen> {
                       return (state is SignInStatePassword);
                     },
                     builder: (context, state) {
-                      return InputText(placeHolderPassword, hintPassword,
-                          iconStart: Icons.key,
-                          isToggleSecret: true,
-                          maxLength: 12, onValidatorListener: () {
-                        return _handleErrorPassword(state);
-                      }, onTextChangeListener: (text) {
-                        _handlerEventPassword(text ?? "");
-                        _handlerEventButton(state);
-                      });
+                      return InputText(
+                        textLabel: placeHolderPassword,
+                        textHint: hintPassword,
+                        iconStart: Icons.key,
+                        isToggleSecret: true,
+                        maxLength: 12,
+                        onValidatorListener: () {
+                          return _handleErrorPassword(state);
+                        },
+                        onTextChangeListener: (text) {
+                          _handlerEventPassword(text ?? "");
+                          _handlerEventButton(state);
+                        },
+                      );
                     }),
                 ButtonSwitch(
                     onChecked: _isKeepConnected,
@@ -151,7 +165,9 @@ class _SignInScreenState extends State<SignInScreen> {
                 }, builder: (context, state) {
                   return ButtonFilled(
                       textButton: actionAccess.toUpperCase(),
-                      isEnabled: (state is SignInStateButton) ? state.isEnabled : false,
+                      isEnabled: (state is SignInStateButton)
+                          ? state.isEnabled
+                          : false,
                       isLoading:
                           (state is SignInStateLoading) == true ? true : false,
                       functionClick: () {

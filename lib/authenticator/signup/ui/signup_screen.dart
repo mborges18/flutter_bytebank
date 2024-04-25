@@ -9,6 +9,7 @@ import '../../../../components/titles/title_center.dart';
 import '../../../../home/home_screen.dart';
 import '../../../../util/string/strings.dart';
 import '../../../../util/util.dart';
+import '../../../components/inputs/MaskType.dart';
 import '../bloc/signup_bloc.dart';
 import '../bloc/signup_event.dart';
 import '../bloc/signup_state.dart';
@@ -146,15 +147,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return (state is SignUpStateName);
                     },
                     builder: (context, state) {
-                      return InputText(placeHolderName, hintName,
-                          inputType: TextInputType.name,
-                          iconStart: Icons.person,
-                          onValidatorListener: () {
-                            return _handleErrorName(state);
-                          }, onTextChangeListener: (text) {
-                            _handlerEventName(text ?? "");
-                            _handlerEventButton(state);
-                          });
+                      return InputText(
+                        textLabel: placeHolderName,
+                        textHint: hintName,
+                        inputType: TextInputType.name,
+                        iconStart: Icons.person,
+                        onValidatorListener: () {
+                          return _handleErrorName(state);
+                        },
+                        onTextChangeListener: (text) {
+                          _handlerEventName(text ?? "");
+                          _handlerEventButton(state);
+                        },
+                      );
                     }),
                 BlocConsumer<SignUpBloc, SignUpState>(
                     listenWhen: (context, state) {
@@ -165,15 +170,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return (state is SignUpStateBirthDate);
                     },
                     builder: (context, state) {
-                      return InputText(placeHolderBirthDate, hintBirthDate,
-                          inputType: TextInputType.number,
-                          iconStart: Icons.calendar_month_outlined,
-                          onValidatorListener: () {
-                            return _handleErrorBirthDate(state);
-                          }, onTextChangeListener: (text) {
-                            _handlerEventBirthDate(text ?? "");
-                            _handlerEventButton(state);
-                          });
+                      return InputText(
+                        textLabel: placeHolderBirthDate,
+                        textHint: hintBirthDate,
+                        maskType: MaskType.date,
+                        inputType: TextInputType.number,
+                        iconStart: Icons.calendar_month_outlined,
+                        onValidatorListener: () {
+                          return _handleErrorBirthDate(state);
+                        },
+                        onTextChangeListener: (text) {
+                          _handlerEventBirthDate(text ?? "");
+                          _handlerEventButton(state);
+                        },
+                      );
                     }),
                 BlocConsumer<SignUpBloc, SignUpState>(
                     listenWhen: (context, state) {
@@ -184,15 +194,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return (state is SignUpStatePhone);
                     },
                     builder: (context, state) {
-                      return InputText(placeHolderPhone, hintPhone,
-                          inputType: TextInputType.number,
-                          iconStart: Icons.settings_cell,
-                          onValidatorListener: () {
-                            return _handleErrorPhone(state);
-                          }, onTextChangeListener: (text) {
-                            _handlerEventPhone(text ?? "");
-                            _handlerEventButton(state);
-                          });
+                      return InputText(
+                        textLabel: placeHolderPhone,
+                        textHint: hintPhone,
+                        maskType: MaskType.phone,
+                        inputType: TextInputType.number,
+                        iconStart: Icons.settings_cell,
+                        onValidatorListener: () {
+                          return _handleErrorPhone(state);
+                        },
+                        onTextChangeListener: (text) {
+                          _handlerEventPhone(text ?? "");
+                          _handlerEventButton(state);
+                        },
+                      );
                     }),
                 BlocConsumer<SignUpBloc, SignUpState>(
                     listenWhen: (context, state) {
@@ -203,15 +218,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return (state is SignUpStateEmail);
                     },
                     builder: (context, state) {
-                      return InputText(placeHolderEmail, hintEmail,
-                          iconStart: Icons.alternate_email,
-                          inputType: TextInputType.emailAddress,
-                          onValidatorListener: () {
-                            return _handleErrorEmail(state);
-                          }, onTextChangeListener: (text) {
-                            _handlerEventEmail(text ?? "");
-                            _handlerEventButton(state);
-                          });
+                      return InputText(
+                        textLabel: placeHolderEmail,
+                        textHint: hintEmail,
+                        iconStart: Icons.alternate_email,
+                        inputType: TextInputType.emailAddress,
+                        onValidatorListener: () {
+                          return _handleErrorEmail(state);
+                        },
+                        onTextChangeListener: (text) {
+                          _handlerEventEmail(text ?? "");
+                          _handlerEventButton(state);
+                        },
+                      );
                     }),
                 BlocConsumer<SignUpBloc, SignUpState>(
                     listenWhen: (context, state) {
@@ -222,15 +241,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return (state is SignUpStatePassword);
                     },
                     builder: (context, state) {
-                      return InputText(placeHolderPassword, hintPassword,
-                          iconStart: Icons.key,
-                          isToggleSecret: true,
-                          maxLength: 12, onValidatorListener: () {
-                            return _handleErrorPassword(state);
-                          }, onTextChangeListener: (text) {
-                            _handlerEventPassword(text ?? "");
-                            _handlerEventButton(state);
-                          });
+                      return InputText(
+                        textLabel: placeHolderPassword,
+                        textHint: hintPassword,
+                        iconStart: Icons.key,
+                        isToggleSecret: true,
+                        maxLength: 12,
+                        onValidatorListener: () {
+                          return _handleErrorPassword(state);
+                        },
+                        onTextChangeListener: (text) {
+                          _handlerEventPassword(text ?? "");
+                          _handlerEventButton(state);
+                        },
+                      );
                     }),
                 BlocConsumer<SignUpBloc, SignUpState>(
                     listenWhen: (context, state) {
@@ -241,15 +265,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return (state is SignUpStatePasswordConfirm);
                     },
                     builder: (context, state) {
-                      return InputText(placeHolderPassword, hintPasswordConfirm,
-                          iconStart: Icons.key,
-                          isToggleSecret: true,
-                          maxLength: 12, onValidatorListener: () {
-                            return _handleErrorPasswordConfirm(state);
-                          }, onTextChangeListener: (text) {
-                            _handlerEventPasswordConfirm(text ?? "");
-                            _handlerEventButton(state);
-                          });
+                      return InputText(
+                        textLabel: placeHolderPassword,
+                        textHint: hintPasswordConfirm,
+                        iconStart: Icons.key,
+                        isToggleSecret: true,
+                        maxLength: 12,
+                        onValidatorListener: () {
+                          return _handleErrorPasswordConfirm(state);
+                        },
+                        onTextChangeListener: (text) {
+                          _handlerEventPasswordConfirm(text ?? "");
+                          _handlerEventButton(state);
+                        },
+                      );
                     }),
                 BlocConsumer<SignUpBloc, SignUpState>(
                     listenWhen: (context, state) {
