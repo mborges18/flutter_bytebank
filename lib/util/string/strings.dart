@@ -10,9 +10,16 @@ const actionAccess = "Acessar";
 const actionRegister = "Cadastrar";
 const actionForgotPassword = "Esqueci a senha";
 
+const hintName = "Nome e sobrenome";
+const hintBirthDate = "Data de Nascimento";
+const hintPhone = "Celular";
 const hintEmail = "E-mail";
 const hintPassword = "Senha";
+const hintPasswordConfirm = "Confirmar senha";
 
+const placeHolderName = "José Roberto";
+const placeHolderBirthDate = "00/00/0000";
+const placeHolderPhone = "(00) 00000-0000";
 const placeHolderEmail = "nome@dominio.com";
 const placeHolderPassword = "A@123";
 

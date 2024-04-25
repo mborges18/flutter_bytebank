@@ -54,7 +54,7 @@ class _SignInScreenState extends State<SignInScreen> {
         .add(SignInSetPasswordEvent(password: text));
   }
 
-  String? _handleErrorPass(SignInState state) {
+  String? _handleErrorPassword(SignInState state) {
     return (state is SignInStatePassword) ? state.message : null;
   }
 
@@ -103,14 +103,9 @@ class _SignInScreenState extends State<SignInScreen> {
             Column(
               children: <Widget>[
                 BlocConsumer<SignInBloc, SignInState>(
-                    listenWhen: (context, state) {
-                      print((state is SignInStateEmail)==true);
-                      return (state is SignInStateEmail)==true;
-                      },
+                    listenWhen: (context, state) => (state is SignInStateEmail),
                     listener: (context, state) {},
-                    buildWhen: (context, state) {
-                      return (state is SignInStateEmail)==true;
-                      },
+                    buildWhen: (context, state) => (state is SignInStateEmail),
                     builder: (context, state) {
                       return InputText(placeHolderEmail, hintEmail,
                           iconStart: Icons.alternate_email,
@@ -134,7 +129,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           iconStart: Icons.key,
                           isToggleSecret: true,
                           maxLength: 12, onValidatorListener: () {
-                        return _handleErrorPass(state);
+                        return _handleErrorPassword(state);
                       }, onTextChangeListener: (text) {
                         _handlerEventPassword(text ?? "");
                         _handlerEventButton(state);

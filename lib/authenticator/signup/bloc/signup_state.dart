@@ -15,6 +15,21 @@ class SignUpStateError extends SignUpState {
   SignUpStateError(this.object);
 }
 
+class SignUpStateName extends SignUpState {
+  String? message;
+  SignUpStateName(this.message);
+}
+
+class SignUpStateBirthDate extends SignUpState {
+  String? message;
+  SignUpStateBirthDate(this.message);
+}
+
+class SignUpStatePhone extends SignUpState {
+  String? message;
+  SignUpStatePhone(this.message);
+}
+
 class SignUpStateEmail extends SignUpState {
   String? message;
   SignUpStateEmail(this.message);
@@ -23,6 +38,11 @@ class SignUpStateEmail extends SignUpState {
 class SignUpStatePassword extends SignUpState {
   String? message;
   SignUpStatePassword(this.message);
+}
+
+class SignUpStatePasswordConfirm extends SignUpState {
+  String? message;
+  SignUpStatePasswordConfirm(this.message);
 }
 
 class SignUpStateButton extends SignUpState {

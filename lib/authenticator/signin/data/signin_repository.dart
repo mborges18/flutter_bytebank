@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../../../clienthttp/ClientHttp.dart';
 import '../../../clienthttp/StatusRequest.dart';
-import '../model/SignInModel.dart';
+import '../model/signin_model.dart';
 
 class SignInRepository {
   Future<StatusRequest> signIn(String email, String password) async {
