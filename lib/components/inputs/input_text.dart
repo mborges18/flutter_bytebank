@@ -53,10 +53,10 @@ class InputTextCustom extends State<InputText> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
       child: TextField(
-        controller: TextEditingController.fromValue(TextEditingValue(
+        controller: widget.maskType !=null ? TextEditingController.fromValue(TextEditingValue(
           text: newText,
           selection: TextSelection.collapsed(offset: newText.length),
-        )),
+        )) : null,
         onChanged: (text) {
           _handlerMaskType(text);
         },
