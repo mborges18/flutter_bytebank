@@ -3,6 +3,7 @@ const titleAccess = "Acesso";
 const titleRegister = "Cadastro";
 const titleWellCome = "Seja bem vindo!";
 const titleKeepConnected = "Continuar conectado";
+const titleInformation = "Informação";
 
 const descriptionWellCome = "Com a sua carteira de cartões de crédito você pode fazer suas transações de qualquer lugar.";
 
@@ -24,6 +25,11 @@ const hintEmail = "Ex: nome@dominio.com";
 const hintPassword = "Ex: A@123";
 
 const msgEmailInvalid = "E-mail inválido";
+const msgEmailExists = "Este e-mail já registrado. Por favor, informe outro email.";
 const msgEmailUnauthorized = "Seu e-mail pode estar errado";
+const msgDateInvalid = "Data inválida";
+const msgPhoneInvalid = "Celular inválido";
+const msgNameInvalid = "Informe nome e sobrenome";
 const msgPasswordInvalid = "Senha inválida";
+const msgPasswordDifferent = "As senhas estão diferentes";
 const msgPasswordUnauthorized = "Sua senha pode estar errada";

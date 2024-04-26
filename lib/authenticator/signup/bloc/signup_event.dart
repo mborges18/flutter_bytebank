@@ -45,7 +45,7 @@ class SignUpSetPasswordConfirmEvent extends SignUpEvent {
 }
 
 class SignUpEnableButtonEvent extends SignUpEvent {
-  SignUpModel model;
+  final SignUpModel model;
 
   SignUpEnableButtonEvent({
     required this.model,

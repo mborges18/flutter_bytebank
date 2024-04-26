@@ -9,6 +9,7 @@ import '../../../../components/titles/title_center.dart';
 import '../../../../home/home_screen.dart';
 import '../../../../util/string/strings.dart';
 import '../../../../util/util.dart';
+import '../../../components/dialogs/dialog_information.dart';
 import '../../../components/inputs/MaskType.dart';
 import '../bloc/signup_bloc.dart';
 import '../bloc/signup_event.dart';
@@ -288,8 +289,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     }),
                 BlocConsumer<SignUpBloc, SignUpState>(
                     listenWhen: (context, state) {
-                      return (state is SignUpStateSuccess);
-                    }, listener: (context, state) {
+                  return (state is SignUpStateSuccess);
+                }, listener: (context, state) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const Home()),
@@ -297,9 +298,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 }, builder: (context, state) {
                   return ButtonFilled(
                       textButton: actionRegister.toUpperCase(),
-                      isEnabled: (state is SignUpStateButton) ? state.isEnabled : false,
+                      isEnabled: (state is SignUpStateButton)
+                          ? state.isEnabled
+                          : false,
                       isLoading:
-                      (state is SignUpStateLoading) == true ? true : false,
+                          (state is SignUpStateLoading) == true ? true : false,
                       functionClick: () {
                         _register(state);
                       });

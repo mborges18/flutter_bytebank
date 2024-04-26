@@ -22,5 +22,6 @@ class SignUpModel {
         'phone': phone,
         'email': email,
         'password': password,
+        'status': "ACTIVE",
       };
 }

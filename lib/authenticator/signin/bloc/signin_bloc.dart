@@ -31,9 +31,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       if (!Validator.isValidEmail(event.email)) {
         emit(SignInStateEmail(msgEmailInvalid));
       }
-      if (event.password.length < 5) {
-        emit(SignInStatePassword(msgPasswordInvalid));
-      }
       if (Validator.isValidEmail(event.email) && event.password.length > 5) {
         emit(SignInStateEmail(null));
         emit(SignInStatePassword(null));
