@@ -9,7 +9,6 @@ import '../../../../components/titles/title_center.dart';
 import '../../../../home/home_screen.dart';
 import '../../../../util/string/strings.dart';
 import '../../../../util/util.dart';
-import '../../../components/dialogs/dialog_information.dart';
 import '../../../components/inputs/MaskType.dart';
 import '../bloc/signup_bloc.dart';
 import '../bloc/signup_event.dart';
@@ -140,7 +139,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const SubTitleLeft(text: "Dados pessoais"),
+                const SubTitleLeft(text: titleDataPerson),
                 const SizedBox(height: 16.0),
                 BlocConsumer<SignUpBloc, SignUpState>(
                     listenWhen: (context, state) {
@@ -237,7 +236,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       );
                     }),
                 const SizedBox(height: 16.0),
-                const SubTitleLeft(text: "Dados de acesso"),
+                const SubTitleLeft(text: titleDataAccess),
                 const SizedBox(height: 16.0),
                 BlocConsumer<SignUpBloc, SignUpState>(
                     listenWhen: (context, state) {

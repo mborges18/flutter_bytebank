@@ -4,6 +4,8 @@ const titleRegister = "Cadastro";
 const titleWellCome = "Seja bem vindo!";
 const titleKeepConnected = "Continuar conectado";
 const titleInformation = "Informação";
+const titleDataAccess = "Dados de acesso";
+const titleDataPerson = "Dados pessoais";
 
 const descriptionWellCome = "Com a sua carteira de cartões de crédito você pode fazer suas transações de qualquer lugar.";
 

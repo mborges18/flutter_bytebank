@@ -36,9 +36,52 @@ class InputText extends StatefulWidget {
 
 class InputTextCustom extends State<InputText> {
   bool isToggleSecretVisible = false;
+  bool isFocused = false;
+  bool isError = false;
   String newText = "";
 
-  IconData? isToggleSecret() {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
+      child: FocusScope(
+        child: Focus(
+          onFocusChange: (focus) {
+            setState(() {
+              isFocused = focus;
+            });
+          },
+          child: TextField(
+            controller: widget.maskType != null
+                ? TextEditingController.fromValue(TextEditingValue(
+                    text: newText,
+                    selection: TextSelection.collapsed(offset: newText.length),
+                  ))
+                : null,
+            onChanged: (text) {
+              _handlerMaskType(text);
+            },
+            keyboardType: widget.inputType,
+            maxLength: widget.maxLength,
+            obscureText: widget.isToggleSecret && !isToggleSecretVisible,
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: widget.textLabel,
+              hintText: widget.textHint,
+              errorText: widget.onValidatorListener(),
+              prefixIcon: Icon(
+                widget.iconStart,
+                color: _handlerColorIcon(),
+              ),
+              suffixIcon: _suffixButton(),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  IconData? _isToggleSecret() {
     if (widget.isToggleSecret) {
       return isToggleSecretVisible == true
           ? Icons.visibility
@@ -48,31 +91,18 @@ class InputTextCustom extends State<InputText> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
-      child: TextField(
-        controller: widget.maskType !=null ? TextEditingController.fromValue(TextEditingValue(
-          text: newText,
-          selection: TextSelection.collapsed(offset: newText.length),
-        )) : null,
-        onChanged: (text) {
-          _handlerMaskType(text);
-        },
-        keyboardType: widget.inputType,
-        maxLength: widget.maxLength,
-        obscureText: widget.isToggleSecret && !isToggleSecretVisible,
-        decoration: InputDecoration(
-          border: const OutlineInputBorder(),
-          labelText: widget.textLabel,
-          hintText: widget.textHint,
-          errorText: widget.onValidatorListener(),
-          prefixIcon: Icon(widget.iconStart),
-          suffixIcon: _suffixButton(),
-        ),
-      ),
-    );
+  bool _hasError() {
+    return widget.onValidatorListener()!=null;
+  }
+
+  Color _handlerColorIcon() {
+    var color = Theme.of(context).colorScheme.onSurfaceVariant;
+    if(isFocused) {
+      color = _hasError() ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.primary;
+    } else {
+      color = _hasError() ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.onSurfaceVariant;
+    }
+    return color;
   }
 
   Widget? _suffixButton() {
@@ -83,12 +113,12 @@ class InputTextCustom extends State<InputText> {
                 isToggleSecretVisible = !isToggleSecretVisible;
               });
             },
-            icon: Icon(isToggleSecret()))
+            icon: Icon(_isToggleSecret()))
         : null;
   }
 
   void _handlerMaskType(String text) {
-    if(widget.maskType != null) {
+    if (widget.maskType != null) {
       text = text.replaceAll(RegExp('[^0-9]'), '');
       setState(() {
         newText = _handlerApplyMaskType(widget.maskType, text);

@@ -11,12 +11,12 @@ class DialogInformation extends StatelessWidget {
       content: Text(description),
       actions: <Widget>[
         TextButton(
-          onPressed: () => Navigator.pop(context, 'Cancel'),
-          child: const Text('Cancel'),
+          onPressed: () => Navigator.pop(context, 'Cancelar'),
+          child: const Text('Cancelar'),
         ),
         TextButton(
-          onPressed: () => Navigator.pop(context, 'OK'),
-          child: const Text('OK'),
+          onPressed: () => Navigator.pop(context, 'Ok'),
+          child: const Text('Ok'),
         ),
       ],
     );
@@ -40,7 +40,7 @@ class AlertInformation {
               style: TextButton.styleFrom(
                 textStyle: Theme.of(context).textTheme.labelLarge,
               ),
-              child: const Text('Disable'),
+              child: const Text('Cancelar'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -49,7 +49,7 @@ class AlertInformation {
               style: TextButton.styleFrom(
                 textStyle: Theme.of(context).textTheme.labelLarge,
               ),
-              child: const Text('Enable'),
+              child: const Text('Ok'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
