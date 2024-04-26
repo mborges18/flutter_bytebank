@@ -79,6 +79,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         try {
           emit(SignUpStateLoading());
           var response = await repository.signUp(event.model);
+          print("bloc - $response");
           if ((response is Success)) {
             emit(SignUpStateSuccess(response.object.toString()));
           } else if (response is Exists) {

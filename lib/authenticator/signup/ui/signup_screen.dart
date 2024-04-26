@@ -288,8 +288,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     }),
                 BlocConsumer<SignUpBloc, SignUpState>(
                     listenWhen: (context, state) {
+                      print("listenWhen SignUpStateSuccess - ${(state is SignUpStateSuccess)} $state");
                   return (state is SignUpStateSuccess);
                 }, listener: (context, state) {
+                  print("listener - $state");
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const Home()),
