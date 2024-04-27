@@ -155,12 +155,19 @@ class _SignInScreenState extends State<SignInScreen> {
                     }),
                 BlocConsumer<SignInBloc, SignInState>(
                     listenWhen: (context, state) {
-                  return (state is SignInStateSuccess);
+                  return (state is SignInStateSuccess) || (state is SignInStateError);
                 }, listener: (context, state) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Home()),
-                  );
+                      if(state is SignInStateSuccess) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Home()),
+                        );
+                      } else {
+                        const AlertInformation(
+                            title: titleInformation,
+                            description: msgErrorUnKnow
+                        ).showError(context);
+                      }
                 }, builder: (context, state) {
                   return ButtonFilled(
                       textButton: actionAccess.toUpperCase(),
