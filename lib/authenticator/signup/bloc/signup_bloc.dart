@@ -64,7 +64,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         isValid = false;
         emit(SignUpStateEmail(msgEmailInvalid));
       }
-      if (event.model.birthDate.isEmpty) {
+      if (!DatesUtil.isValidBirthDate(event.model.birthDate)) {
         isValid = false;
         emit(SignUpStateBirthDate(msgDateInvalid));
       }
