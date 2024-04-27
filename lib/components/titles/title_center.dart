@@ -15,8 +15,10 @@ class TitleCenter extends StatelessWidget {
           Icon(icon, size: 26),
           Padding(
               padding: const EdgeInsets.only(top: 4.0, left: 4.0),
-              child: Text(text,
+              child: Text(
+                  text,
                   style: const TextStyle(
+                    height: 0,
                       fontWeight: FontWeight.bold, fontSize: 26.0)))
         ]));
   }
