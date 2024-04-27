@@ -1,4 +1,6 @@
 
+import '../../../util/date/dates_util.dart';
+
 class SignUpModel {
   String name;
   String birthDate;
@@ -17,11 +19,12 @@ class SignUpModel {
   });
 
   Map toJson() => {
-        'name': name,
-        'birthDate': birthDate,
-        'phone': phone,
-        'email': email,
-        'password': password,
-        'status': "ACTIVE",
+        "name": name,
+        "birthDate": DatesUtil.toAmericanDate(date: birthDate),
+        "phone": phone,
+        "email": email,
+        "password": password,
+        "type": "GOLD",
+        "status": "ACTIVE",
       };
 }

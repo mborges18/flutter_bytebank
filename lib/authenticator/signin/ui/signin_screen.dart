@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../components/buttons/button_filled.dart';
 import '../../../components/buttons/button_outline.dart';
 import '../../../components/buttons/button_switch.dart';
+import '../../../components/dialogs/dialog_information.dart';
 import '../../../components/inputs/input_text.dart';
 import '../../../components/titles/subtitle_left.dart';
 import '../../../components/titles/text_normal.dart';
@@ -93,10 +94,8 @@ class _SignInScreenState extends State<SignInScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-                padding: const EdgeInsets.only(top: 24.0, bottom: 10.0),
-                child: TitleCenter(
-                    text: titleAccess.toUpperCase(), icon: Icons.lock)),
+            TitleCenter(text: titleAccess.toUpperCase(), icon: Icons.lock),
+            const SizedBox(height: 8.0),
             const SubTitleLeft(text: titleWellCome),
             const TextNormal(text: descriptionWellCome),
             const SizedBox(height: 8.0),

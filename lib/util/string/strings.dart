@@ -35,3 +35,4 @@ const msgNameInvalid = "Informe nome e sobrenome";
 const msgPasswordInvalid = "Senha inválida";
 const msgPasswordDifferent = "As senhas estão diferentes";
 const msgPasswordUnauthorized = "Sua senha pode estar errada";
+const msgErrorUnKnow = "Ocorreu um erro inseperado. Por favor, tente novamente em alguns instantes.";

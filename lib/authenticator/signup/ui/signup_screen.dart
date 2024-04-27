@@ -9,7 +9,10 @@ import '../../../../components/titles/title_center.dart';
 import '../../../../home/home_screen.dart';
 import '../../../../util/string/strings.dart';
 import '../../../../util/util.dart';
+import '../../../components/dialogs/dialog_information.dart';
 import '../../../components/inputs/MaskType.dart';
+import '../../../util/date/dates_util.dart';
+import '../../authenticator_screen.dart';
 import '../bloc/signup_bloc.dart';
 import '../bloc/signup_event.dart';
 import '../bloc/signup_state.dart';
@@ -129,10 +132,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-                padding: const EdgeInsets.only(top: 24.0, bottom: 10.0),
-                child: TitleCenter(
-                    text: titleRegister.toUpperCase(), icon: Icons.lock)),
+            TitleCenter(text: titleRegister.toUpperCase(), icon: Icons.assignment_ind_rounded),
+            const SizedBox(height: 8.0),
             const SubTitleLeft(text: titleWellCome),
             const TextNormal(text: descriptionWellCome),
             const SizedBox(height: 8.0),
@@ -288,14 +289,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     }),
                 BlocConsumer<SignUpBloc, SignUpState>(
                     listenWhen: (context, state) {
-                      print("listenWhen SignUpStateSuccess - ${(state is SignUpStateSuccess)} $state");
-                  return (state is SignUpStateSuccess);
+                  return (state is SignUpStateSuccess) || (state is SignUpStateError);
                 }, listener: (context, state) {
-                  print("listener - $state");
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Home()),
-                  );
+                      if((state is SignUpStateSuccess)) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const AuthenticatorScreen()),
+                        );
+                      } else {
+                        const AlertInformation(
+                            title: titleInformation,
+                            description: msgErrorUnKnow
+                        ).showError(context);
+                      }
                 }, builder: (context, state) {
                   return ButtonFilled(
                       textButton: actionRegister.toUpperCase(),

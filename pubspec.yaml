@@ -41,6 +41,7 @@ dependencies:
   flutter_bloc: ^8.0.1
   http: ^1.2.1
   pretty_http_logger: ^1.0.3
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
