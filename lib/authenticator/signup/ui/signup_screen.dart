@@ -6,7 +6,7 @@ import '../../../../components/inputs/input_text.dart';
 import '../../../../components/titles/subtitle_left.dart';
 import '../../../../components/titles/text_normal.dart';
 import '../../../../components/titles/title_center.dart';
-import '../../../../home/home_screen.dart';
+import '../../../home/ui/home_screen.dart';
 import '../../../../util/string/strings.dart';
 import '../../../../util/util.dart';
 import '../../../components/dialogs/dialog_information.dart';

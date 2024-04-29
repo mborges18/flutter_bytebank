@@ -4,12 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../components/buttons/button_filled.dart';
 import '../../../components/buttons/button_outline.dart';
 import '../../../components/buttons/button_switch.dart';
+import '../../../components/dialogs/dialog_date_picker.dart';
 import '../../../components/dialogs/dialog_information.dart';
 import '../../../components/inputs/input_text.dart';
 import '../../../components/titles/subtitle_left.dart';
 import '../../../components/titles/text_normal.dart';
 import '../../../components/titles/title_center.dart';
-import '../../../home/home_screen.dart';
+import '../../../home/ui/home_screen.dart';
 import '../../../util/string/strings.dart';
 import '../../../util/util.dart';
 import '../bloc/signin_bloc.dart';
@@ -32,6 +33,7 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   void initState() {
     super.initState();
+    DialogDatePicker().init();
     bloc = SignInBloc();
   }
 

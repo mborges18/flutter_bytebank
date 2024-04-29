@@ -7,6 +7,7 @@ import 'package:device_preview/device_preview.dart';
 
 import 'authenticator/signin/bloc/signin_bloc.dart';
 import 'authenticator/signup/bloc/signup_bloc.dart';
+import 'home/ui/home_screen.dart';
 
 class Application extends StatelessWidget {
   const Application({super.key});
@@ -25,7 +26,7 @@ class Application extends StatelessWidget {
         themeMode: ThemeMode.system,
         theme: lightTheme,
         darkTheme: darkTheme,
-        home: const AuthenticatorScreen()),
+        home: const Home()),
     );
   }
 }
