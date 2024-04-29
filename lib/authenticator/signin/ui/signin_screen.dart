@@ -113,7 +113,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     },
                     builder: (context, state) {
                       return InputText(
-                        textLabel: placeHolderEmail,
+                        textLabel: labelEmail,
                         textHint: hintEmail,
                         inputType: TextInputType.emailAddress,
                         iconStart: Icons.alternate_email,
@@ -136,7 +136,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     },
                     builder: (context, state) {
                       return InputText(
-                        textLabel: placeHolderPassword,
+                        textLabel: labelPassword,
                         textHint: hintPassword,
                         iconStart: Icons.key,
                         isToggleSecret: true,

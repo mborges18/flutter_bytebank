@@ -152,7 +152,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                     builder: (context, state) {
                       return InputText(
-                        textLabel: placeHolderName,
+                        textLabel: labelNameFull,
                         textHint: hintName,
                         inputType: TextInputType.name,
                         iconStart: Icons.person,
@@ -175,7 +175,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                     builder: (context, state) {
                       return InputText(
-                        textLabel: placeHolderBirthDate,
+                        textLabel: labelBirthDate,
                         textHint: hintBirthDate,
                         maskType: MaskType.date,
                         inputType: TextInputType.number,
@@ -199,7 +199,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                     builder: (context, state) {
                       return InputText(
-                        textLabel: placeHolderPhone,
+                        textLabel: labelPhone,
                         textHint: hintPhone,
                         maskType: MaskType.phone,
                         inputType: TextInputType.number,
@@ -223,7 +223,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                     builder: (context, state) {
                       return InputText(
-                        textLabel: placeHolderEmail,
+                        textLabel: labelEmail,
                         textHint: hintEmail,
                         iconStart: Icons.alternate_email,
                         inputType: TextInputType.emailAddress,
@@ -249,7 +249,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                     builder: (context, state) {
                       return InputText(
-                        textLabel: placeHolderPassword,
+                        textLabel: labelPassword,
                         textHint: hintPassword,
                         iconStart: Icons.key,
                         isToggleSecret: true,
@@ -273,7 +273,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                     builder: (context, state) {
                       return InputText(
-                        textLabel: placeHolderPassword,
+                        textLabel: labelPassword,
                         textHint: hintPassword,
                         iconStart: Icons.key,
                         isToggleSecret: true,

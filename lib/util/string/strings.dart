@@ -13,12 +13,14 @@ const actionAccess = "Acessar";
 const actionRegister = "Cadastrar";
 const actionForgotPassword = "Esqueci a senha";
 
-const placeHolderName = "Nome e sobrenome";
-const placeHolderBirthDate = "Data de Nascimento";
-const placeHolderPhone = "Celular";
-const placeHolderEmail = "E-mail";
-const placeHolderPassword = "Senha";
-const placeHolderPasswordConfirm = "Confirmar senha";
+const labelName = "Nome";
+const labelValidate = "Validade";
+const labelNameFull = "Nome e sobrenome";
+const labelBirthDate = "Data de Nascimento";
+const labelPhone = "Celular";
+const labelEmail = "E-mail";
+const labelPassword = "Senha";
+const labelPasswordConfirm = "Confirmar senha";
 
 const hintName = "Ex: José Roberto";
 const hintBirthDate = "Ex: 00/00/0000";
