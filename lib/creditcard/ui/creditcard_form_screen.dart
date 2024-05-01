@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bitybank/components/inputs/MaskType.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,8 +24,9 @@ class CreditCardFormScreen extends StatefulWidget {
 }
 
 class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
-  final CreditCardModel _model =
-      CreditCardModel(name: "", number: "", date: "", cvv: "");
+  final CreditCardModel _model = CreditCardModel(name: "", number: "", date: "", cvv: "");
+  String maskNumber = "XXXX XXXX XXXX XXXX";
+  String newNumber = "XXXX XXXX XXXX XXXX";
 
   String? _handleErrorNumber(CreditCardFormState state) {
     return (state is CreditCardFromStateNumber) ? state.message : null;
@@ -33,6 +35,8 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
   void _handlerEventNumber(String text) {
     setState(() {
       _model.number = text;
+      text = maskNumber.replaceRange(0, text.length, text);
+      newNumber = text;
     });
     BlocProvider.of<CreditCardFormBloc>(context)
         .add(CreditCardFormNumberEvent(number: _model.number));
@@ -97,23 +101,25 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-             Container(
-              color: Colors.white,
-              child: const CreditCardItem(
+             Flexible(
+               flex: 1,
+              //color: Colors.white,
+              child: CreditCardItem(
                 typeCard: CreditCardType.undefined,
                 nameUser: "SEU NOME",
-                numberCard: "XXXX XXXX XXXX XXXX",
+                numberCard: newNumber,
                 dateExpiredCard: "00/0000",
                 expanded: true,
               ),
             ),
-            const Spacer(flex: 1,),
-            Container(
-              color: Colors.white,
+            const Spacer(),
+            Flexible(
+              flex: 1,
+             // color: Colors.white,
               child: Column(
                 children: [
                   Visibility(
-                    visible: false,
+                    visible: true,
                     child:
                         BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
                             listenWhen: (context, state) {
@@ -196,7 +202,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                             }),
                   ),
                   Visibility(
-                    visible: true,
+                    visible: false,
                     child:
                         BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
                             listenWhen: (context, state) {
