@@ -97,9 +97,9 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const Flexible(
-              flex: 1,
-              child: CreditCardItem(
+             Container(
+              color: Colors.white,
+              child: const CreditCardItem(
                 typeCard: CreditCardType.undefined,
                 nameUser: "SEU NOME",
                 numberCard: "XXXX XXXX XXXX XXXX",
@@ -107,9 +107,9 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                 expanded: true,
               ),
             ),
-            Spacer(flex: 1,),
-            Flexible(
-              flex: 1,
+            const Spacer(flex: 1,),
+            Container(
+              color: Colors.white,
               child: Column(
                 children: [
                   Visibility(
