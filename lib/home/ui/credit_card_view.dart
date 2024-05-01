@@ -1,8 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../util/string/strings.dart';
-import '../../util/theme/styles_constants.dart';
+import '../model/credit_card_type.dart';
 
 class CreditCardItem extends StatefulWidget {
   const CreditCardItem({
@@ -11,12 +13,14 @@ class CreditCardItem extends StatefulWidget {
     required this.nameUser,
     required this.dateExpiredCard,
     required this.typeCard,
+    required this.expanded,
   });
 
   final String numberCard;
   final CreditCardType typeCard;
   final String nameUser;
   final String dateExpiredCard;
+  final bool expanded;
 
   @override
   State<CreditCardItem> createState() => _CreditCardItemState();
@@ -26,6 +30,14 @@ class _CreditCardItemState extends State<CreditCardItem> {
   double _height = 70.0;
   bool _isExpanded = false;
   double _borderBottom = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    if(widget.expanded){
+      _updateHeight();
+    }
+  }
 
   void _updateHeight() {
     setState(() {
@@ -40,7 +52,7 @@ class _CreditCardItemState extends State<CreditCardItem> {
       children: [
         Text(
           widget.typeCard.title,
-          style: StylesApp.textMiddleBold(Colors.white),
+          style: textNumberCreditCard(18, 1.0),
         ),
         const Spacer(),
         SvgPicture.asset(
@@ -58,22 +70,22 @@ class _CreditCardItemState extends State<CreditCardItem> {
         const Spacer(),
         Text(
           widget.numberCard.split(" ")[0],
-          style: StylesApp.textMiddleBold(Colors.white),
+          style: textNumberCreditCard(18, 4.0),
         ),
         const Spacer(),
         Text(
           widget.numberCard.split(" ")[1],
-          style: StylesApp.textMiddleBold(Colors.white),
+          style: textNumberCreditCard(18, 4.0),
         ),
         const Spacer(),
         Text(
           widget.numberCard.split(" ")[2],
-          style: StylesApp.textMiddleBold(Colors.white),
+          style: textNumberCreditCard(18, 4.0),
         ),
         const Spacer(),
         Text(
           widget.numberCard.split(" ")[3],
-          style: StylesApp.textMiddleBold(Colors.white),
+          style: textNumberCreditCard(18, 4.0),
         ),
         const Spacer(),
       ],
@@ -87,12 +99,12 @@ class _CreditCardItemState extends State<CreditCardItem> {
           children: [
             Text(
               labelName,
-              style: StylesApp.textCommonBold(Colors.white),
+              style: textNumberCreditCard(14, 1.0),
             ),
             const Spacer(),
             Text(
               labelValidate,
-              style: StylesApp.textCommonBold(Colors.white),
+              style: textNumberCreditCard(14, 1.0),
             ),
           ],
         ),
@@ -100,12 +112,12 @@ class _CreditCardItemState extends State<CreditCardItem> {
           children: [
             Text(
               widget.nameUser,
-              style: StylesApp.textCommonBold(Colors.white),
+              style: textNumberCreditCard(14, 1.0),
             ),
             const Spacer(),
             Text(
               widget.dateExpiredCard,
-              style: StylesApp.textCommonBold(Colors.white),
+              style: textNumberCreditCard(14, 1.0),
             ),
           ],
         )
@@ -116,7 +128,7 @@ class _CreditCardItemState extends State<CreditCardItem> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(bottom: 4, left: 16, right: 16),
+        padding: const EdgeInsets.only(bottom: 4),
         child: GestureDetector(
           onTap: () {
             _updateHeight();
@@ -131,7 +143,7 @@ class _CreditCardItemState extends State<CreditCardItem> {
                 colors: <Color>[
                   widget.typeCard.colorPrimary,
                   widget.typeCard.colorPrimaryDark,
-                ], // Gradient from https://learnui.design/tools/gradient-generator.html
+                ],
                 tileMode: TileMode.mirror,
               ),
               borderRadius: BorderRadius.only(
@@ -171,21 +183,23 @@ class _CreditCardItemState extends State<CreditCardItem> {
           ),
         ));
   }
-}
 
-enum CreditCardType {
-  visa("visa", "Visa", "ic_visa.svg", Color(0xFF545454), Color(0xFFD2D2D2), Color(0xFFFFFFFF)),
-  masterCard("masterCard", "MasterCard", "ic_mastercard.svg", Color(0xFF000000), Color(0xFF282828), Color(0xFFFFFFFF)),
-  hiperCard(" hiperCard", "HipperCard", "ic_hipercard.svg", Color(0xFFAD2020), Color(
-      0xFF3F0202), Color(0xFFFFFFFF)),
-  americanExpress("americanExpress", "Amercan Express", "ic_american_express.svg", Color(0xFF01398D), Color(
-      0xFF011738), Color(0xFFFFFFFF));
-
-  const CreditCardType(this.id, this.title, this.icon, this.colorPrimary, this.colorPrimaryDark, this.colorOnPrimary);
-  final String title;
-  final String id;
-  final String icon;
-  final Color colorPrimary;
-  final Color colorPrimaryDark;
-  final Color colorOnPrimary;
+  static TextStyle textNumberCreditCard(double size, double letterSpacing) => TextStyle(
+    fontSize: size,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+    letterSpacing: letterSpacing,
+    shadows: const [
+      Shadow(
+        blurRadius: 1.0,
+        color: Colors.black,
+        offset: Offset(1.0, 1.0),
+      ),
+      Shadow(
+        color: Colors.grey,
+        blurRadius: 1.0,
+        offset: Offset(1.0, 1.0),
+      ),
+    ],
+  );
 }

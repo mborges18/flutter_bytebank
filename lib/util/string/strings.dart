@@ -11,6 +11,7 @@ const descriptionWellCome = "Com a sua carteira de cartões de crédito você po
 
 const actionAccess = "Acessar";
 const actionRegister = "Cadastrar";
+const actionNext = "Próximo";
 const actionForgotPassword = "Esqueci a senha";
 
 const labelName = "Nome";
@@ -21,12 +22,18 @@ const labelPhone = "Celular";
 const labelEmail = "E-mail";
 const labelPassword = "Senha";
 const labelPasswordConfirm = "Confirmar senha";
+const labelExpiredDate = "Data de validade";
+const labelNameLikeCC = "Seu nome, como está no cartão";
+const labelCvvCC = "Código de segurança";
+const labelNumberCC = "Número do cartão";
 
 const hintName = "Ex: José Roberto";
-const hintBirthDate = "Ex: 00/00/0000";
+const hintDate = "Ex: 00/00/0000";
 const hintPhone = "Ex: (00) 00000-0000";
 const hintEmail = "Ex: nome@dominio.com";
 const hintPassword = "Ex: A@123";
+const hintCvvCC = "Ex: 968";
+const hintNumberCC = "0000 0000 0000 0000";
 
 const msgEmailInvalid = "E-mail inválido";
 const msgEmailExists = "Este e-mail já registrado. Por favor, informe outro email.";

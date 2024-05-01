@@ -7,6 +7,7 @@ import 'package:device_preview/device_preview.dart';
 
 import 'authenticator/signin/bloc/signin_bloc.dart';
 import 'authenticator/signup/bloc/signup_bloc.dart';
+import 'creditcard/bloc/creditcard_form_bloc.dart';
 import 'home/ui/home_screen.dart';
 
 class Application extends StatelessWidget {
@@ -17,7 +18,8 @@ class Application extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => SignInBloc()),
-          BlocProvider(create: (context) => SignUpBloc())
+          BlocProvider(create: (context) => SignUpBloc()),
+          BlocProvider(create: (context) => CreditCardFormBloc()),
         ],
         child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -26,7 +28,7 @@ class Application extends StatelessWidget {
         themeMode: ThemeMode.system,
         theme: lightTheme,
         darkTheme: darkTheme,
-        home: const Home()),
+        home: const HomeScreen()),
     );
   }
 }

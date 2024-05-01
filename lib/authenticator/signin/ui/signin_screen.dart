@@ -162,7 +162,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       if(state is SignInStateSuccess) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const Home()),
+                          MaterialPageRoute(builder: (context) => const HomeScreen()),
                         );
                       } else {
                         const AlertInformation(

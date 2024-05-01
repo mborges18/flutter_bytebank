@@ -6,12 +6,10 @@ import '../../../../components/inputs/input_text.dart';
 import '../../../../components/titles/subtitle_left.dart';
 import '../../../../components/titles/text_normal.dart';
 import '../../../../components/titles/title_center.dart';
-import '../../../home/ui/home_screen.dart';
 import '../../../../util/string/strings.dart';
 import '../../../../util/util.dart';
 import '../../../components/dialogs/dialog_information.dart';
 import '../../../components/inputs/MaskType.dart';
-import '../../../util/date/dates_util.dart';
 import '../../authenticator_screen.dart';
 import '../bloc/signup_bloc.dart';
 import '../bloc/signup_event.dart';
@@ -176,7 +174,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     builder: (context, state) {
                       return InputText(
                         textLabel: labelBirthDate,
-                        textHint: hintBirthDate,
+                        textHint: hintDate,
                         maskType: MaskType.date,
                         inputType: TextInputType.number,
                         iconStart: Icons.calendar_month_outlined,
