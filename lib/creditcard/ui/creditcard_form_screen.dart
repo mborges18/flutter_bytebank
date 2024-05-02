@@ -120,7 +120,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
   }
 
   GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
-
+//cardKey.currentState?.toggleCard();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -147,181 +147,11 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
               color: Colors.white,
               child: Column(
                 children: [
-                  BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
-                      listener: (context, state) {},
-                      buildWhen: (context, state) {
-                        return (state is CreditCardFromStateNumber) || (state is CreditCardFromStateStep);
-                      },
-                      builder: (context, state) {
-                        print("STEP 1---------------------- $state");
-                        return Visibility(
-                          visible: (state is CreditCardFormStateInitial) ? true
-                              : (state is CreditCardFromStateNumber) ? true
-                              : (state is CreditCardFromStateStep) ? state.step==1 : false,
-                          child: InputText(
-                            textLabel: labelNumberCC,
-                            textHint: hintNumberCC,
-                            value: _model.number,
-                            inputType: TextInputType.number,
-                            maskType: MaskType.creditCard,
-                            iconStart: Icons.credit_card_rounded,
-                            onValidatorListener: () {
-                              return _handleErrorNumber(state);
-                            },
-                            onTextChangeListener: (text) {
-                              _handlerEventNumber(text ?? "");
-                              _handlerEventButton(state);
-                            },
-                          ),
-                        );
-                      }),
-                  BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
-                      listenWhen: (context, state) {
-                        return (state is CreditCardFromStateStep);
-                      },
-                      listener: (context, state) {
-                        setState(() {
-                          if(state is CreditCardFromStateStep && state.step == 2) {
-                            _showFrontSide = false;
-                          }
-                          else {
-                            _showFrontSide = true;
-                          }
-                        });
-                      },
-                      buildWhen: (context, state) {
-                        return (state is CreditCardFromStateName) || (state is CreditCardFromStateStep);
-                      },
-                      builder: (context, state) {
-                        print("STEP 2---------------------- $state ${_model.name}");
-                        return Visibility(
-                          visible: (state is CreditCardFromStateStep) ? state.step==2 : false,
-                          child: InputText(
-                            textLabel: labelNameLikeCC,
-                            textHint: hintName,
-                            value: _model.name,
-                            inputType: TextInputType.name,
-                            maxLength: 29,
-                            iconStart: Icons.person_2_outlined,
-                            onValidatorListener: () {
-                              return _handleErrorName(state);
-                            },
-                            onTextChangeListener: (text) {
-                              _handlerEventName(text.toString().toUpperCase());
-                              _handlerEventButton(state);
-                            },
-                          ),
-                        );
-                      }),
-                  BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
-                      listener: (context, state) {},
-                      buildWhen: (context, state) {
-                        return (state is CreditCardFromStateDate) || (state is CreditCardFromStateStep);
-                      },
-                      builder: (context, state) {
-                        print("STEP 3---------------------- $state");
-                        return Visibility(
-                          visible: (state is CreditCardFromStateStep) ? state.step==3 : false,
-                          child: InputText(
-                            textLabel: labelExpiredDate,
-                            textHint: hintDate,
-                            value: _model.date,
-                            maskType: MaskType.dateCreditCard,
-                            inputType: TextInputType.number,
-                            iconStart: Icons.calendar_month_outlined,
-                            onValidatorListener: () {
-                              return _handleErrorDate(state);
-                            },
-                            onTextChangeListener: (text) {
-                              _handlerEventDate(text ?? "");
-                              _handlerEventButton(state);
-                            },
-                          ),
-                        );
-                      }),
-                  BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
-                      listenWhen: (context, state) {
-                        return (state is CreditCardFromStateCvv);
-                      },
-                      listener: (context, state) {
-                        // setState(() {
-                        //   _showFrontSide = false;
-                        // });
-                        cardKey.currentState?.toggleCard();
-                      },
-                      buildWhen: (context, state) {
-                        return (state is CreditCardFromStateCvv) || (state is CreditCardFromStateStep);
-                      },
-                      builder: (context, state) {
-                        print("STEP 4---------------------- $state");
-                        return Visibility(
-                          visible: (state is CreditCardFromStateStep) ? state.step==4 : false,
-                          child: InputText(
-                            textLabel: labelCvvCC,
-                            textHint: hintCvvCC,
-                            value: _model.cvv,
-                            inputType: TextInputType.number,
-                            maxLength: 4,
-                            iconStart: Icons.security,
-                            onValidatorListener: () {
-                              return _handleErrorCvv(state);
-                            },
-                            onTextChangeListener: (text) {
-                              _handlerEventCvv(text ?? "");
-                              _handlerEventButton(state);
-                            },
-                          ),
-                        );
-                      }),
-                  BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
-                      listenWhen: (context, state) {
-                    return (state is CreditCardFormStateSuccess) || (state is CreditCardFormStateError);
-                  }, listener: (context, state) {
-                    if ((state is CreditCardFormStateSuccess)) {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => const AuthenticatorScreen()),
-                      // );
-                    } else {
-                      const AlertInformation(
-                              title: titleInformation,
-                              description: msgErrorUnKnow)
-                          .showError(context);
-                    }
-                  }, builder: (context, state) {
-                    return Row(
-                      children: [
-                        Expanded(
-                          flex: 5,
-                          child: ButtonFilled(
-                              textButton: actionPrev.toUpperCase(),
-                              isEnabled: (state is CreditCardFromStateButton)
-                                  ? state.isEnabledPrev
-                                  : false,
-                              isLoading: false,
-                              functionClick: () {
-                                _prev(state);
-                              }),
-                        ),
-                        const Spacer(),
-                        Expanded(
-                          flex: 5,
-                          child: ButtonFilled(
-                              textButton: actionNext.toUpperCase(),
-                              isEnabled: (state is CreditCardFromStateButton)
-                                  ? state.isEnabledNext
-                                  : false,
-                              isLoading:
-                                  (state is CreditCardFormStateLoading) == true
-                                      ? true
-                                      : false,
-                              functionClick: () {
-                                _next(state);
-                              }),
-                        ),
-                      ],
-                    );
-                  }),
+                  _inputNumber(),
+                  _inputName(),
+                  _inputDate(),
+                  _inputCvv(),
+                  _inputButtons(),
                 ],
               ),
             ),
@@ -329,5 +159,194 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
         ),
       ),
     );
+  }
+
+  Widget _inputNumber() {
+    return BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
+        listener: (context, state) {},
+        buildWhen: (context, state) {
+          return (state is CreditCardFromStateNumber) || (state is CreditCardFromStateStep);
+        },
+        builder: (context, state) {
+          print("STEP 1---------------------- $state");
+          return Visibility(
+            visible: (state is CreditCardFormStateInitial) ? true
+                : (state is CreditCardFromStateNumber) ? true
+                : (state is CreditCardFromStateStep) ? state.step==1 : false,
+            child: InputText(
+              textLabel: labelNumberCC,
+              textHint: hintNumberCC,
+              value: _model.number,
+              inputType: TextInputType.number,
+              maskType: MaskType.creditCard,
+              iconStart: Icons.credit_card_rounded,
+              onValidatorListener: () {
+                return _handleErrorNumber(state);
+              },
+              onTextChangeListener: (text) {
+                _handlerEventNumber(text ?? "");
+                _handlerEventButton(state);
+              },
+            ),
+          );
+        });
+  }
+
+  Widget _inputName() {
+    return BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
+        listenWhen: (context, state) {
+          return (state is CreditCardFromStateStep);
+        },
+        listener: (context, state) {
+          setState(() {
+            if(state is CreditCardFromStateStep && state.step == 2) {
+              _showFrontSide = false;
+            }
+            else {
+              _showFrontSide = true;
+            }
+          });
+        },
+        buildWhen: (context, state) {
+          return (state is CreditCardFromStateName) || (state is CreditCardFromStateStep);
+        },
+        builder: (context, state) {
+          print("STEP 2---------------------- $state ${_model.name}");
+          return Visibility(
+            visible: (state is CreditCardFromStateStep) ? state.step==2 : false,
+            child: InputText(
+              textLabel: labelNameLikeCC,
+              textHint: hintName,
+              value: _model.name,
+              inputType: TextInputType.name,
+              maxLength: 29,
+              iconStart: Icons.person_2_outlined,
+              onValidatorListener: () {
+                return _handleErrorName(state);
+              },
+              onTextChangeListener: (text) {
+                _handlerEventName(text.toString().toUpperCase());
+                _handlerEventButton(state);
+              },
+            ),
+          );
+        });
+  }
+
+  Widget _inputDate() {
+    return BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
+        listener: (context, state) {},
+        buildWhen: (context, state) {
+          return (state is CreditCardFromStateDate) || (state is CreditCardFromStateStep);
+        },
+        builder: (context, state) {
+          print("STEP 3---------------------- $state");
+          return Visibility(
+            visible: (state is CreditCardFromStateStep) ? state.step==3 : false,
+            child: InputText(
+              textLabel: labelExpiredDate,
+              textHint: hintDate,
+              value: _model.date,
+              maskType: MaskType.dateCreditCard,
+              inputType: TextInputType.number,
+              iconStart: Icons.calendar_month_outlined,
+              onValidatorListener: () {
+                return _handleErrorDate(state);
+              },
+              onTextChangeListener: (text) {
+                _handlerEventDate(text ?? "");
+                _handlerEventButton(state);
+              },
+            ),
+          );
+        });
+  }
+
+  Widget _inputCvv() {
+    return BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
+        listenWhen: (context, state) {
+          return (state is CreditCardFromStateCvv);
+        },
+        listener: (context, state) {
+          // setState(() {
+          //   _showFrontSide = false;
+          // });
+        },
+        buildWhen: (context, state) {
+          return (state is CreditCardFromStateCvv) || (state is CreditCardFromStateStep);
+        },
+        builder: (context, state) {
+          print("STEP 4---------------------- $state");
+          return Visibility(
+            visible: (state is CreditCardFromStateStep) ? state.step==4 : false,
+            child: InputText(
+              textLabel: labelCvvCC,
+              textHint: hintCvvCC,
+              value: _model.cvv,
+              inputType: TextInputType.number,
+              maxLength: 4,
+              iconStart: Icons.security,
+              onValidatorListener: () {
+                return _handleErrorCvv(state);
+              },
+              onTextChangeListener: (text) {
+                _handlerEventCvv(text ?? "");
+                _handlerEventButton(state);
+              },
+            ),
+          );
+        });
+  }
+
+  Widget _inputButtons() {
+    return BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
+        listenWhen: (context, state) {
+          return (state is CreditCardFormStateSuccess) || (state is CreditCardFormStateError);
+        }, listener: (context, state) {
+      if ((state is CreditCardFormStateSuccess)) {
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => const AuthenticatorScreen()),
+        // );
+      } else {
+        const AlertInformation(
+            title: titleInformation,
+            description: msgErrorUnKnow)
+            .showError(context);
+      }
+    }, builder: (context, state) {
+      return Row(
+        children: [
+          Expanded(
+            flex: 5,
+            child: ButtonFilled(
+                textButton: actionPrev.toUpperCase(),
+                isEnabled: (state is CreditCardFromStateButton)
+                    ? state.isEnabledPrev
+                    : false,
+                isLoading: false,
+                functionClick: () {
+                  _prev(state);
+                }),
+          ),
+          const Spacer(),
+          Expanded(
+            flex: 5,
+            child: ButtonFilled(
+                textButton: actionNext.toUpperCase(),
+                isEnabled: (state is CreditCardFromStateButton)
+                    ? state.isEnabledNext
+                    : false,
+                isLoading:
+                (state is CreditCardFormStateLoading) == true
+                    ? true
+                    : false,
+                functionClick: () {
+                  _next(state);
+                }),
+          ),
+        ],
+      );
+    });
   }
 }
