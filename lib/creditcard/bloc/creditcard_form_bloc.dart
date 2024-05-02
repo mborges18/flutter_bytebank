@@ -38,6 +38,7 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
       if(event.model.step==4) {
         event.model.step = 3;
         emit(CreditCardFromStateStep(3));
+        emit(CreditCardFlipper());
       } else if(event.model.step==3) {
         event.model.step = 2;
         emit(CreditCardFromStateStep(2));
@@ -45,10 +46,8 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
         event.model.step = 1;
         emit(CreditCardFromStateStep(1));
       }
-
+      print("CreditCardFormNextEvent------------ $event - step = ${event.model.step}");
       _handlerEnableButton(event.model, emit);
-
-      print("CreditCardFormNextEvent---------------------- $event - step = ${event.model.step}");
     });
 
     on<CreditCardFormNextEvent>((event, emit) {
@@ -62,13 +61,12 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
       } else if(event.model.step==3) {
         event.model.step = 4;
         emit(CreditCardFromStateStep(4));
+        emit(CreditCardFlipper());
       } else if(event.model.step==4) {
         //send data
       }
-
+      print("CreditCardFormNextEvent------------- $event - step = ${event.model.step}");
       _handlerEnableButton(event.model, emit);
-
-      print("CreditCardFormNextEvent---------------------- $event - step = ${event.model.step}");
     });
 
   }
@@ -89,7 +87,7 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
         isEnabledBtPrev = true;
         isEnabledBtNext = model.cvv.length == 3 || model.cvv.length == 4;
       }
-      print("CreditCardFormEnableButtonEvent-----------data: ${model.toJson()} -----------isEnabledPrev: $isEnabledBtPrev, isEnabledNext: $isEnabledBtNext");
+      print("CreditCardFormEnableButtonEvent-------------isEnabledPrev: $isEnabledBtPrev, isEnabledNext: $isEnabledBtNext");
       emit(CreditCardFromStateButton(isEnabledPrev: isEnabledBtPrev, isEnabledNext: isEnabledBtNext));
   }
 }

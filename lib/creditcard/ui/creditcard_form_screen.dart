@@ -120,7 +120,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
   }
 
   GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
-//cardKey.currentState?.toggleCard();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,15 +133,23 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            FlipCard(
-              key: cardKey,
-              fill: Fill.fillBack, // Fill the back side of the card to make in the same size as the front.
-              direction: FlipDirection.HORIZONTAL, // default
-              side: CardSide.FRONT,
-              flipOnTouch: false,
-              front: _frontCard(),
-              back: _backCard(),
-            ),
+            BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
+            listenWhen: (context, state) { return (state is CreditCardFlipper); },
+            listener: (context, state) { cardKey.currentState?.toggleCard(); },
+            builder: (context, state) {
+              print("FLIPPER---------------------- $state");
+                  return FlipCard(
+                    key: cardKey,
+                    fill: Fill.fillBack,
+                    // Fill the back side of the card to make in the same size as the front.
+                    direction: FlipDirection.HORIZONTAL,
+                    // default
+                    side: CardSide.FRONT,
+                    flipOnTouch: false,
+                    front: _frontCard(),
+                    back: _backCard(),
+                  );
+                }),
             const Spacer(),
             Container(
               color: Colors.white,

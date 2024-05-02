@@ -34,6 +34,8 @@ class CreditCardFromStateStep extends CreditCardFormState {
   CreditCardFromStateStep(this.step);
 }
 
+class CreditCardFlipper extends CreditCardFormState {}
+
 class CreditCardFromStateButton extends CreditCardFormState {
   bool isEnabledPrev = false;
   bool isEnabledNext = false;
