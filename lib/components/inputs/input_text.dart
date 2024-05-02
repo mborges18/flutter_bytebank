@@ -6,6 +6,7 @@ class InputText extends StatefulWidget {
   final String textHint;
   final String textLabel;
   final MaskType? maskType;
+  String? value;
   final IconData? iconStart;
   final IconData? iconEnd;
   final bool isToggleSecret;
@@ -14,11 +15,12 @@ class InputText extends StatefulWidget {
   final Function() onValidatorListener;
   final Function(String?) onTextChangeListener;
 
-  const InputText({
+  InputText({
     super.key,
     required this.textHint,
     required this.textLabel,
     this.maskType,
+    this.value,
     this.iconStart,
     this.iconEnd,
     this.isToggleSecret = false,
@@ -38,7 +40,7 @@ class InputTextCustom extends State<InputText> {
   bool isToggleSecretVisible = false;
   bool isFocused = false;
   bool isError = false;
-  String newText = "";
+  //String newText = "";
 
   @override
   Widget build(BuildContext context) {
@@ -52,12 +54,13 @@ class InputTextCustom extends State<InputText> {
             });
           },
           child: TextField(
-            controller: widget.maskType != null
-                ? TextEditingController.fromValue(TextEditingValue(
-                    text: newText,
-                    selection: TextSelection.collapsed(offset: newText.length),
-                  ))
-                : null,
+            controller:
+                TextEditingController.fromValue(TextEditingValue(
+                    text: widget.value ?? "",
+                    selection: TextSelection.collapsed(
+                        offset:
+                            widget.value != null ? widget.value!.length : 0),
+                  )),
             onChanged: (text) {
               _handlerMaskType(text);
             },
@@ -122,9 +125,9 @@ class InputTextCustom extends State<InputText> {
     if (widget.maskType != null) {
       text = text.replaceAll(RegExp('[^0-9]'), '');
       setState(() {
-        newText = _handlerApplyMaskType(widget.maskType, text);
+        widget.value = _handlerApplyMaskType(widget.maskType, text);
       });
-      widget.onTextChangeListener(newText);
+      widget.onTextChangeListener(widget.value);
     } else {
       widget.onTextChangeListener(text);
     }

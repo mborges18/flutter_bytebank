@@ -89,7 +89,7 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
         isEnabledBtPrev = true;
         isEnabledBtNext = model.cvv.length == 3 || model.cvv.length == 4;
       }
-      print("CreditCardFormEnableButtonEvent----------------------isEnabledPrev: $isEnabledBtPrev, isEnabledNext: $isEnabledBtNext");
+      print("CreditCardFormEnableButtonEvent-----------data: ${model.toJson()} -----------isEnabledPrev: $isEnabledBtPrev, isEnabledNext: $isEnabledBtNext");
       emit(CreditCardFromStateButton(isEnabledPrev: isEnabledBtPrev, isEnabledNext: isEnabledBtNext));
   }
 }

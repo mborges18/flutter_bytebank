@@ -49,7 +49,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
 
   void _handlerEventName(String text) {
     setState(() {
-      text.length < 30 ? _model.name = text : _model.name = _model.name;
+      _model.name = text;
     });
     BlocProvider.of<CreditCardFormBloc>(context)
         .add(CreditCardFormNameEvent(name: _model.name));
@@ -124,9 +124,6 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
               child: Column(
                 children: [
                   BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
-                      listenWhen: (context, state) {
-                        return (state is CreditCardFromStateNumber);
-                      },
                       listener: (context, state) {},
                       buildWhen: (context, state) {
                         return (state is CreditCardFromStateNumber) || (state is CreditCardFromStateStep);
@@ -140,6 +137,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                           child: InputText(
                             textLabel: labelNumberCC,
                             textHint: hintNumberCC,
+                            value: _model.number,
                             inputType: TextInputType.number,
                             maskType: MaskType.creditCard,
                             iconStart: Icons.credit_card_rounded,
@@ -154,20 +152,18 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                         );
                       }),
                   BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
-                      listenWhen: (context, state) {
-                        return (state is CreditCardFromStateName);
-                      },
                       listener: (context, state) {},
                       buildWhen: (context, state) {
                         return (state is CreditCardFromStateName) || (state is CreditCardFromStateStep);
                       },
                       builder: (context, state) {
-                        print("STEP 2---------------------- $state");
+                        print("STEP 2---------------------- $state ${_model.name}");
                         return Visibility(
                           visible: (state is CreditCardFromStateStep) ? state.step==2 : false,
                           child: InputText(
                             textLabel: labelNameLikeCC,
-                            textHint: hintName.toUpperCase(),
+                            textHint: hintName,
+                            value: _model.name,
                             inputType: TextInputType.name,
                             maxLength: 29,
                             iconStart: Icons.person_2_outlined,
@@ -175,16 +171,13 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                               return _handleErrorName(state);
                             },
                             onTextChangeListener: (text) {
-                              _handlerEventName(text.toString().toUpperCase());
+                              _handlerEventName(text ?? "");
                               _handlerEventButton(state);
                             },
                           ),
                         );
                       }),
                   BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
-                      listenWhen: (context, state) {
-                        return (state is CreditCardFromStateDate);
-                      },
                       listener: (context, state) {},
                       buildWhen: (context, state) {
                         return (state is CreditCardFromStateDate) || (state is CreditCardFromStateStep);
@@ -196,6 +189,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                           child: InputText(
                             textLabel: labelExpiredDate,
                             textHint: hintDate,
+                            value: _model.date,
                             maskType: MaskType.dateCreditCard,
                             inputType: TextInputType.number,
                             iconStart: Icons.calendar_month_outlined,
@@ -210,9 +204,6 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                         );
                       }),
                   BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
-                      listenWhen: (context, state) {
-                        return (state is CreditCardFromStateCvv);
-                      },
                       listener: (context, state) {},
                       buildWhen: (context, state) {
                         return (state is CreditCardFromStateCvv) || (state is CreditCardFromStateStep);
@@ -224,6 +215,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                           child: InputText(
                             textLabel: labelCvvCC,
                             textHint: hintCvvCC,
+                            value: _model.cvv,
                             inputType: TextInputType.number,
                             maxLength: 4,
                             iconStart: Icons.security,
@@ -254,8 +246,6 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                           .showError(context);
                     }
                   }, builder: (context, state) {
-                    print(
-                        "NEXT=${(state is CreditCardFromStateButton) ? state.isEnabledNext : false} - PREV=${(state is CreditCardFromStateButton) ? state.isEnabledPrev : false}");
                     return Row(
                       children: [
                         Expanded(
