@@ -8,6 +8,7 @@ import 'package:device_preview/device_preview.dart';
 import 'authenticator/signin/bloc/signin_bloc.dart';
 import 'authenticator/signup/bloc/signup_bloc.dart';
 import 'creditcard/bloc/creditcard_form_bloc.dart';
+import 'creditcard/ui/creditcard_form_screen.dart';
 import 'home/ui/home_screen.dart';
 
 class Application extends StatelessWidget {
@@ -28,7 +29,7 @@ class Application extends StatelessWidget {
         themeMode: ThemeMode.system,
         theme: lightTheme,
         darkTheme: darkTheme,
-        home: const HomeScreen()),
+        home: const CreditCardFormScreen()),
     );
   }
 }

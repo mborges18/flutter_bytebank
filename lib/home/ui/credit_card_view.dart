@@ -47,6 +47,14 @@ class _CreditCardItemState extends State<CreditCardItem> {
     });
   }
 
+  String getNumber(String value, int index) {
+    try {
+      return value.split(" ")[index];
+    } catch(e) {
+      return "";
+    }
+  }
+
   Widget rowTop() {
     return Row(
       children: [
@@ -69,22 +77,22 @@ class _CreditCardItemState extends State<CreditCardItem> {
       children: [
         const Spacer(),
         Text(
-          widget.numberCard.split(" ")[0],
+          getNumber(widget.numberCard, 0),
           style: textNumberCreditCard(18, 4.0),
         ),
         const Spacer(),
         Text(
-          widget.numberCard.split(" ")[1],
+          getNumber(widget.numberCard, 1),
           style: textNumberCreditCard(18, 4.0),
         ),
         const Spacer(),
         Text(
-          widget.numberCard.split(" ")[2],
+          getNumber(widget.numberCard, 2),
           style: textNumberCreditCard(18, 4.0),
         ),
         const Spacer(),
         Text(
-          widget.numberCard.split(" ")[3],
+          getNumber(widget.numberCard, 3),
           style: textNumberCreditCard(18, 4.0),
         ),
         const Spacer(),
@@ -131,7 +139,9 @@ class _CreditCardItemState extends State<CreditCardItem> {
         padding: const EdgeInsets.only(bottom: 4),
         child: GestureDetector(
           onTap: () {
-            _updateHeight();
+            if(!widget.expanded){
+              _updateHeight();
+            }
           },
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),

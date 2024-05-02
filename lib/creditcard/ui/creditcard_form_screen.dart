@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -24,10 +27,10 @@ class CreditCardFormScreen extends StatefulWidget {
 }
 
 class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
-  final CreditCardModel _model =
-      CreditCardModel(name: "", number: "", date: "", cvv: "");
+  final CreditCardModel _model = CreditCardModel(name: "", number: "", date: "", cvv: "");
   String maskNumber = "XXXX XXXX XXXX XXXX";
   String newNumber = "XXXX XXXX XXXX XXXX";
+  bool _showFrontSide = true;
 
   String? _handleErrorNumber(CreditCardFormState state) {
     return (state is CreditCardFromStateNumber) ? state.message : null;
@@ -96,6 +99,28 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
         .add(CreditCardFormNextEvent(model: _model));
   }
 
+  Widget _frontCard() {
+    return CreditCardItem(
+      typeCard: CreditCardType.undefined,
+      nameUser: _model.name.isEmpty ? "SEU NOME": _model.name,
+      numberCard: newNumber,
+      dateExpiredCard: _model.date.isEmpty ? "00/0000" : _model.date,
+      expanded: true,
+    );
+  }
+
+  Widget _backCard() {
+    return const CreditCardItem(
+      typeCard: CreditCardType.undefined,
+      nameUser: "",
+      numberCard: "",
+      dateExpiredCard: "",
+      expanded: true,
+    );
+  }
+
+  GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,15 +133,14 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Container(
-              color: Colors.white,
-              child: CreditCardItem(
-                typeCard: CreditCardType.undefined,
-                nameUser: _model.name.isEmpty ? "SEU NOME": _model.name,
-                numberCard: newNumber,
-                dateExpiredCard: _model.date.isEmpty ? "00/0000" : _model.date,
-                expanded: true,
-              ),
+            FlipCard(
+              key: cardKey,
+              fill: Fill.fillBack, // Fill the back side of the card to make in the same size as the front.
+              direction: FlipDirection.HORIZONTAL, // default
+              side: CardSide.FRONT,
+              flipOnTouch: false,
+              front: _frontCard(),
+              back: _backCard(),
             ),
             const Spacer(),
             Container(
@@ -152,7 +176,19 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                         );
                       }),
                   BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
-                      listener: (context, state) {},
+                      listenWhen: (context, state) {
+                        return (state is CreditCardFromStateStep);
+                      },
+                      listener: (context, state) {
+                        setState(() {
+                          if(state is CreditCardFromStateStep && state.step == 2) {
+                            _showFrontSide = false;
+                          }
+                          else {
+                            _showFrontSide = true;
+                          }
+                        });
+                      },
                       buildWhen: (context, state) {
                         return (state is CreditCardFromStateName) || (state is CreditCardFromStateStep);
                       },
@@ -171,7 +207,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                               return _handleErrorName(state);
                             },
                             onTextChangeListener: (text) {
-                              _handlerEventName(text ?? "");
+                              _handlerEventName(text.toString().toUpperCase());
                               _handlerEventButton(state);
                             },
                           ),
@@ -204,7 +240,15 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                         );
                       }),
                   BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
-                      listener: (context, state) {},
+                      listenWhen: (context, state) {
+                        return (state is CreditCardFromStateCvv);
+                      },
+                      listener: (context, state) {
+                        // setState(() {
+                        //   _showFrontSide = false;
+                        // });
+                        cardKey.currentState?.toggleCard();
+                      },
                       buildWhen: (context, state) {
                         return (state is CreditCardFromStateCvv) || (state is CreditCardFromStateStep);
                       },
@@ -231,8 +275,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                       }),
                   BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
                       listenWhen: (context, state) {
-                    return (state is CreditCardFormStateSuccess) ||
-                        (state is CreditCardFormStateError);
+                    return (state is CreditCardFormStateSuccess) || (state is CreditCardFormStateError);
                   }, listener: (context, state) {
                     if ((state is CreditCardFormStateSuccess)) {
                       // Navigator.push(
