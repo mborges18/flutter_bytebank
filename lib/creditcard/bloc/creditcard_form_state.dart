@@ -29,7 +29,13 @@ class CreditCardFromStateCvv extends CreditCardFormState {
   CreditCardFromStateCvv(this.message);
 }
 
+class CreditCardFromStateStep extends CreditCardFormState {
+  int step;
+  CreditCardFromStateStep(this.step);
+}
+
 class CreditCardFromStateButton extends CreditCardFormState {
-  bool isEnabled = false;
-  CreditCardFromStateButton(this.isEnabled);
+  bool isEnabledPrev = false;
+  bool isEnabledNext = false;
+  CreditCardFromStateButton({required this.isEnabledNext, required this.isEnabledPrev});
 }

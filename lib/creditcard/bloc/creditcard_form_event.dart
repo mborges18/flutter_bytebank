@@ -28,7 +28,12 @@ class CreditCardFormEnableButtonEvent extends CreditCardFormEvent {
   CreditCardFormEnableButtonEvent({required this.model});
 }
 
-class CreditCardFormSubmitEvent extends CreditCardFormEvent {
+class CreditCardFormPrevEvent extends CreditCardFormEvent {
   final CreditCardModel model;
-  CreditCardFormSubmitEvent({required this.model});
+  CreditCardFormPrevEvent({required this.model});
+}
+
+class CreditCardFormNextEvent extends CreditCardFormEvent {
+  final CreditCardModel model;
+  CreditCardFormNextEvent({required this.model});
 }

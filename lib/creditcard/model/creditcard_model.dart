@@ -4,6 +4,7 @@ class CreditCardModel {
   String number = "";
   String date = "";
   String cvv = "";
+  int step = 1;
 
   CreditCardModel({
     required this.name,

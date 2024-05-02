@@ -22,7 +22,7 @@ class InputText extends StatefulWidget {
     this.iconStart,
     this.iconEnd,
     this.isToggleSecret = false,
-    this.maxLength,
+    this.maxLength = 55,
     this.inputType = TextInputType.text,
     required this.onValidatorListener,
     required this.onTextChangeListener,
@@ -69,6 +69,7 @@ class InputTextCustom extends State<InputText> {
               labelText: widget.textLabel,
               hintText: widget.textHint,
               errorText: widget.onValidatorListener(),
+              counterStyle: const TextStyle(color: Colors.transparent),
               prefixIcon: Icon(
                 widget.iconStart,
                 color: _handlerColorIcon(),

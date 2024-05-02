@@ -12,6 +12,7 @@ const descriptionWellCome = "Com a sua carteira de cartões de crédito você po
 const actionAccess = "Acessar";
 const actionRegister = "Cadastrar";
 const actionNext = "Próximo";
+const actionPrev = "Anterior";
 const actionForgotPassword = "Esqueci a senha";
 
 const labelName = "Nome";
