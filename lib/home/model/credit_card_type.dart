@@ -74,15 +74,6 @@ enum CreditCardType {
   Color(0xFFFFFFFF),
   );
 
-  static CreditCardType from(String value) {
-    for(var item in CreditCardType.values) {
-      if(value==item){
-        return item;
-      }
-    }
-    return CreditCardType.undefined;
-  }
-
   const CreditCardType(this.id, this.title, this.icon, this.colorPrimary,
       this.colorPrimaryDark, this.colorOnPrimary);
 

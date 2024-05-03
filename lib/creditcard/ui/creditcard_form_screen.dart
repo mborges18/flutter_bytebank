@@ -38,7 +38,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
       _model.number = text;
       text = maskNumber.replaceRange(0, text.length, text);
       newNumber = text;
-      creditCardType = CreditCardType.from(_model.validateCCNum());
+      creditCardType = _model.validateCCNum();
     });
     BlocProvider.of<CreditCardFormBloc>(context)
         .add(CreditCardFormNumberEvent(number: _model.number));
