@@ -197,7 +197,7 @@ class _CreditCardItemState extends State<CreditCardItem> {
   static TextStyle textNumberCreditCard(double size, double letterSpacing) => TextStyle(
     fontSize: size,
     fontWeight: FontWeight.bold,
-    color: Colors.white,
+    color: Colors.grey[100],
     letterSpacing: letterSpacing,
     shadows: const [
       Shadow(
@@ -206,7 +206,7 @@ class _CreditCardItemState extends State<CreditCardItem> {
         offset: Offset(1.0, 1.0),
       ),
       Shadow(
-        color: Colors.grey,
+        color: Colors.black12,
         blurRadius: 1.0,
         offset: Offset(1.0, 1.0),
       ),

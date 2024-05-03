@@ -3,6 +3,7 @@ import '../../../clienthttp/StatusRequest.dart';
 import '../../../util/string/strings.dart';
 import '../../../util/validator/validator.dart';
 import '../data/signin_repository.dart';
+import '../data/user_session.dart';
 import 'signin_event.dart';
 import 'signin_state.dart';
 
@@ -37,7 +38,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         emit(SignInStateLoading());
         try {
           var response = await repository.signIn(event.email, event.password);
-          if ((response is Success)) {
+          if (response is Success) {
+            UserSession.instance().idUser = response.object.toString();
             emit(SignInStateSuccess(response.object.toString()));
           } else if (response is Unauthorized) {
             emit(SignInStateEmail(msgEmailUnauthorized));

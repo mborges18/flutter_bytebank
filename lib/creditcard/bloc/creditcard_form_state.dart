@@ -9,6 +9,8 @@ class CreditCardFormStateSuccess extends CreditCardFormState {}
 
 class CreditCardFormStateError extends CreditCardFormState {}
 
+class CreditCardFormStateExists extends CreditCardFormState {}
+
 class CreditCardFromStateNumber extends CreditCardFormState {
   String? message;
   CreditCardFromStateNumber(this.message);

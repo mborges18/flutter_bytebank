@@ -2,25 +2,30 @@ import 'dart:core';
 
 import '../../home/model/credit_card_type.dart';
 
-class CreditCardModel {
+class CreditCardFormModel {
+  String idUser = "";
   String name = "";
   String number = "";
   String date = "";
   String cvv = "";
+  String flag = "";
   int step = 1;
 
-  CreditCardModel({
+  CreditCardFormModel({
     required this.name,
     required this.number,
     required this.date,
     required this.cvv,
+    required this.flag,
   });
 
   Map toJson() => {
-    "name": name,
-    "date": date,
+    "idUser": idUser,
+    "nameUser": name,
+    "dateExpire": date,
     "number": number,
     "cvv": cvv,
+    "flag": flag,
   };
 
   CreditCardType validateCCNum() {

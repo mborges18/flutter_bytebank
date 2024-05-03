@@ -4,7 +4,7 @@ import '../../../clienthttp/StatusRequest.dart';
 import '../../../util/date/dates_util.dart';
 import '../../../util/string/strings.dart';
 import '../../../util/validator/validator.dart';
-import '../data/SignUpRepository.dart';
+import '../data/signup_repository.dart';
 import 'signup_event.dart';
 import 'signup_state.dart';
 

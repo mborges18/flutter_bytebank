@@ -1,5 +1,5 @@
 
-import '../model/creditcard_model.dart';
+import '../model/creditcard_form_model.dart';
 
 abstract class CreditCardFormEvent {}
 
@@ -24,16 +24,16 @@ class CreditCardFormCvvEvent extends CreditCardFormEvent {
 }
 
 class CreditCardFormEnableButtonEvent extends CreditCardFormEvent {
-  final CreditCardModel model;
+  final CreditCardFormModel model;
   CreditCardFormEnableButtonEvent({required this.model});
 }
 
 class CreditCardFormPrevEvent extends CreditCardFormEvent {
-  final CreditCardModel model;
+  final CreditCardFormModel model;
   CreditCardFormPrevEvent({required this.model});
 }
 
 class CreditCardFormNextEvent extends CreditCardFormEvent {
-  final CreditCardModel model;
+  final CreditCardFormModel model;
   CreditCardFormNextEvent({required this.model});
 }

@@ -14,7 +14,7 @@ import '../../util/util.dart';
 import '../bloc/creditcard_form_bloc.dart';
 import '../bloc/creditcard_form_event.dart';
 import '../bloc/creditcard_form_state.dart';
-import '../model/creditcard_model.dart';
+import '../model/creditcard_form_model.dart';
 
 class CreditCardFormScreen extends StatefulWidget {
   const CreditCardFormScreen({super.key});
@@ -24,7 +24,7 @@ class CreditCardFormScreen extends StatefulWidget {
 }
 
 class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
-  final CreditCardModel _model = CreditCardModel(name: "", number: "", date: "", cvv: "");
+  final CreditCardFormModel _model = CreditCardFormModel(name: "", number: "", date: "", cvv: "", flag: "");
   String maskNumber = "XXXX XXXX XXXX XXXX";
   String newNumber = "XXXX XXXX XXXX XXXX";
   CreditCardType creditCardType = CreditCardType.undefined;
@@ -39,6 +39,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
       text = maskNumber.replaceRange(0, text.length, text);
       newNumber = text;
       creditCardType = _model.validateCCNum();
+      _model.flag = creditCardType.name;
     });
     BlocProvider.of<CreditCardFormBloc>(context)
         .add(CreditCardFormNumberEvent(number: _model.number));
@@ -301,15 +302,13 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
           return (state is CreditCardFormStateSuccess) || (state is CreditCardFormStateError);
         }, listener: (context, state) {
       if ((state is CreditCardFormStateSuccess)) {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => const AuthenticatorScreen()),
-        // );
+        const AlertInformation(
+            title: titleInformation,
+            description: msgErrorUnKnow).showSuccess(context);
       } else {
         const AlertInformation(
             title: titleInformation,
-            description: msgErrorUnKnow)
-            .showError(context);
+            description: msgErrorUnKnow).showError(context);
       }
     }, builder: (context, state) {
       return Row(

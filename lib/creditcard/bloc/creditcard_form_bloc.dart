@@ -2,10 +2,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bitybank/creditcard/bloc/creditcard_form_state.dart';
 
-import '../model/creditcard_model.dart';
+import '../../authenticator/signin/data/user_session.dart';
+import '../../clienthttp/StatusRequest.dart';
+import '../data/creditcard_form_repository.dart';
+import '../model/creditcard_form_model.dart';
 import 'creditcard_form_event.dart';
 
 class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> {
+
+  var repository = CreditCardFormRepository();
 
   CreditCardFormBloc() : super(CreditCardFormStateInitial()){
 
@@ -50,7 +55,7 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
       _handlerEnableButton(event.model, emit);
     });
 
-    on<CreditCardFormNextEvent>((event, emit) {
+    on<CreditCardFormNextEvent>((event, emit) async {
 
       if(event.model.step==1) {
         event.model.step = 2;
@@ -63,7 +68,16 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
         emit(CreditCardFromStateStep(4));
         emit(CreditCardFlipper());
       } else if(event.model.step==4) {
-        //send data
+        event.model.idUser = UserSession.instance().idUser;
+        emit(CreditCardFormStateLoading());
+        var response = await repository.register(event.model);
+        if (response is Success) {
+          emit(CreditCardFormStateSuccess());
+        } else if(response is Exists) {
+          emit(CreditCardFormStateExists());
+        } else {
+          emit(CreditCardFormStateError());
+        }
       }
       print("CreditCardFormNextEvent------------- $event - step = ${event.model.step}");
       _handlerEnableButton(event.model, emit);
@@ -71,7 +85,7 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
 
   }
 
-  void _handlerEnableButton(CreditCardModel model, Emitter<CreditCardFormState> emit) {
+  void _handlerEnableButton(CreditCardFormModel model, Emitter<CreditCardFormState> emit) {
     var isEnabledBtNext = false;
     var isEnabledBtPrev = false;
 
