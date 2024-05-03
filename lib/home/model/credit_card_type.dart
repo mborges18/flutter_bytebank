@@ -18,7 +18,7 @@ enum CreditCardType {
     Color(0xFFFFFFFF),
   ),
   hiperCard(
-    " hiperCard",
+    "hiperCard",
     "HipperCard",
     "ic_hipercard.svg",
     Color(0xFFAD2020),
@@ -33,6 +33,38 @@ enum CreditCardType {
     Color(0xFF011738),
     Color(0xFFFFFFFF),
   ),
+  elo(
+    "elo",
+    "Elo",
+    "ic_credit_card.svg",
+    Color(0xFF01398D),
+    Color(0xFF011738),
+    Color(0xFFFFFFFF),
+  ),
+  discover(
+    "discover",
+    "Discover",
+    "ic_credit_card.svg",
+    Color(0xFF01398D),
+    Color(0xFF011738),
+    Color(0xFFFFFFFF),
+  ),
+  dinners(
+    "dinners",
+    "Dinners",
+    "ic_credit_card.svg",
+    Color(0xFF01398D),
+    Color(0xFF011738),
+    Color(0xFFFFFFFF),
+  ),
+  jcb(
+    "jcb",
+    "Jcb",
+    "ic_credit_card.svg",
+    Color(0xFF01398D),
+    Color(0xFF011738),
+    Color(0xFFFFFFFF),
+  ),
   undefined(
   "creditCard",
   "Credit Card",
@@ -42,11 +74,20 @@ enum CreditCardType {
   Color(0xFFFFFFFF),
   );
 
+  static CreditCardType from(String value) {
+    for(var item in CreditCardType.values) {
+      if(value==item){
+        return item;
+      }
+    }
+    return CreditCardType.undefined;
+  }
+
   const CreditCardType(this.id, this.title, this.icon, this.colorPrimary,
       this.colorPrimaryDark, this.colorOnPrimary);
 
-  final String title;
   final String id;
+  final String title;
   final String icon;
   final Color colorPrimary;
   final Color colorPrimaryDark;

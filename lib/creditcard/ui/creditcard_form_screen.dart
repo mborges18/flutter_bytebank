@@ -1,9 +1,6 @@
-import 'dart:math';
 
 import 'package:flip_card/flip_card.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bitybank/components/inputs/MaskType.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,7 +27,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
   final CreditCardModel _model = CreditCardModel(name: "", number: "", date: "", cvv: "");
   String maskNumber = "XXXX XXXX XXXX XXXX";
   String newNumber = "XXXX XXXX XXXX XXXX";
-  bool _showFrontSide = true;
+  CreditCardType creditCardType = CreditCardType.undefined;
 
   String? _handleErrorNumber(CreditCardFormState state) {
     return (state is CreditCardFromStateNumber) ? state.message : null;
@@ -41,6 +38,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
       _model.number = text;
       text = maskNumber.replaceRange(0, text.length, text);
       newNumber = text;
+      creditCardType = CreditCardType.from(_model.validateCCNum());
     });
     BlocProvider.of<CreditCardFormBloc>(context)
         .add(CreditCardFormNumberEvent(number: _model.number));
@@ -101,7 +99,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
 
   Widget _frontCard() {
     return CreditCardItem(
-      typeCard: CreditCardType.undefined,
+      typeCard: creditCardType,
       nameUser: _model.name.isEmpty ? "SEU NOME": _model.name,
       numberCard: newNumber,
       dateExpiredCard: _model.date.isEmpty ? "00/0000" : _model.date,
@@ -205,16 +203,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
         listenWhen: (context, state) {
           return (state is CreditCardFromStateStep);
         },
-        listener: (context, state) {
-          setState(() {
-            if(state is CreditCardFromStateStep && state.step == 2) {
-              _showFrontSide = false;
-            }
-            else {
-              _showFrontSide = true;
-            }
-          });
-        },
+        listener: (context, state) {},
         buildWhen: (context, state) {
           return (state is CreditCardFromStateName) || (state is CreditCardFromStateStep);
         },
