@@ -1,12 +1,8 @@
-
-import 'dart:js_util';
-
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bitybank/components/inputs/MaskType.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../components/buttons/button_filled.dart';
 import '../../components/dialogs/dialog_information.dart';
 import '../../components/inputs/input_text.dart';

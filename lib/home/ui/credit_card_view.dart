@@ -1,8 +1,6 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../util/string/strings.dart';
 import '../model/credit_card_type.dart';
 

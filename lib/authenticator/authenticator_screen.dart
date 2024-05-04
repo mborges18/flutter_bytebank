@@ -4,7 +4,6 @@ import 'package:flutter_bitybank/authenticator/signin/ui/signin_screen.dart';
 import 'package:flutter_bitybank/authenticator/signup/ui/signup_screen.dart';
 import '../util/string/strings.dart';
 
-
 class AuthenticatorScreen extends StatelessWidget {
   const AuthenticatorScreen({super.key});
 

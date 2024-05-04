@@ -33,12 +33,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     passwordConfirm: "",
   );
 
-  late final SignUpBloc bloc;
-
   @override
   void initState() {
     super.initState();
-    bloc = SignUpBloc();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   void _handlerEventName(String text) {
@@ -110,12 +112,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     Util.closeKeyboard(context);
     BlocProvider.of<SignUpBloc>(context)
         .add(SignUpSubmitEvent(model: _model));
-  }
-
-  @override
-  void dispose() {
-    bloc.close();
-    super.dispose();
   }
 
   @override

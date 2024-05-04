@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import '../../../components/buttons/button_filled.dart';
 import '../../../components/buttons/button_outline.dart';
 import '../../../components/buttons/button_switch.dart';
@@ -28,13 +29,16 @@ class _SignInScreenState extends State<SignInScreen> {
   String _email = "";
   String _password = "";
   bool _isKeepConnected = false;
-  late final SignInBloc bloc;
 
   @override
   void initState() {
     super.initState();
     DialogDatePicker().init();
-    bloc = SignInBloc();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   void _handlerEventEmail(String text) {
@@ -76,12 +80,6 @@ class _SignInScreenState extends State<SignInScreen> {
     Util.closeKeyboard(context);
     BlocProvider.of<SignInBloc>(context)
         .add(SignInSubmitEvent(email: _email, password: _password));
-  }
-
-  @override
-  void dispose() {
-    bloc.close();
-    super.dispose();
   }
 
   @override
