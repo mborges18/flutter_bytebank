@@ -4,6 +4,7 @@ import 'package:flutter_bitybank/creditcard/bloc/creditcard_form_state.dart';
 
 import '../../authenticator/signin/data/user_session.dart';
 import '../../clienthttp/StatusRequest.dart';
+import '../../util/string/strings.dart';
 import '../data/creditcard_form_repository.dart';
 import '../model/creditcard_form_model.dart';
 import 'creditcard_form_event.dart';
@@ -102,6 +103,10 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
         isEnabledBtNext = model.cvv.length == 3 || model.cvv.length == 4;
       }
       print("CreditCardFormEnableButtonEvent-------------isEnabledPrev: $isEnabledBtPrev, isEnabledNext: $isEnabledBtNext");
-      emit(CreditCardFromStateButton(isEnabledPrev: isEnabledBtPrev, isEnabledNext: isEnabledBtNext));
+      emit(CreditCardFromStateButton(
+          isEnabledPrev: isEnabledBtPrev,
+          isEnabledNext: isEnabledBtNext,
+          textAction: model.step == 4 ? actionRegister : actionNext
+      ));
   }
 }

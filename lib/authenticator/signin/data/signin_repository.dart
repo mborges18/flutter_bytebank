@@ -5,7 +5,8 @@ import '../../../clienthttp/ClientHttp.dart';
 import '../../../clienthttp/StatusRequest.dart';
 import '../model/signin_model.dart';
 
-class SignInRepository {
+class SignInRepositoryImpl implements SignInRepository {
+  @override
   Future<StatusRequest> signIn(String email, String password) async {
     var data = SignInModel(email: email, password: password);
 
@@ -17,8 +18,8 @@ class SignInRepository {
       headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'},
       body: jsonEncode(data.toJson()),
     );
-    if(response.statusCode==201){
-      return Success(response.body);
+    if(response.statusCode==200){
+      return Success(response.body.toString());
     }
     else if(response.statusCode==401){
       return Unauthorized(response.body);
@@ -27,4 +28,8 @@ class SignInRepository {
       return Error(response.body);
     }
   }
+}
+
+abstract class SignInRepository {
+  Future<StatusRequest> signIn(String email, String password);
 }

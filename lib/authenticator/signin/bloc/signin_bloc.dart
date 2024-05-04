@@ -8,9 +8,9 @@ import 'signin_event.dart';
 import 'signin_state.dart';
 
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
-  final repository = SignInRepository();
+  final repository = SignInRepositoryImpl();
 
-  SignInBloc() : super(SignInStateInitial()) {
+  SignInBloc(): super(SignInStateInitial()) {
 
     on<SignInEnableButtonEvent>((event, emit) async {
       var isEnabled = event.email.length > 5 && event.password.length > 5;

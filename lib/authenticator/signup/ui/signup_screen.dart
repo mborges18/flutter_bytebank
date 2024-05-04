@@ -152,6 +152,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return InputText(
                         textLabel: labelNameFull,
                         textHint: hintName,
+                        value: _model.name,
                         inputType: TextInputType.name,
                         iconStart: Icons.person,
                         onValidatorListener: () {
@@ -175,6 +176,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return InputText(
                         textLabel: labelBirthDate,
                         textHint: hintDate,
+                        value: _model.birthDate,
                         maskType: MaskType.date,
                         inputType: TextInputType.number,
                         iconStart: Icons.calendar_month_outlined,
@@ -199,6 +201,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return InputText(
                         textLabel: labelPhone,
                         textHint: hintPhone,
+                        value: _model.phone,
                         maskType: MaskType.phone,
                         inputType: TextInputType.number,
                         iconStart: Icons.settings_cell,
@@ -223,6 +226,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return InputText(
                         textLabel: labelEmail,
                         textHint: hintEmail,
+                        value: _model.email,
                         iconStart: Icons.alternate_email,
                         inputType: TextInputType.emailAddress,
                         onValidatorListener: () {
@@ -249,6 +253,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return InputText(
                         textLabel: labelPassword,
                         textHint: hintPassword,
+                        value: _model.password,
                         iconStart: Icons.key,
                         isToggleSecret: true,
                         maxLength: 12,
@@ -273,6 +278,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return InputText(
                         textLabel: labelPassword,
                         textHint: hintPassword,
+                        value: _model.passwordConfirm,
                         iconStart: Icons.key,
                         isToggleSecret: true,
                         maxLength: 12,

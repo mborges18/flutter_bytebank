@@ -115,6 +115,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       return InputText(
                         textLabel: labelEmail,
                         textHint: hintEmail,
+                        value: _email,
                         inputType: TextInputType.emailAddress,
                         iconStart: Icons.alternate_email,
                         onValidatorListener: () {
@@ -138,6 +139,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       return InputText(
                         textLabel: labelPassword,
                         textHint: hintPassword,
+                        value: _password,
                         iconStart: Icons.key,
                         isToggleSecret: true,
                         maxLength: 12,

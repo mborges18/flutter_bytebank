@@ -1,5 +1,8 @@
 
+import 'dart:js_util';
+
 import 'package:flip_card/flip_card.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bitybank/components/inputs/MaskType.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -100,20 +103,24 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
 
   Widget _frontCard() {
     return CreditCardItem(
+      isFront: true,
       typeCard: creditCardType,
       nameUser: _model.name.isEmpty ? "SEU NOME": _model.name,
       numberCard: newNumber,
       dateExpiredCard: _model.date.isEmpty ? "00/0000" : _model.date,
+      cvvCard: "",
       expanded: true,
     );
   }
 
   Widget _backCard() {
-    return const CreditCardItem(
+    return CreditCardItem(
+      isFront: false,
       typeCard: CreditCardType.undefined,
       nameUser: "",
       numberCard: "",
       dateExpiredCard: "",
+      cvvCard: _model.cvv,
       expanded: true,
     );
   }
@@ -140,9 +147,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                   return FlipCard(
                     key: cardKey,
                     fill: Fill.fillBack,
-                    // Fill the back side of the card to make in the same size as the front.
                     direction: FlipDirection.HORIZONTAL,
-                    // default
                     side: CardSide.FRONT,
                     flipOnTouch: false,
                     front: _frontCard(),
@@ -175,7 +180,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
           return (state is CreditCardFromStateNumber) || (state is CreditCardFromStateStep);
         },
         builder: (context, state) {
-          print("STEP 1---------------------- $state");
+          print("STEP 1----------------------$state ${_model.number}");
           return Visibility(
             visible: (state is CreditCardFormStateInitial) ? true
                 : (state is CreditCardFromStateNumber) ? true
@@ -209,7 +214,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
           return (state is CreditCardFromStateName) || (state is CreditCardFromStateStep);
         },
         builder: (context, state) {
-          print("STEP 2---------------------- $state ${_model.name}");
+          print("STEP 2----------------------$state ${_model.name}");
           return Visibility(
             visible: (state is CreditCardFromStateStep) ? state.step==2 : false,
             child: InputText(
@@ -238,7 +243,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
           return (state is CreditCardFromStateDate) || (state is CreditCardFromStateStep);
         },
         builder: (context, state) {
-          print("STEP 3---------------------- $state");
+          print("STEP 3----------------------$state ${_model.date}");
           return Visibility(
             visible: (state is CreditCardFromStateStep) ? state.step==3 : false,
             child: InputText(
@@ -274,7 +279,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
           return (state is CreditCardFromStateCvv) || (state is CreditCardFromStateStep);
         },
         builder: (context, state) {
-          print("STEP 4---------------------- $state");
+          print("STEP 4----------------------$state ${_model.cvv}");
           return Visibility(
             visible: (state is CreditCardFromStateStep) ? state.step==4 : false,
             child: InputText(
@@ -296,13 +301,23 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
         });
   }
 
+  String _handlerNameButtonNext(CreditCardFormState state){
+    if(state is CreditCardFromStateButton) {
+      print("Name button next -> ${state.textAction}");
+      return state.textAction;
+    }
+    print("Name button next -> $actionNext");
+    return actionNext;
+  }
+
   Widget _inputButtons() {
     return BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
         listenWhen: (context, state) {
           return (state is CreditCardFormStateSuccess) || (state is CreditCardFormStateError);
-        }, listener: (context, state) {
-      if ((state is CreditCardFormStateSuccess)) {
-        const AlertInformation(
+        },
+        listener: (context, state) {
+          if ((state is CreditCardFormStateSuccess)) {
+            const AlertInformation(
             title: titleInformation,
             description: msgErrorUnKnow).showSuccess(context);
       } else {
@@ -329,7 +344,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
           Expanded(
             flex: 5,
             child: ButtonFilled(
-                textButton: actionNext.toUpperCase(),
+                textButton: _handlerNameButtonNext(state).toUpperCase(),
                 isEnabled: (state is CreditCardFromStateButton)
                     ? state.isEnabledNext
                     : false,

@@ -9,17 +9,21 @@ import '../model/credit_card_type.dart';
 class CreditCardItem extends StatefulWidget {
   const CreditCardItem({
     super.key,
+    required this.isFront,
     required this.numberCard,
     required this.nameUser,
     required this.dateExpiredCard,
     required this.typeCard,
+    required this.cvvCard,
     required this.expanded,
   });
 
+  final bool isFront;
   final String numberCard;
   final CreditCardType typeCard;
   final String nameUser;
   final String dateExpiredCard;
+  final String cvvCard;
   final bool expanded;
 
   @override
@@ -55,12 +59,12 @@ class _CreditCardItemState extends State<CreditCardItem> {
     }
   }
 
-  Widget rowTop() {
+  Widget rowFrontTop() {
     return Row(
       children: [
         Text(
           widget.typeCard.title,
-          style: textNumberCreditCard(18, 1.0),
+          style: textNumberCreditCard(Colors.white, 18, 1.0, true),
         ),
         const Spacer(),
         SvgPicture.asset(
@@ -72,47 +76,47 @@ class _CreditCardItemState extends State<CreditCardItem> {
     );
   }
 
-  Widget rowMiddle() {
+  Widget rowFrontMiddle() {
     return Row(
       children: [
         const Spacer(),
         Text(
           getNumber(widget.numberCard, 0),
-          style: textNumberCreditCard(18, 4.0),
+          style: textNumberCreditCard(Colors.white, 18, 4.0, true),
         ),
         const Spacer(),
         Text(
           getNumber(widget.numberCard, 1),
-          style: textNumberCreditCard(18, 4.0),
+          style: textNumberCreditCard(Colors.white, 18, 4.0, true),
         ),
         const Spacer(),
         Text(
           getNumber(widget.numberCard, 2),
-          style: textNumberCreditCard(18, 4.0),
+          style: textNumberCreditCard(Colors.white, 18, 4.0, true),
         ),
         const Spacer(),
         Text(
           getNumber(widget.numberCard, 3),
-          style: textNumberCreditCard(18, 4.0),
+          style: textNumberCreditCard(Colors.white, 18, 4.0, true),
         ),
         const Spacer(),
       ],
     );
   }
 
-  Widget rowBottom() {
+  Widget rowFrontBottom() {
     return Column(
       children: [
          Row(
           children: [
             Text(
               labelName,
-              style: textNumberCreditCard(14, 1.0),
+              style: textNumberCreditCard(Colors.white, 14, 1.0, true),
             ),
             const Spacer(),
             Text(
               labelValidate,
-              style: textNumberCreditCard(14, 1.0),
+              style: textNumberCreditCard(Colors.white, 14, 1.0, true),
             ),
           ],
         ),
@@ -120,17 +124,49 @@ class _CreditCardItemState extends State<CreditCardItem> {
           children: [
             Text(
               widget.nameUser,
-              style: textNumberCreditCard(14, 1.0),
+              style: textNumberCreditCard(Colors.white, 14, 1.0, true),
             ),
             const Spacer(),
             Text(
               widget.dateExpiredCard,
-              style: textNumberCreditCard(14, 1.0),
+              style: textNumberCreditCard(Colors.white, 14, 1.0, true),
             ),
           ],
         )
       ],
     );
+  }
+
+  Widget rowBackTop() {
+    return Column(
+      children: [
+        Container(height: 50.0, color: Colors.black54, padding: const EdgeInsets.only(bottom: 20.0),),
+        const SizedBox(height: 20.0),
+        Container(height: 50.0, width: MediaQuery.of(context).size.width,
+          color: Colors.white,
+          padding: const EdgeInsets.all(8.0),
+          alignment: AlignmentDirectional.centerEnd,
+          child: Text(
+            widget.cvvCard,
+            style: textNumberCreditCard(Colors.black, 14, 1.0, false),
+        ),),
+      ],
+    );
+  }
+
+  Widget _frontCard() {
+    return Column(
+        children: [
+          rowFrontTop(),
+          const SizedBox(height: 40.0),
+          rowFrontMiddle(),
+          const SizedBox(height: 20.0),
+          rowFrontBottom(),
+        ],
+      );
+  }
+  Widget _backCard() {
+    return rowBackTop();
   }
 
   @override
@@ -178,38 +214,30 @@ class _CreditCardItemState extends State<CreditCardItem> {
                 physics:  const NeverScrollableScrollPhysics(),
                 child: Container(
                   padding:  const EdgeInsets.all(16),
-                  child: Column(
-                  children: [
-                    rowTop(),
-                    const SizedBox(height: 40.0),
-                    rowMiddle(),
-                    const SizedBox(height: 20.0),
-                    rowBottom(),
-                  ],
-                ),
-                ),
+                  child: widget.isFront ? _frontCard() : _backCard(),
+              ),
               ),
             ),
           ),
         ));
   }
 
-  static TextStyle textNumberCreditCard(double size, double letterSpacing) => TextStyle(
+  static TextStyle textNumberCreditCard(Color color, double size, double letterSpacing, bool hasShadow) => TextStyle(
     fontSize: size,
     fontWeight: FontWeight.bold,
-    color: Colors.grey[100],
+    color: color,
     letterSpacing: letterSpacing,
-    shadows: const [
-      Shadow(
+    shadows: hasShadow ? [
+      const Shadow(
         blurRadius: 1.0,
         color: Colors.black,
         offset: Offset(1.0, 1.0),
       ),
-      Shadow(
+      const Shadow(
         color: Colors.black12,
         blurRadius: 1.0,
         offset: Offset(1.0, 1.0),
       ),
-    ],
+    ] : [],
   );
 }

@@ -41,5 +41,6 @@ class CreditCardFlipper extends CreditCardFormState {}
 class CreditCardFromStateButton extends CreditCardFormState {
   bool isEnabledPrev = false;
   bool isEnabledNext = false;
-  CreditCardFromStateButton({required this.isEnabledNext, required this.isEnabledPrev});
+  String textAction = "";
+  CreditCardFromStateButton({required this.isEnabledNext, required this.isEnabledPrev, required this.textAction});
 }
