@@ -1,6 +1,9 @@
 
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bitybank/creditcard/bloc/creditcard_form_state.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../authenticator/signin/data/user_session.dart';
 import '../../clienthttp/StatusRequest.dart';
@@ -69,7 +72,8 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
         emit(CreditCardFromStateStep(4));
         emit(CreditCardFlipper());
       } else if(event.model.step==4) {
-        event.model.idUser = UserSession.instance().idUser;
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        event.model.idUser = jsonDecode(prefs.getString(userID) ?? "");
         emit(CreditCardFormStateLoading());
         var response = await repository.register(event.model);
         if (response is Success) {
