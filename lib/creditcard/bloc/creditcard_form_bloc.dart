@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_bitybank/creditcard/bloc/creditcard_form_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../clienthttp/StatusRequest.dart';
+import '../../home/model/credit_card_type.dart';
 import '../../util/string/strings.dart';
 import '../data/creditcard_form_repository.dart';
 import '../model/creditcard_form_model.dart';
@@ -17,18 +18,39 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
   CreditCardFormBloc() : super(CreditCardFormStateInitial()){
 
     on<CreditCardFormNumberEvent>((event, emit) {
-      emit(CreditCardFromStateNumber(null));
-      emit(CreditCardFromStateStep(1));
+      var type = CreditCardFormModel.validateCCNum(event.number);
+      if(event.number.length>=15  && type==CreditCardType.undefined){
+        emit(CreditCardFromStateNumber(msgNumberInvalid));
+      }else {
+        emit(CreditCardFromStateNumber(null));
+        emit(CreditCardFromStateStep(1));
+      }
     });
 
     on<CreditCardFormNameEvent>((event, emit) {
       emit(CreditCardFromStateName(null));
-      emit(CreditCardFromStateStep(2));
+      if(event.name.split(" ").length < 2 || event.name.split(" ")[1].length < 2) {
+        emit(CreditCardFromStateName("Nome inválido"));
+      } else {
+        emit(CreditCardFromStateName(null));
+        emit(CreditCardFromStateStep(2));
+      }
     });
 
     on<CreditCardFormDateEvent>((event, emit) {
+      int month = int.parse(event.date.split("/")[0]);
+      int year = int.parse(event.date.split("/")[1]);
       emit(CreditCardFromStateDate(null));
-      emit(CreditCardFromStateStep(3));
+      if(event.date.length==7) {
+        if (month > 12 || month == 00) {
+          emit(CreditCardFromStateDate("Mês Inválido"));
+        } else if (year < DateTime.now().year || (year == DateTime.now().year && month < DateTime.now().month)) {
+          emit(CreditCardFromStateDate("Data expirada"));
+        } else {
+          emit(CreditCardFromStateDate(null));
+          emit(CreditCardFromStateStep(3));
+        }
+      }
     });
 
     on<CreditCardFormCvvEvent>((event, emit) {

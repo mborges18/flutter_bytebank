@@ -36,7 +36,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
       _model.number = text;
       text = maskNumber.replaceRange(0, text.length, text);
       newNumber = text;
-      creditCardType = _model.validateCCNum();
+      creditCardType = CreditCardFormModel.validateCCNum(_model.number);
       _model.flag = creditCardType.name;
     });
     BlocProvider.of<CreditCardFormBloc>(context)
@@ -211,7 +211,8 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
         builder: (context, state) {
           print("STEP 2----------------------$state ${_model.name}");
           return Visibility(
-            visible: (state is CreditCardFromStateStep) ? state.step==2 : false,
+            visible: (state is CreditCardFromStateName) ? true
+                : (state is CreditCardFromStateStep) ? state.step==2 : false,
             child: InputText(
               textLabel: labelNameLikeCC,
               textHint: hintName,
@@ -240,7 +241,8 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
         builder: (context, state) {
           print("STEP 3----------------------$state ${_model.date}");
           return Visibility(
-            visible: (state is CreditCardFromStateStep) ? state.step==3 : false,
+            visible: (state is CreditCardFromStateDate) ? true
+                : (state is CreditCardFromStateStep) ? state.step==3 : false,
             child: InputText(
               textLabel: labelExpiredDate,
               textHint: hintDate,

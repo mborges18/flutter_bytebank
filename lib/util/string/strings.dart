@@ -37,6 +37,7 @@ const hintCvvCC = "Ex: 968";
 const hintNumberCC = "0000 0000 0000 0000";
 
 const msgEmailInvalid = "E-mail inválido";
+const msgNumberInvalid = "Número inválido";
 const msgEmailExists = "Este e-mail já registrado. Por favor, informe outro email.";
 const msgEmailUnauthorized = "Seu e-mail pode estar errado";
 const msgDateInvalid = "Data inválida";

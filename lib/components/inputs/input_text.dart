@@ -45,7 +45,7 @@ class InputTextCustom extends State<InputText> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
+      padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 0.0),
       child: FocusScope(
         child: Focus(
           onFocusChange: (focus) {

@@ -28,7 +28,7 @@ class CreditCardFormModel {
     "flag": flag,
   };
 
-  CreditCardType validateCCNum() {
+  static CreditCardType validateCCNum(String number) {
     var ccCheckRegExp = RegExp(r'[^\d\s-]');
     var isValid = !ccCheckRegExp.hasMatch(number);
 
@@ -102,5 +102,9 @@ class CreditCardFormModel {
     }
 
     return CreditCardType.undefined;
+  }
+
+  static String getOnlyNumber(String number) {
+    return number.replaceAll(RegExp(r'[\s-]'), '');
   }
 }

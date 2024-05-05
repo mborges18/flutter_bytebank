@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bitybank/creditcard/ui/creditcard_form_screen.dart';
 import 'package:flutter_bitybank/util/theme/theme_constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -31,7 +32,7 @@ class Application extends StatelessWidget {
             themeMode: ThemeMode.system,
             theme: lightTheme,
             darkTheme: darkTheme,
-            home: const AuthenticatorScreen()),
+            home: const CreditCardFormScreen()),
       ),
     );
   }

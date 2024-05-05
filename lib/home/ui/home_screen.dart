@@ -34,28 +34,27 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SingleChildScrollView(
         child:BlocConsumer<HomeBloc, HomeState>(
             listener: (context, state) {},
-            buildWhen: (context, state) {
-              return (state is HomeStateLoading) || (state is HomeStateSuccess);
-            },
             builder: (context, state) {
-              return ListView.builder(
+              return (state is HomeStateSuccess) ? ListView.builder(
                 padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: (state is HomeStateSuccess) ? state.list.length : 0,
+                itemCount: state.list.length,
                 itemBuilder: (BuildContext context, int index) {
                   return CreditCardItem(
                     isFront: true,
-                    typeCard: CreditCardType.values.byName((state is HomeStateSuccess) ? state.list[index].flag : ""),
-                    nameUser: (state is HomeStateSuccess) ? state.list[index].nameUser : "",
-                    numberCard: (state is HomeStateSuccess) ? state.list[index].number : "",
-                    dateExpiredCard: (state is HomeStateSuccess) ? state.list[index].dateExpire : "",
-                    cvvCard: (state is HomeStateSuccess) ? state.list[index].cvv : "",
+                    typeCard: CreditCardType.values.byName(state.list[index].flag),
+                    nameUser: state.list[index].nameUser,
+                    numberCard: state.list[index].number,
+                    dateExpiredCard: state.list[index].dateExpire,
+                    cvvCard: state.list[index].cvv,
                     expanded: false,
                   );
                 },
-              );
+              ) : (state is HomeStateLoading) || (state is HomeStateInitial)
+                  ? const Center(child: Padding(padding: EdgeInsets.only(top: 80.0), child: CircularProgressIndicator(),))
+                  : const Center(child: Text("Error"),);
             }),
       ),
       floatingActionButton: FloatingActionButton(
