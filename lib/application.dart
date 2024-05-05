@@ -8,6 +8,7 @@ import 'authenticator/signin/bloc/signin_bloc.dart';
 import 'authenticator/signup/bloc/signup_bloc.dart';
 import 'creditcard/bloc/creditcard_form_bloc.dart';
 import 'di/modules.dart';
+import 'home/bloc/home_bloc.dart';
 
 class Application extends StatelessWidget {
   const Application({super.key});
@@ -20,6 +21,7 @@ class Application extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => Modular.get<SignInBloc>()),
           BlocProvider(create: (context) => SignUpBloc()),
+          BlocProvider(create: (context) => HomeBloc()),
           BlocProvider(create: (context) => CreditCardFormBloc()),
         ],
         child: MaterialApp(

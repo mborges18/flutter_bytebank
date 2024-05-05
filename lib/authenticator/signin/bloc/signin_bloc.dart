@@ -4,7 +4,6 @@ import '../../../clienthttp/StatusRequest.dart';
 import '../../../util/string/strings.dart';
 import '../../../util/validator/validator.dart';
 import '../data/signin_repository.dart';
-import '../data/user_session.dart';
 import 'signin_event.dart';
 import 'signin_state.dart';
 
