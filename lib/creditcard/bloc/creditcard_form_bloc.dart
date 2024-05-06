@@ -1,5 +1,7 @@
 
 import 'dart:convert';
+import 'dart:core';
+import 'dart:core';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bitybank/creditcard/bloc/creditcard_form_state.dart';
@@ -29,12 +31,7 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
 
     on<CreditCardFormNameEvent>((event, emit) {
       emit(CreditCardFromStateName(null));
-      if(event.name.split(" ").length < 2 || event.name.split(" ")[1].length < 2) {
-        emit(CreditCardFromStateName("Nome inválido"));
-      } else {
-        emit(CreditCardFromStateName(null));
-        emit(CreditCardFromStateStep(2));
-      }
+      emit(CreditCardFromStateStep(2));
     });
 
     on<CreditCardFormDateEvent>((event, emit) {
@@ -43,9 +40,9 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
       emit(CreditCardFromStateDate(null));
       if(event.date.length==7) {
         if (month > 12 || month == 00) {
-          emit(CreditCardFromStateDate("Mês Inválido"));
+          emit(CreditCardFromStateDate(msgMonthInvalid));
         } else if (year < DateTime.now().year || (year == DateTime.now().year && month < DateTime.now().month)) {
-          emit(CreditCardFromStateDate("Data expirada"));
+          emit(CreditCardFromStateDate(msgDateExpired));
         } else {
           emit(CreditCardFromStateDate(null));
           emit(CreditCardFromStateStep(3));
@@ -118,7 +115,7 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
         isEnabledBtNext = model.number.length == 19;
       } else if (model.step == 2) {
         isEnabledBtPrev = true;
-        isEnabledBtNext =model.name.length > 5;
+        isEnabledBtNext =  model.name.split(" ").length > 1 && model.name.split(" ")[1].length > 1;
       } else if (model.step == 3) {
         isEnabledBtPrev = true;
         isEnabledBtNext = model.date.length == 7;
