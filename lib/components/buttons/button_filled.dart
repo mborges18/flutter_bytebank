@@ -1,30 +1,38 @@
 import 'package:flutter/material.dart';
 
-class ButtonFilled extends StatelessWidget{
-
+class ButtonFilled extends StatelessWidget {
   final String textButton;
+  final bool isEnabled;
+  final bool isLoading;
   final Function() functionClick;
 
-  const ButtonFilled(this.textButton, {super.key, required this.functionClick});
+  const ButtonFilled({
+    super.key,
+    required this.textButton,
+    required this.isEnabled,
+    required this.isLoading,
+    required this.functionClick,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
       child: ElevatedButton(
-        onPressed: () { functionClick(); },
+        onPressed: isEnabled ? functionClick : null,
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
             backgroundColor: Theme.of(context).colorScheme.primary,
             foregroundColor: Theme.of(context).colorScheme.onPrimary,
-            disabledBackgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-            disabledForegroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
+            disabledBackgroundColor:
+                Theme.of(context).colorScheme.surfaceVariant,
+            disabledForegroundColor:
+                Theme.of(context).colorScheme.onSurfaceVariant,
             minimumSize: const Size.fromHeight(60),
             textStyle: const TextStyle(fontWeight: FontWeight.bold)),
-        child: Text(textButton),
+        child: isLoading==false ? Text(textButton) : CircularProgressIndicator(color: Theme.of(context).colorScheme.onPrimary),
       ),
     );
   }
