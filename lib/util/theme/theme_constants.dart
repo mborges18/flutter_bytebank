@@ -38,3 +38,8 @@ ThemeData darkTheme =
             brightness: Brightness.dark
         )
     );
+
+const colorError = Color(0xffb94e4e);
+const colorSuccess = Color(0xff499865);
+const colorInfo = Color(0xff5c89b6);
+const colorWarning = Color(0xffb2a065);

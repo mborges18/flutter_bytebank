@@ -32,7 +32,7 @@ class Application extends StatelessWidget {
             themeMode: ThemeMode.system,
             theme: lightTheme,
             darkTheme: darkTheme,
-            home: const CreditCardFormScreen()),
+            home: const AuthenticatorScreen()),
       ),
     );
   }

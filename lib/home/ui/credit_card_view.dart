@@ -65,6 +65,7 @@ class _CreditCardItemState extends State<CreditCardItem> {
           style: textNumberCreditCard(Colors.white, 18, 1.0, true),
         ),
         const Spacer(),
+        //const Image(image: AssetImage('assets/ic_credit_card.png'), height: 50, width: 50,),
         SvgPicture.asset(
           widget.typeCard.icon,
           width: 50.0,

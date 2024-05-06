@@ -1,7 +1,7 @@
-import 'dart:html';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../util/theme/theme_constants.dart';
 
 class DialogInformation extends StatelessWidget {
   const DialogInformation(
@@ -39,7 +39,7 @@ class AlertInformation {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        return _buildAlert(context, Colors.redAccent, Icons.error_outline);
+        return _buildAlert(context, colorError, Icons.error_outline);
       },
     );
   }
@@ -48,7 +48,7 @@ class AlertInformation {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        return _buildAlert(context, Colors.greenAccent, Icons.check_circle_outline_outlined);
+        return _buildAlert(context, colorSuccess, Icons.check_circle_outline_outlined);
       },
     );
   }

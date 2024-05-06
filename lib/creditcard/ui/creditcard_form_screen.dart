@@ -96,6 +96,19 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
         .add(CreditCardFormNextEvent(model: _model));
   }
 
+  void _handlerResetData() {
+    setState(() {
+      _model.number = "";
+      _model.name = "";
+      _model.date = "";
+      _model.flag = "";
+      _model.cvv = "";
+      _model.step = 1;
+      newNumber = maskNumber;
+      creditCardType = CreditCardType.undefined;
+    });
+  }
+
   Widget _frontCard() {
     return CreditCardItem(
       isFront: true,
@@ -111,7 +124,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
   Widget _backCard() {
     return CreditCardItem(
       isFront: false,
-      typeCard: CreditCardType.undefined,
+      typeCard: creditCardType,
       nameUser: "",
       numberCard: "",
       dateExpiredCard: "",
@@ -128,42 +141,53 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
-        title: const Text("ByteBank"),
+        title: const Center(child:  Text("ByteBank")),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
-            listenWhen: (context, state) { return (state is CreditCardFlipper); },
-            listener: (context, state) { cardKey.currentState?.toggleCard(); },
-            builder: (context, state) {
-              print("FLIPPER---------------------- $state");
-                  return FlipCard(
-                    key: cardKey,
-                    fill: Fill.fillBack,
-                    direction: FlipDirection.HORIZONTAL,
-                    side: CardSide.FRONT,
-                    flipOnTouch: false,
-                    front: _frontCard(),
-                    back: _backCard(),
-                  );
-                }),
-            const Spacer(),
-            Container(
-              color: Colors.white,
-              child: Column(
-                children: [
-                  _inputNumber(),
-                  _inputName(),
-                  _inputDate(),
-                  _inputCvv(),
-                  _inputButtons(),
-                ],
+      body: CustomScrollView(
+        slivers: [
+        SliverFillRemaining(
+        hasScrollBody: false,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
+                  listenWhen: (context, state) {
+                return (state is CreditCardFlipper) || (state is CreditCardFormStateInitial);
+              }, listener: (context, state) {
+                (state is CreditCardFlipper) ? cardKey.currentState?.toggleCard() : _handlerResetData();
+              }, builder: (context, state) {
+                print("FLIPPER---------------------- $state");
+                return FlipCard(
+                  key: cardKey,
+                  fill: Fill.fillBack,
+                  direction: FlipDirection.HORIZONTAL,
+                  side: CardSide.FRONT,
+                  flipOnTouch: false,
+                  front: _frontCard(),
+                  back: _backCard(),
+                );
+              }),
+              const Spacer(),
+              Container(
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    const SizedBox(height: 30,),
+                    _inputNumber(),
+                    _inputName(),
+                    _inputDate(),
+                    _inputCvv(),
+                    _inputButtons(),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+      )],
       ),
     );
   }
@@ -201,9 +225,6 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
 
   Widget _inputName() {
     return BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
-        listenWhen: (context, state) {
-          return (state is CreditCardFromStateStep);
-        },
         listener: (context, state) {},
         buildWhen: (context, state) {
           return (state is CreditCardFromStateName) || (state is CreditCardFromStateStep);
@@ -218,7 +239,6 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
               textHint: hintName,
               value: _model.name,
               inputType: TextInputType.name,
-              maxLength: 29,
               iconStart: Icons.person_2_outlined,
               onValidatorListener: () {
                 return _handleErrorName(state);
