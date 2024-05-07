@@ -36,8 +36,8 @@ class Application extends StatelessWidget {
             initialRoute: '/',
             routes: {
               '/': (context) => const AuthenticatorScreen(),
-              '/credit-card-list': (context) => const CreditCardListScreen(),
-              '/credit-card-form': (context) => const CreditCardFormScreen(),
+              '/list': (context) => const CreditCardListScreen(),
+              '/form': (context) => const CreditCardFormScreen(),
             },
         ),
       ),

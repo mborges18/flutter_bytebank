@@ -10,35 +10,35 @@ class CreditCardListBloc extends Bloc<CreditCardListEvent, CreditCardListState> 
 
   var repository = CreditCardListRepositoryImpl();
 
-  CreditCardListBloc() :super(HomeStateInitial()) {
+  CreditCardListBloc() :super(CreditCardListStateInitial()) {
     on<HomeCreditCardsListEvent>((event, emit) async {
-      emit(HomeListStateLoading());
+      emit(CreditCardListStateLoading());
       var response = await repository.getCreditCards();
       if (response is Success) {
-        emit(HomeListStateSuccess(response.object as List<CreditCardModel>));
+        emit(CreditCardListStateSuccess(response.object as List<CreditCardModel>));
       }  else {
-        emit(HomeStateError());
+        emit(CreditCardListStateError());
       }
     });
 
     on<HomeCreditCardsDeleteEvent>((event, emit) async {
-      emit(HomeDeleteStateLoading());
+      emit(CreditCardListDeleteStateLoading());
       var response = await repository.deleteCreditCard(event.id);
       if (response is Success) {
         event.list.firstWhere((element) => element.rowId==event.id).status="DELETED";
-        emit(HomeListStateSuccess(event.list));
+        emit(CreditCardListStateSuccess(event.list));
       }  else {
-        emit(HomeStateError());
+        emit(CreditCardListStateError());
       }
     });
 
     on<HomeCreditCardsEditEvent>((event, emit) async {
-      emit(HomeEditStateLoading());
+      emit(CreditCardListEditStateLoading());
       var response = await repository.editCreditCard(event.id);
       if (response is Success) {
-        emit(HomeEditStateSuccess(response.object as CreditCardModel));
+        emit(CreditCardListEditStateSuccess(response.object as CreditCardModel));
       }  else {
-        emit(HomeStateError());
+        emit(CreditCardListStateError());
       }
     });
   }

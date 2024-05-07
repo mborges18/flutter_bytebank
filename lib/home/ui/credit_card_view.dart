@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bitybank/creditcard/ui/creditcard_form_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../util/string/strings.dart';
@@ -19,8 +18,8 @@ class CreditCardItem extends StatefulWidget {
     required this.typeCard,
     required this.cvvCard,
     required this.expanded,
-    required this.editClick,
-    required this.deleteClick,
+    this.editClick,
+    this.deleteClick,
   });
 
   final bool isFront;
@@ -31,8 +30,8 @@ class CreditCardItem extends StatefulWidget {
   final String dateExpiredCard;
   final String cvvCard;
   final bool expanded;
-  final Function() editClick;
-  final Function() deleteClick;
+  final Function()? editClick;
+  final Function()? deleteClick;
 
   @override
   State<CreditCardItem> createState() => _CreditCardItemState();
@@ -243,21 +242,17 @@ class _CreditCardItemState extends State<CreditCardItem> {
           SizedBox(
             child: BlocConsumer<CreditCardListBloc, CreditCardListState>(
               listener: (context, state) {
-                (state is HomeEditStateSuccess) ? () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const CreditCardFormScreen()),
-                  );
+                (state is CreditCardListEditStateSuccess) ? () {
                   Navigator.pushNamed(
                     context,
-                    "edit",
+                    "form",
                     arguments: state.model,
                   );
                 } : {};
               },
               builder: (context, state) {
                 return Visibility(
-                  visible: _isExpanded,
+                  visible: _isExpanded && widget.editClick != null && widget.deleteClick != null,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 10, bottom: 10),
                     child: Row(
@@ -265,28 +260,32 @@ class _CreditCardItemState extends State<CreditCardItem> {
                       children: [
                         Ink(
                           decoration: ShapeDecoration(
-                            color: Theme.of(context).colorScheme.primary,
+                            color: (state is CreditCardListDeleteStateLoading)
+                                ? Theme.of(context).colorScheme.onPrimary
+                                : Theme.of(context).colorScheme.primary,
                             shape: const CircleBorder(),
                           ),
-                          child: (state is HomeDeleteStateLoading)
+                          child: (state is CreditCardListDeleteStateLoading)
                               ? const CircularProgressIndicator()
                               : IconButton(
                                   icon: const Icon(Icons.delete),
                                   color: Colors.white,
-                                  onPressed: () => widget.deleteClick(),
+                                  onPressed: () => widget.deleteClick?.call(),
                                 ),
                         ),
                         Ink(
                           decoration: ShapeDecoration(
-                            color: Theme.of(context).colorScheme.primary,
+                            color: (state is CreditCardListEditStateLoading)
+                                ? Theme.of(context).colorScheme.onPrimary
+                                : Theme.of(context).colorScheme.primary,
                             shape: const CircleBorder(),
                           ),
-                          child: (state is HomeEditStateLoading)
+                          child: (state is CreditCardListEditStateLoading)
                               ? const CircularProgressIndicator()
                               : IconButton(
                             icon: const Icon(Icons.edit),
                             color: Colors.white,
-                            onPressed: () => widget.editClick(),
+                            onPressed: () => widget.editClick?.call(),
                           ),
                         ),
                       ],

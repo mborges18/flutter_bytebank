@@ -292,10 +292,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   return (state is SignUpStateSuccess) || (state is SignUpStateError);
                 }, listener: (context, state) {
                       if((state is SignUpStateSuccess)) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const AuthenticatorScreen()),
-                        );
+                        Navigator.pushNamed(context, '/');
                       } else {
                         const AlertInformation(
                             title: titleInformation,

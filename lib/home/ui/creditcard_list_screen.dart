@@ -34,42 +34,64 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
         title: const Text("ByteBank"),
       ),
-      body: SingleChildScrollView(
-        child:BlocConsumer<CreditCardListBloc, CreditCardListState>(
+      body:  BlocConsumer<CreditCardListBloc, CreditCardListState>(
             listener: (context, state) {
-              if(state is HomeStateError) {
+              if(state is CreditCardListStateError) {
                 const AlertInformation(
                     title: titleInformation,
                     description: msgErrorUnKnow
                 ).showError(context);
               }
             },
+            buildWhen: (context, state) {
+              return (state is CreditCardListStateLoading) || (state is CreditCardListStateInitial) || (state is CreditCardListStateSuccess);
+            },
             builder: (context, state) {
-              return (state is HomeListStateSuccess) ? ListView.builder(
-                padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: state.list.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return CreditCardItem(
-                    isFront: true,
-                    status: state.list[index].status,
-                    typeCard: CreditCardType.values.byName(state.list[index].flag),
-                    nameUser: state.list[index].nameUser,
-                    numberCard: state.list[index].number,
-                    dateExpiredCard: state.list[index].dateExpire,
-                    cvvCard: state.list[index].cvv,
-                    expanded: false,
-                    deleteClick: () { _delete(state.list[index].rowId, state.list); },
-                    editClick: () { _edit(state.list[index].rowId); },
+              return  (state is CreditCardListStateLoading) || (state is CreditCardListStateInitial)
+                  ? const Center(child: Padding(padding: EdgeInsets.only(top: 0.0), child: CircularProgressIndicator(),))
+                  : (state is CreditCardListStateSuccess) && state.list.isNotEmpty
+                  ? SingleChildScrollView(
+                  child:ListView.builder(
+                      padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0,),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: state.list.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return CreditCardItem(
+                          isFront: true,
+                          status: state.list[index].status,
+                          typeCard: CreditCardType.values.byName(state.list[index].flag),
+                          nameUser: state.list[index].nameUser,
+                          numberCard: state.list[index].number,
+                          dateExpiredCard: state.list[index].dateExpire,
+                          cvvCard: state.list[index].cvv,
+                          expanded: false,
+                          deleteClick: () {
+                            _delete(state.list[index].rowId, state.list);
+                          },
+                          editClick: () {
+                            _edit(state.list[index].rowId);
+                          },
+                        );
+                      },
+                    ),
+                    )
+                  : const Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          size: 50,
+                          Icons.credit_card_rounded,
+                          color: Colors.grey,
+                        ),
+                        Text("LISTA VAZIA")
+                      ],
+                    ),
                   );
-                },
-              ) : (state is HomeListStateLoading) || (state is HomeStateInitial)
-                  ? const Center(child: Padding(padding: EdgeInsets.only(top: 80.0), child: CircularProgressIndicator(),))
-                  : const Center(child: Text("Error"),);
-            }),
-      ),
+      }),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(

@@ -160,10 +160,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   return (state is SignInStateSuccess) || (state is SignInStateError);
                 }, listener: (context, state) {
                       if(state is SignInStateSuccess) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const CreditCardListScreen()),
-                        );
+                        Navigator.pushNamed(context, '/list');
                       } else {
                         const AlertInformation(
                             title: titleInformation,

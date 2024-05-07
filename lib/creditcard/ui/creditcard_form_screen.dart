@@ -115,10 +115,6 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
       dateExpiredCard: _model.date.isEmpty ? "00/0000" : _model.date,
       cvvCard: "",
       expanded: true,
-      deleteClick: () {
-      },
-      editClick: () {
-      },
     );
   }
 
@@ -132,8 +128,6 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
       dateExpiredCard: "",
       cvvCard: _model.cvv,
       expanded: true,
-      deleteClick: () {},
-      editClick: () {},
     );
   }
 
