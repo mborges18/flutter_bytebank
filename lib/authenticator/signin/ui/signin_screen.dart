@@ -11,7 +11,7 @@ import '../../../components/inputs/input_text.dart';
 import '../../../components/titles/subtitle_left.dart';
 import '../../../components/titles/text_normal.dart';
 import '../../../components/titles/title_center.dart';
-import '../../../home/ui/home_screen.dart';
+import '../../../home/ui/creditcard_list_screen.dart';
 import '../../../util/string/strings.dart';
 import '../../../util/util.dart';
 import '../bloc/signin_bloc.dart';
@@ -162,7 +162,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       if(state is SignInStateSuccess) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const HomeScreen()),
+                          MaterialPageRoute(builder: (context) => const CreditCardListScreen()),
                         );
                       } else {
                         const AlertInformation(

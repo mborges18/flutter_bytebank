@@ -1,10 +1,8 @@
-
 import 'dart:convert';
 import 'package:pretty_http_logger/pretty_http_logger.dart';
 import '../../../clienthttp/ClientHttp.dart';
 import '../../../clienthttp/StatusRequest.dart';
 import '../model/creditcard_form_model.dart';
-
 
 class CreditCardFormRepository {
   Future<StatusRequest> register(CreditCardFormModel model) async {

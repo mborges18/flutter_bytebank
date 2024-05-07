@@ -9,7 +9,8 @@ import 'authenticator/signin/bloc/signin_bloc.dart';
 import 'authenticator/signup/bloc/signup_bloc.dart';
 import 'creditcard/bloc/creditcard_form_bloc.dart';
 import 'di/modules.dart';
-import 'home/bloc/home_bloc.dart';
+import 'home/bloc/creditcard_list_bloc.dart';
+import 'home/ui/creditcard_list_screen.dart';
 
 class Application extends StatelessWidget {
   const Application({super.key});
@@ -22,7 +23,7 @@ class Application extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => Modular.get<SignInBloc>()),
           BlocProvider(create: (context) => SignUpBloc()),
-          BlocProvider(create: (context) => HomeBloc()),
+          BlocProvider(create: (context) => CreditCardListBloc()),
           BlocProvider(create: (context) => CreditCardFormBloc()),
         ],
         child: MaterialApp(
@@ -32,7 +33,13 @@ class Application extends StatelessWidget {
             themeMode: ThemeMode.system,
             theme: lightTheme,
             darkTheme: darkTheme,
-            home: const AuthenticatorScreen()),
+            initialRoute: '/',
+            routes: {
+              '/': (context) => const AuthenticatorScreen(),
+              '/credit-card-list': (context) => const CreditCardListScreen(),
+              '/credit-card-form': (context) => const CreditCardFormScreen(),
+            },
+        ),
       ),
     );
   }

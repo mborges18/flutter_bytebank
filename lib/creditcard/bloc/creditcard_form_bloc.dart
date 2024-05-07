@@ -87,9 +87,9 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
         emit(CreditCardFlipper());
       } else if(event.model.step==4) {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
-        print("SharedPreferences------------- ID USER = ${prefs.getString(userID)}");
-        var userId = prefs.getString(userID);
-        event.model.idUser = userId != null? jsonDecode(userId) : "10205000000176097";
+        print("SharedPreferences------------- ID USER = ${prefs.getString(userId)}");
+        var idUser = prefs.getString(userId);
+        event.model.idUser = idUser != null? jsonDecode(userId) : "10205000000176097";
         emit(CreditCardFormStateLoading());
         var response = await repository.register(event.model);
         if (response is Success) {

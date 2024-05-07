@@ -22,7 +22,7 @@ class CreditCardFormScreen extends StatefulWidget {
 }
 
 class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
-  final CreditCardFormModel _model = CreditCardFormModel(name: "", number: "", date: "", cvv: "", flag: "");
+  CreditCardFormModel _model = CreditCardFormModel(name: "", number: "", date: "", cvv: "", flag: "");
   String maskNumber = "XXXX XXXX XXXX XXXX";
   String newNumber = "XXXX XXXX XXXX XXXX";
   CreditCardType creditCardType = CreditCardType.undefined;
@@ -98,11 +98,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
 
   void _handlerResetData() {
     setState(() {
-      _model.number = "";
-      _model.name = "";
-      _model.date = "";
-      _model.flag = "";
-      _model.cvv = "";
+      _model = CreditCardFormModel(name: "", number: "", date: "", cvv: "", flag: "");
       _model.step = 1;
       newNumber = maskNumber;
       creditCardType = CreditCardType.undefined;
@@ -112,24 +108,32 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
   Widget _frontCard() {
     return CreditCardItem(
       isFront: true,
+      status: '',
       typeCard: creditCardType,
       nameUser: _model.name.isEmpty ? "SEU NOME": _model.name,
       numberCard: newNumber,
       dateExpiredCard: _model.date.isEmpty ? "00/0000" : _model.date,
       cvvCard: "",
       expanded: true,
+      deleteClick: () {
+      },
+      editClick: () {
+      },
     );
   }
 
   Widget _backCard() {
     return CreditCardItem(
       isFront: false,
+      status: '',
       typeCard: creditCardType,
       nameUser: "",
       numberCard: "",
       dateExpiredCard: "",
       cvvCard: _model.cvv,
       expanded: true,
+      deleteClick: () {},
+      editClick: () {},
     );
   }
 

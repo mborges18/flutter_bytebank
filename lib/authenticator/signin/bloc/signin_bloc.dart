@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../clienthttp/StatusRequest.dart';
@@ -39,7 +41,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           var response = await repository.signIn(event.email, event.password);
           if (response is Success) {
             final SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setString(userID, response.object.toString());
+            var res = response.object.toString().split("-");
+            prefs.setString(userId, res[0].replaceAll('"', ""));
+            prefs.setString(userToken, res[1].replaceAll('"', ""));
             emit(SignInStateSuccess(response.object.toString()));
           } else if (response is Unauthorized) {
             emit(SignInStateEmail(msgEmailUnauthorized));
