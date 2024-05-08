@@ -13,3 +13,4 @@ class Unauthorized extends StatusRequest {
   Object object;
   Unauthorized(this.object);
 }
+class Empty extends StatusRequest {}

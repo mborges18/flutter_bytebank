@@ -1,5 +1,6 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bitybank/clienthttp/StatusRequest.dart';
 import 'package:flutter_bitybank/components/inputs/MaskType.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../components/buttons/button_filled.dart';
@@ -8,6 +9,7 @@ import '../../components/inputs/input_text.dart';
 import '../../home/model/credit_card_type.dart';
 import '../../home/ui/credit_card_view.dart';
 import '../../util/string/strings.dart';
+import '../../util/transfer_object.dart';
 import '../../util/util.dart';
 import '../bloc/creditcard_form_bloc.dart';
 import '../bloc/creditcard_form_event.dart';
@@ -22,7 +24,8 @@ class CreditCardFormScreen extends StatefulWidget {
 }
 
 class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
-  CreditCardFormModel _model = CreditCardFormModel(name: "", number: "", date: "", cvv: "", flag: "");
+  CreditCardFormModel _model = CreditCardFormModel.initObject();
+  TransferObject transferObject = EmptyData();
   String maskNumber = "XXXX XXXX XXXX XXXX";
   String newNumber = "XXXX XXXX XXXX XXXX";
   CreditCardType creditCardType = CreditCardType.undefined;
@@ -37,6 +40,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
       text = maskNumber.replaceRange(0, text.length, text);
       newNumber = text;
       creditCardType = CreditCardFormModel.validateCCNum(_model.number);
+      print("FLAG CARD-----------------$creditCardType");
       _model.flag = creditCardType.name;
     });
     BlocProvider.of<CreditCardFormBloc>(context)
@@ -49,10 +53,10 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
 
   void _handlerEventName(String text) {
     setState(() {
-      _model.name = text;
+      _model.nameUser = text;
     });
     BlocProvider.of<CreditCardFormBloc>(context)
-        .add(CreditCardFormNameEvent(name: _model.name));
+        .add(CreditCardFormNameEvent(name: _model.nameUser));
   }
 
   String? _handleErrorDate(CreditCardFormState state) {
@@ -61,10 +65,10 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
 
   void _handlerEventDate(String text) {
     setState(() {
-      _model.date = text;
+      _model.dateExpire = text;
     });
     BlocProvider.of<CreditCardFormBloc>(context)
-        .add(CreditCardFormDateEvent(date: _model.date));
+        .add(CreditCardFormDateEvent(date: _model.dateExpire));
   }
 
   String? _handleErrorCvv(CreditCardFormState state) {
@@ -98,7 +102,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
 
   void _handlerResetData() {
     setState(() {
-      _model = CreditCardFormModel(name: "", number: "", date: "", cvv: "", flag: "");
+      _model = CreditCardFormModel.initObject();
       _model.step = 1;
       newNumber = maskNumber;
       creditCardType = CreditCardType.undefined;
@@ -110,9 +114,9 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
       isFront: true,
       status: '',
       typeCard: creditCardType,
-      nameUser: _model.name.isEmpty ? "SEU NOME": _model.name,
+      nameUser: _model.nameUser.isEmpty ? "SEU NOME": _model.nameUser,
       numberCard: newNumber,
-      dateExpiredCard: _model.date.isEmpty ? "00/0000" : _model.date,
+      dateExpiredCard: _model.dateExpire.isEmpty ? "00/0000" : _model.dateExpire,
       cvvCard: "",
       expanded: true,
     );
@@ -135,7 +139,17 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvoked : (didPop) async {
+        if (didPop) {
+          return;
+        }
+        //Navigator.of(context).pushNamedAndRemoveUntil('/list', (route) => false);
+        print("--------------------POP");
+        Navigator.of(context).pop(transferObject);
+      },
+    child:Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
@@ -187,6 +201,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
         ),
       )],
       ),
+      ),
     );
   }
 
@@ -197,7 +212,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
           return (state is CreditCardFromStateNumber) || (state is CreditCardFromStateStep);
         },
         builder: (context, state) {
-          print("STEP 1----------------------$state ${_model.number}");
+          print("STEP 1----------------------$state ${_model.number} - flag: ${_model.flag}");
           return Visibility(
             visible: (state is CreditCardFormStateInitial) ? true
                 : (state is CreditCardFromStateNumber) ? true
@@ -228,14 +243,14 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
           return (state is CreditCardFromStateName) || (state is CreditCardFromStateStep);
         },
         builder: (context, state) {
-          print("STEP 2----------------------$state ${_model.name}");
+          print("STEP 2----------------------$state ${_model.nameUser}");
           return Visibility(
             visible: (state is CreditCardFromStateName) ? true
                 : (state is CreditCardFromStateStep) ? state.step==2 : false,
             child: InputText(
               textLabel: labelNameLikeCC,
               textHint: hintName,
-              value: _model.name,
+              value: _model.nameUser,
               inputType: TextInputType.name,
               iconStart: Icons.person_2_outlined,
               onValidatorListener: () {
@@ -257,14 +272,14 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
           return (state is CreditCardFromStateDate) || (state is CreditCardFromStateStep);
         },
         builder: (context, state) {
-          print("STEP 3----------------------$state ${_model.date}");
+          print("STEP 3----------------------$state ${_model.dateExpire}");
           return Visibility(
             visible: (state is CreditCardFromStateDate) ? true
                 : (state is CreditCardFromStateStep) ? state.step==3 : false,
             child: InputText(
               textLabel: labelExpiredDate,
               textHint: hintDate,
-              value: _model.date,
+              value: _model.dateExpire,
               maskType: MaskType.dateCreditCard,
               inputType: TextInputType.number,
               iconStart: Icons.calendar_month_outlined,
@@ -331,7 +346,8 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
           return (state is CreditCardFormStateSuccess) || (state is CreditCardFormStateError);
         },
         listener: (context, state) {
-          if ((state is CreditCardFormStateSuccess)) {
+          if (state is CreditCardFormStateSuccess) {
+            transferObject = FilledData(state.model);
             const AlertInformation(
             title: titleInformation,
             description: msgErrorUnKnow).showSuccess(context);

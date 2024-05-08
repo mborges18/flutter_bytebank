@@ -3,30 +3,55 @@ import 'dart:core';
 import '../../home/model/credit_card_type.dart';
 
 class CreditCardFormModel {
+  String rowId="";
+  String createdTime="";
+  String modifiedTime="";
+  String creatorId="";
   String idUser = "";
-  String name = "";
+  String nameUser = "";
   String number = "";
-  String date = "";
+  String dateExpire = "";
   String cvv = "";
   String flag = "";
+  String status = "ENABLED";
   int step = 1;
 
   CreditCardFormModel({
-    required this.name,
+    required this.nameUser,
     required this.number,
-    required this.date,
+    required this.dateExpire,
     required this.cvv,
     required this.flag,
+    required this.status,
   });
 
   Map toJson() => {
     "idUser": idUser,
-    "nameUser": name,
-    "dateExpire": date,
+    "nameUser": nameUser,
+    "dateExpire": dateExpire,
     "number": number,
     "cvv": cvv,
     "flag": flag,
+    "status": "ENABLED",
   };
+
+  CreditCardFormModel.fromJson(Map<String, dynamic> json) {
+    rowId = json['ROWID'];
+    createdTime = json['CREATEDTIME'];
+    modifiedTime = json['MODIFIEDTIME'];
+    creatorId = json['CREATORID'];
+    idUser = json['idUser'];
+    number = json['number'];
+    cvv = json['cvv'];
+    nameUser = json['nameUser'];
+    flag = json['flag'];
+    dateExpire = json['dateExpire'];
+    status = json['status'];
+  }
+
+  static initObject() {
+    return CreditCardFormModel(nameUser: "", number: "", dateExpire: "", cvv: "", flag: "", status: "");
+  }
 
   static CreditCardType validateCCNum(String number) {
     var ccCheckRegExp = RegExp(r'[^\d\s-]');

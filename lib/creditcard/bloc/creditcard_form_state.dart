@@ -1,11 +1,16 @@
 
+import '../model/creditcard_form_model.dart';
+
 abstract class CreditCardFormState {}
 
 class CreditCardFormStateInitial extends CreditCardFormState {}
 
 class CreditCardFormStateLoading extends CreditCardFormState {}
 
-class CreditCardFormStateSuccess extends CreditCardFormState {}
+class CreditCardFormStateSuccess extends CreditCardFormState {
+  final CreditCardFormModel model;
+  CreditCardFormStateSuccess(this.model);
+}
 
 class CreditCardFormStateError extends CreditCardFormState {}
 

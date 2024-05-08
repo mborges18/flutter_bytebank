@@ -19,7 +19,9 @@ class CreditCardFormRepository {
       body: jsonEncode(model.toJson()),
     );
     if(response.statusCode==201){
-      return Success(response.body);
+      final map = json.decode(response.body) as Map<String, dynamic>;
+      final model = CreditCardFormModel.fromJson(map);
+      return Success(model);
     }
     else if(response.statusCode==409){
       return Exists();

@@ -96,7 +96,7 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
           emit(CreditCardFlipper());
           emit(CreditCardFromStateStep(1));
           emit(CreditCardFormStateInitial());
-          emit(CreditCardFormStateSuccess());
+          emit(CreditCardFormStateSuccess(response.object as CreditCardFormModel));
         } else if(response is Exists) {
           emit(CreditCardFormStateExists());
         } else {
@@ -114,13 +114,13 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
     var isEnabledBtPrev = false;
 
       if (model.step == 1) {
-        isEnabledBtNext = model.number.length == 19;
+        isEnabledBtNext = model.flag.isNotEmpty && model.flag!="undefined";
       } else if (model.step == 2) {
         isEnabledBtPrev = true;
-        isEnabledBtNext =  model.name.split(" ").length > 1 && model.name.split(" ")[1].length > 1;
+        isEnabledBtNext =  model.nameUser.split(" ").length > 1 && model.nameUser.split(" ")[1].length > 1;
       } else if (model.step == 3) {
         isEnabledBtPrev = true;
-        isEnabledBtNext = model.date.length == 7;
+        isEnabledBtNext = model.dateExpire.length == 7;
       } else if (model.step == 4) {
         isEnabledBtPrev = true;
         isEnabledBtNext = model.cvv.length == 3 || model.cvv.length == 4;

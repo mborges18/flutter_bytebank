@@ -25,7 +25,8 @@ class CreditCardListBloc extends Bloc<CreditCardListEvent, CreditCardListState> 
       emit(CreditCardListDeleteStateLoading());
       var response = await repository.deleteCreditCard(event.id);
       if (response is Success) {
-        event.list.firstWhere((element) => element.rowId==event.id).status="DELETED";
+        event.list.removeWhere((element) => element.rowId==event.id);
+        //event.list.firstWhere((element) => element.rowId==event.id).status="DELETED";
         emit(CreditCardListStateSuccess(event.list));
       }  else {
         emit(CreditCardListStateError());

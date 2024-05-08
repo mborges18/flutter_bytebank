@@ -2,9 +2,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bitybank/home/model/creditcard_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../clienthttp/StatusRequest.dart';
 import '../../components/dialogs/dialog_information.dart';
+import '../../creditcard/model/creditcard_form_model.dart';
 import '../../creditcard/ui/creditcard_form_screen.dart';
+import '../../util/lifecycle_watcher_state.dart';
 import '../../util/string/strings.dart';
+import '../../util/transfer_object.dart';
 import '../bloc/creditcard_list_bloc.dart';
 import '../bloc/creditcard_list_event.dart';
 import '../bloc/creditcard_list_state.dart';
@@ -18,13 +22,34 @@ class CreditCardListScreen extends StatefulWidget {
   State<CreditCardListScreen> createState() => _CreditCardListScreenState();
 }
 
-class _CreditCardListScreenState extends State<CreditCardListScreen> {
+class _CreditCardListScreenState extends LifecycleWatcherState<CreditCardListScreen> {
+
+  List<CreditCardModel> _listModel = [];
 
   @override
   void initState() {
     BlocProvider.of<CreditCardListBloc>(context).add(HomeCreditCardsListEvent());
     super.initState();
+    // if (ModalRoute.of(context)?.settings.arguments != null) {
+    //   final args = ModalRoute.of(context)?.settings.arguments as CreditCardFormModel;
+    //   print("-----------------initState ${args.number}");
+    // }
   }
+
+  @override
+  void onDetached() {}
+
+  @override
+  void onInactive() {}
+
+  @override
+  void onPaused() {}
+
+  @override
+  void onResumed() {}
+
+  @override
+  void onDispose() {}
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +72,7 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
               return (state is CreditCardListStateLoading) || (state is CreditCardListStateInitial) || (state is CreditCardListStateSuccess);
             },
             builder: (context, state) {
+              (state is CreditCardListStateSuccess) ? _listModel = state.list : _listModel=[];
               return  (state is CreditCardListStateLoading) || (state is CreditCardListStateInitial)
                   ? const Center(child: Padding(padding: EdgeInsets.only(top: 0.0), child: CircularProgressIndicator(),))
                   : (state is CreditCardListStateSuccess) && state.list.isNotEmpty
@@ -56,22 +82,22 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: state.list.length,
+                      itemCount: _listModel.length,
                       itemBuilder: (BuildContext context, int index) {
                         return CreditCardItem(
                           isFront: true,
-                          status: state.list[index].status,
-                          typeCard: CreditCardType.values.byName(state.list[index].flag),
-                          nameUser: state.list[index].nameUser,
-                          numberCard: state.list[index].number,
-                          dateExpiredCard: state.list[index].dateExpire,
-                          cvvCard: state.list[index].cvv,
+                          status: _listModel[index].status,
+                          typeCard: CreditCardType.values.byName(_listModel[index].flag),
+                          nameUser: _listModel[index].nameUser,
+                          numberCard: _listModel[index].number,
+                          dateExpiredCard: _listModel[index].dateExpire,
+                          cvvCard: _listModel[index].cvv,
                           expanded: false,
                           deleteClick: () {
-                            _delete(state.list[index].rowId, state.list);
+                            _delete(_listModel[index].rowId, _listModel);
                           },
                           editClick: () {
-                            _edit(state.list[index].rowId);
+                            _edit(_listModel[index].rowId);
                           },
                         );
                       },
@@ -93,12 +119,16 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
       }),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const CreditCardFormScreen()),
-          );
+        onPressed: () async {
+          final result = await Navigator.pushNamed(context, '/form');
+          if(result is FilledData) {
+            setState(() {
+              print("--------------------result ${ result.object }");
+              CreditCardModel model = CreditCardModel.initObject();
+              model = model.toModel(result.object as CreditCardFormModel);
+              _listModel.insert(0, model);
+            });
+          }
         },
         child: const Icon(Icons.add),
       ),
