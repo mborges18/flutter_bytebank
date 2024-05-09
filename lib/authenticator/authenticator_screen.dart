@@ -55,7 +55,7 @@ class _NestedTabBarState extends State<NestedTabBar> with TickerProviderStateMix
         ),
       ),
       margin: const EdgeInsets.only(
-          left: 16.0, top: 40.0, right: 16.0, bottom: 16.0),
+          left: 16.0, top: 60.0, right: 16.0, bottom: 16.0),
       child: TabBar.secondary(
         indicator: BoxDecoration(
             borderRadius: BorderRadius.circular(8), color: Theme.of(context).colorScheme.onPrimary),
@@ -81,12 +81,8 @@ class _NestedTabBarState extends State<NestedTabBar> with TickerProviderStateMix
         child: TabBarView(
       controller: _tabController,
       children: const [
-        Card(
-          child: SignInScreen(),
-        ),
-        Card(
-          child: SignUpScreen(),
-        ),
+        SignInScreen(),
+        SignUpScreen()
       ],
     ));
   }

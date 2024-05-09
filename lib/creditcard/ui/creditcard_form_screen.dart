@@ -27,8 +27,7 @@ class CreditCardFormScreen extends StatefulWidget {
 class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
   CreditCardFormModel _model = CreditCardFormModel.initObject();
   TransferObject transferObject = EmptyData();
-  String maskNumber = "XXXX XXXX XXXX XXXX";
-  String newNumber = "XXXX XXXX XXXX XXXX";
+  String newNumber = maskNumber;
   CreditCardType creditCardType = CreditCardType.undefined;
 
   String? _handleErrorNumber(CreditCardFormState state) {
@@ -84,18 +83,18 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
         .add(CreditCardFormCvvEvent(cvv: _model.cvv));
   }
 
-  void _handlerEventButton(CreditCardFormState state) {
+  void _handlerEventButton() {
     BlocProvider.of<CreditCardFormBloc>(context)
         .add(CreditCardFormEnableButtonEvent(model: _model));
   }
 
-  void _prev(CreditCardFormState state) {
+  void _prev() {
     Util.closeKeyboard(context);
     BlocProvider.of<CreditCardFormBloc>(context)
         .add(CreditCardFormPrevEvent(model: _model));
   }
 
-  void _next(CreditCardFormState state) {
+  void _next() {
     Util.closeKeyboard(context);
     BlocProvider.of<CreditCardFormBloc>(context)
         .add(CreditCardFormNextEvent(model: _model));
@@ -108,6 +107,26 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
       newNumber = maskNumber;
       creditCardType = CreditCardType.undefined;
     });
+  }
+
+  void _handlerDataToEdit(BuildContext context) {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
+    if(arguments['edit']!=null && _model.rowId.isEmpty) {
+      print("DADOS A EDITAR ---------------------- ${arguments['edit']}");
+      setState(() {
+        var modelEdit = arguments['edit'] as CreditCardModel;
+        _model.rowId = modelEdit.rowId;
+        _model.idUser = modelEdit.idUser;
+        _model.status = modelEdit.status;
+        _model.step = 3;
+        _handlerEventNumber(modelEdit.number);
+        _handlerEventName(modelEdit.nameUser);
+        _handlerEventDate(modelEdit.dateExpire);
+        _handlerEventCvv(modelEdit.cvv);
+        _handlerEventButton();
+        _next();
+      });
+    }
   }
 
   Widget _frontCard() {
@@ -140,21 +159,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
-    print(arguments['edit']);
-    setState(() {
-      var modelEdit = arguments['edit'] as CreditCardModel;
-      _model.rowId = modelEdit.rowId;
-      _model.idUser = modelEdit.idUser;
-      _model.number = modelEdit.number;
-      _model.nameUser = modelEdit.nameUser;
-      _model.cvv = modelEdit.cvv;
-      _model.dateExpire = modelEdit.dateExpire;
-      _model.flag = modelEdit.flag;
-      _model.status = modelEdit.status;
-    });
-
+    _handlerDataToEdit(context);
     return PopScope(
       canPop: false,
       onPopInvoked : (didPop) async {
@@ -243,7 +248,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
               },
               onTextChangeListener: (text) {
                 _handlerEventNumber(text ?? "");
-                _handlerEventButton(state);
+                _handlerEventButton();
               },
             ),
           );
@@ -272,7 +277,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
               },
               onTextChangeListener: (text) {
                 _handlerEventName(text.toString().toUpperCase());
-                _handlerEventButton(state);
+                _handlerEventButton();
               },
             ),
           );
@@ -302,7 +307,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
               },
               onTextChangeListener: (text) {
                 _handlerEventDate(text ?? "");
-                _handlerEventButton(state);
+                _handlerEventButton();
               },
             ),
           );
@@ -338,7 +343,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
               },
               onTextChangeListener: (text) {
                 _handlerEventCvv(text ?? "");
-                _handlerEventButton(state);
+                _handlerEventButton();
               },
             ),
           );
@@ -382,7 +387,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                     : false,
                 isLoading: false,
                 functionClick: () {
-                  _prev(state);
+                  _prev();
                 }),
           ),
           const Spacer(),
@@ -398,7 +403,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                     ? true
                     : false,
                 functionClick: () {
-                  _next(state);
+                  _next();
                 }),
           ),
         ],

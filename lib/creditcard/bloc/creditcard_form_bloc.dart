@@ -12,7 +12,7 @@ import 'creditcard_form_event.dart';
 
 class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> {
 
-  var repository = CreditCardFormRepository();
+  CreditCardFormRepository repository = CreditCardFormRepositoryImpl();
 
   CreditCardFormBloc() : super(CreditCardFormStateInitial()){
 
@@ -91,16 +91,30 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
         var idUser = prefs.getString(userId);
         event.model.idUser = idUser ?? "";
         emit(CreditCardFormStateLoading());
-        var response = await repository.register(event.model);
-        if (response is Success) {
-          emit(CreditCardFlipper());
-          emit(CreditCardFromStateStep(1));
-          emit(CreditCardFormStateInitial());
-          emit(CreditCardFormStateSuccess(response.object as CreditCardFormModel));
-        } else if(response is Exists) {
-          emit(CreditCardFormStateExists());
+        StatusRequest response = Empty();
+        if(event.model.rowId.isEmpty){
+          response = await repository.create(event.model);
+          if (response is Success) {
+            emit(CreditCardFlipper());
+            emit(CreditCardFromStateStep(1));
+            emit(CreditCardFormStateInitial());
+            emit(CreditCardFormStateSuccess(response.object as CreditCardFormModel));
+          } else if(response is Exists) {
+            emit(CreditCardFormStateExists());
+          } else {
+            emit(CreditCardFormStateError());
+          }
         } else {
-          emit(CreditCardFormStateError());
+          response = await repository.update(event.model);
+          if (response is Success) {
+            emit(CreditCardFlipper());
+            emit(CreditCardFromStateStep(1));
+            emit(CreditCardFormStateSuccess(response.object as CreditCardFormModel));
+          } else if(response is Exists) {
+            emit(CreditCardFormStateExists());
+          } else {
+            emit(CreditCardFormStateError());
+          }
         }
       }
       print("CreditCardFormNextEvent------------- $event - step = ${event.model.step}");

@@ -2,11 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bitybank/home/model/creditcard_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../clienthttp/StatusRequest.dart';
 import '../../components/dialogs/dialog_information.dart';
 import '../../creditcard/model/creditcard_form_model.dart';
-import '../../creditcard/ui/creditcard_form_screen.dart';
-import '../../util/lifecycle_watcher_state.dart';
 import '../../util/string/strings.dart';
 import '../../util/transfer_object.dart';
 import '../bloc/creditcard_list_bloc.dart';
@@ -22,7 +19,7 @@ class CreditCardListScreen extends StatefulWidget {
   State<CreditCardListScreen> createState() => _CreditCardListScreenState();
 }
 
-class _CreditCardListScreenState extends LifecycleWatcherState<CreditCardListScreen> {
+class _CreditCardListScreenState extends State<CreditCardListScreen> {
 
   List<CreditCardModel> _listModel = [];
 
@@ -31,21 +28,6 @@ class _CreditCardListScreenState extends LifecycleWatcherState<CreditCardListScr
     BlocProvider.of<CreditCardListBloc>(context).add(HomeCreditCardsListEvent());
     super.initState();
   }
-
-  @override
-  void onDetached() {}
-
-  @override
-  void onInactive() {}
-
-  @override
-  void onPaused() {}
-
-  @override
-  void onResumed() {}
-
-  @override
-  void onDispose() {}
 
   @override
   Widget build(BuildContext context) {

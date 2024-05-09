@@ -1,23 +1,16 @@
+
 import 'dart:convert';
-import 'package:pretty_http_logger/pretty_http_logger.dart';
-import '../../../clienthttp/ClientHttp.dart';
 import '../../../clienthttp/StatusRequest.dart';
 import '../model/creditcard_form_model.dart';
+import 'creditcard_form_api.dart';
 
-class CreditCardFormRepository {
-  Future<StatusRequest> register(CreditCardFormModel model) async {
+class CreditCardFormRepositoryImpl implements CreditCardFormRepository {
 
-    HttpWithMiddleware http = HttpWithMiddleware.build(middlewares: [
-      HttpLogger(logLevel: LogLevel.BODY),
-    ]);
-    final response = await http.post(
-      ClientHttps.setUrl('cards'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'X-Auth-Token': 'xhjXi2YSrWVQ03c2johE3er4U3Cud24k5AzFUljrfm9LYC2YhykbJdGepiDIZwzJ.creditcard'
-      },
-      body: jsonEncode(model.toJson()),
-    );
+  final CreditCardFormApi api = CreditCardFormApiImpl();
+
+  Future<StatusRequest> create(CreditCardFormModel model) async {
+    var response = await api.create(model);
+
     if(response.statusCode==201){
       final map = json.decode(response.body) as Map<String, dynamic>;
       final model = CreditCardFormModel.fromJson(map);
@@ -30,4 +23,25 @@ class CreditCardFormRepository {
       return Error(response.body);
     }
   }
+
+  Future<StatusRequest> update(CreditCardFormModel model) async {
+    var response = await api.update(model);
+
+    if(response.statusCode==200){
+      final map = json.decode(response.body) as Map<String, dynamic>;
+      final model = CreditCardFormModel.fromJson(map);
+      return Success(model);
+    }
+    else if(response.statusCode==409){
+      return Exists();
+    }
+    else {
+      return Error(response.body);
+    }
+  }
+}
+
+abstract class CreditCardFormRepository {
+  Future<StatusRequest> create(CreditCardFormModel model);
+  Future<StatusRequest> update(CreditCardFormModel model);
 }

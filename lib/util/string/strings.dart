@@ -50,5 +50,7 @@ const msgPasswordDifferent = "As senhas estão diferentes";
 const msgPasswordUnauthorized = "Sua senha pode estar errada";
 const msgErrorUnKnow = "Ocorreu um erro inseperado. Por favor, tente novamente em alguns instantes.";
 
+const maskNumber = "XXXX XXXX XXXX XXXX";
+
 const userId = "userId";
 const userToken = "userToken";
