@@ -11,5 +11,6 @@ class HomeCreditCardsDeleteEvent extends CreditCardListEvent {
 }
 class HomeCreditCardsEditEvent extends CreditCardListEvent {
   final String id;
-  HomeCreditCardsEditEvent({required this.id});
+  final List<CreditCardModel> list;
+  HomeCreditCardsEditEvent({required this.id, required this.list});
 }

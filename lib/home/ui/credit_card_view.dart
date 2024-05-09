@@ -260,12 +260,12 @@ class _CreditCardItemState extends State<CreditCardItem> {
                       children: [
                         Ink(
                           decoration: ShapeDecoration(
-                            color: (state is CreditCardListDeleteStateLoading)
+                            color: (state is CreditCardListDeleteStateLoading) && state.number==widget.numberCard
                                 ? Theme.of(context).colorScheme.onPrimary
                                 : Theme.of(context).colorScheme.primary,
                             shape: const CircleBorder(),
                           ),
-                          child: (state is CreditCardListDeleteStateLoading)
+                          child: (state is CreditCardListDeleteStateLoading) && state.number==widget.numberCard
                               ? const CircularProgressIndicator()
                               : IconButton(
                                   icon: const Icon(Icons.delete),
@@ -275,12 +275,12 @@ class _CreditCardItemState extends State<CreditCardItem> {
                         ),
                         Ink(
                           decoration: ShapeDecoration(
-                            color: (state is CreditCardListEditStateLoading)
+                            color: (state is CreditCardListEditStateLoading) && state.number==widget.numberCard
                                 ? Theme.of(context).colorScheme.onPrimary
                                 : Theme.of(context).colorScheme.primary,
                             shape: const CircleBorder(),
                           ),
-                          child: (state is CreditCardListEditStateLoading)
+                          child: (state is CreditCardListEditStateLoading) && state.number==widget.numberCard
                               ? const CircularProgressIndicator()
                               : IconButton(
                             icon: const Icon(Icons.edit),

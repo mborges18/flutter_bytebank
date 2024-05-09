@@ -30,10 +30,6 @@ class _CreditCardListScreenState extends LifecycleWatcherState<CreditCardListScr
   void initState() {
     BlocProvider.of<CreditCardListBloc>(context).add(HomeCreditCardsListEvent());
     super.initState();
-    // if (ModalRoute.of(context)?.settings.arguments != null) {
-    //   final args = ModalRoute.of(context)?.settings.arguments as CreditCardFormModel;
-    //   print("-----------------initState ${args.number}");
-    // }
   }
 
   @override
@@ -66,10 +62,15 @@ class _CreditCardListScreenState extends LifecycleWatcherState<CreditCardListScr
                     title: titleInformation,
                     description: msgErrorUnKnow
                 ).showError(context);
+              } else if(state is CreditCardListEditStateSuccess) {
+                Navigator.pushNamed(context, '/form', arguments: {'edit': state.model as dynamic},);
+
               }
             },
             buildWhen: (context, state) {
-              return (state is CreditCardListStateLoading) || (state is CreditCardListStateInitial) || (state is CreditCardListStateSuccess);
+              return (state is CreditCardListStateLoading)
+                  || (state is CreditCardListStateInitial)
+                  || (state is CreditCardListStateSuccess);
             },
             builder: (context, state) {
               (state is CreditCardListStateSuccess) ? _listModel = state.list : _listModel=[];
@@ -97,7 +98,7 @@ class _CreditCardListScreenState extends LifecycleWatcherState<CreditCardListScr
                             _delete(_listModel[index].rowId, _listModel);
                           },
                           editClick: () {
-                            _edit(_listModel[index].rowId);
+                            _edit(_listModel[index].rowId, _listModel);
                           },
                         );
                       },
@@ -139,8 +140,8 @@ class _CreditCardListScreenState extends LifecycleWatcherState<CreditCardListScr
     BlocProvider.of<CreditCardListBloc>(context).add(HomeCreditCardsDeleteEvent(id: id, list: list));
   }
 
-  void _edit(String id) {
-    BlocProvider.of<CreditCardListBloc>(context).add(HomeCreditCardsEditEvent(id: id));
+  void _edit(String id, List<CreditCardModel> list) {
+    BlocProvider.of<CreditCardListBloc>(context).add(HomeCreditCardsEditEvent(id: id, list: list));
   }
 }
 

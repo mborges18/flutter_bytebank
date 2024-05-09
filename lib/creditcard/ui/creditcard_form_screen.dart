@@ -7,6 +7,7 @@ import '../../components/buttons/button_filled.dart';
 import '../../components/dialogs/dialog_information.dart';
 import '../../components/inputs/input_text.dart';
 import '../../home/model/credit_card_type.dart';
+import '../../home/model/creditcard_model.dart';
 import '../../home/ui/credit_card_view.dart';
 import '../../util/string/strings.dart';
 import '../../util/transfer_object.dart';
@@ -139,14 +140,27 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
+    print(arguments['edit']);
+    setState(() {
+      var modelEdit = arguments['edit'] as CreditCardModel;
+      _model.rowId = modelEdit.rowId;
+      _model.idUser = modelEdit.idUser;
+      _model.number = modelEdit.number;
+      _model.nameUser = modelEdit.nameUser;
+      _model.cvv = modelEdit.cvv;
+      _model.dateExpire = modelEdit.dateExpire;
+      _model.flag = modelEdit.flag;
+      _model.status = modelEdit.status;
+    });
+
     return PopScope(
       canPop: false,
       onPopInvoked : (didPop) async {
         if (didPop) {
           return;
         }
-        //Navigator.of(context).pushNamedAndRemoveUntil('/list', (route) => false);
-        print("--------------------POP");
         Navigator.of(context).pop(transferObject);
       },
     child:Scaffold(

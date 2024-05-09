@@ -52,7 +52,7 @@ enum CreditCardType {
   ),
   jcb(
     "Jcb",
-    "assets/ic_jbc.svg",
+    "assets/ic_jcb.svg",
     Color(0xFF01398D),
     Color(0xFF011738),
     Color(0xFFFFFFFF),
