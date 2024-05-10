@@ -26,7 +26,7 @@ class CreditCardFormScreen extends StatefulWidget {
 
 class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
   CreditCardFormModel _model = CreditCardFormModel.initObject();
-  final TransferObject _result = EmptyData();
+  TransferObject _result = EmptyData();
   String newNumber = maskNumber;
   CreditCardType creditCardType = CreditCardType.undefined;
 
@@ -194,7 +194,11 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                     inputName(model: _model, eventName: _handlerEventName, eventButton: _handlerEventButton,),
                     inputDate(model: _model, eventDate: _handlerEventDate, eventButton: _handlerEventButton,),
                     inputCvv(model: _model, eventCvv: _handlerEventCvv, eventButton: _handlerEventButton,),
-                    inputButtons(result: _result, prev: _prev, next: _next,),
+                    inputButtons(result: (result) {
+                      setState(() {
+                        _result = result;
+                      });
+                    }, prev: _prev, next: _next,),
                   ],
                 ),
               ),

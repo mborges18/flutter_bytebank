@@ -37,14 +37,26 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
         title: const Text("ByteBank"),
       ),
       body:  BlocConsumer<CreditCardListBloc, CreditCardListState>(
-            listener: (context, state) {
+            listener: (context, state) async {
               if(state is CreditCardListStateError) {
                 const AlertInformation(
                     title: titleInformation,
                     description: msgErrorUnKnow
                 ).showError(context);
               } else if(state is CreditCardListEditStateSuccess) {
-                Navigator.pushNamed(context, '/form', arguments: {'edit': state.model as dynamic },);
+                print("--------------------UPDATE WAIT RESULT pushNamed");
+                final result = await Navigator.pushNamed(context, '/form', arguments: {'edit': state.model as dynamic },);
+                print("--------------------UPDATE RESULT $result");
+                if(result is FilledData) {
+                  setState(() {
+                    print("--------------------UPDATE SAVE STATE ${ result.object }");
+                    CreditCardModel model = CreditCardModel.initObject();
+                    model = model.toModel(result.object as CreditCardFormModel);
+                    var index = _listModel.indexWhere((data) => data.rowId == model.rowId);
+                    _listModel.removeAt(index);
+                    _listModel.insert(index, model);
+                  });
+                }
 
               }
             },
@@ -102,10 +114,12 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          print("--------------------CREATE WAIT result pushNamed");
           final result = await Navigator.pushNamed(context, '/form');
+          print("--------------------CREATE result $result");
           if(result is FilledData) {
             setState(() {
-              print("--------------------result ${ result.object }");
+              print("--------------------CREATE result ${ result.object }");
               CreditCardModel model = CreditCardModel.initObject();
               model = model.toModel(result.object as CreditCardFormModel);
               _listModel.insert(0, model);

@@ -10,7 +10,7 @@ import '../bloc/creditcard_form_state.dart';
 Widget inputButtons({
   required Function prev,
   required Function next,
-  required TransferObject result,
+  required Function(TransferObject) result,
 }) {
   return BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
       listenWhen: (context, state) {
@@ -18,7 +18,7 @@ Widget inputButtons({
       },
       listener: (context, state) {
         if (state is CreditCardFormStateSuccess) {
-          result = FilledData(state.model);
+          result(FilledData(state.model));
           const AlertInformation(
               title: titleInformation,
               description: msgErrorUnKnow).showSuccess(context);
