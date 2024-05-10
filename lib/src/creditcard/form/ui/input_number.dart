@@ -9,7 +9,6 @@ import '../bloc/creditcard_form_state.dart';
 
 Widget inputNumber(
     CreditCardFormModel model,
-    Function handlerErrorNumber,
     Function handlerEventNumber,
     Function handlerEventButton,
     ) {
@@ -19,7 +18,7 @@ Widget inputNumber(
         return (state is CreditCardFromStateNumber) || (state is CreditCardFromStateStep);
       },
       builder: (context, state) {
-        print("STEP 1----------------------$state ${model.number} - flag: ${model.flag}");
+        print("INPUT_NUMBER STEP 1----------------------$state ${model.number} - flag: ${model.flag}");
         return Visibility(
           visible: (state is CreditCardFormStateInitial) ? true
               : (state is CreditCardFromStateNumber) ? true
@@ -32,7 +31,7 @@ Widget inputNumber(
             maskType: MaskType.creditCard,
             iconStart: Icons.credit_card_rounded,
             onValidatorListener: () {
-              return handlerErrorNumber(state);
+              return _handlerErrorNumber(state);
             },
             onTextChangeListener: (text) {
               handlerEventNumber(text ?? "");
@@ -41,4 +40,8 @@ Widget inputNumber(
           ),
         );
       });
+}
+
+String? _handlerErrorNumber(CreditCardFormState state) {
+  return (state is CreditCardFromStateNumber) ? state.message : null;
 }
