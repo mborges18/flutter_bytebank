@@ -83,6 +83,12 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final email = (ModalRoute.of(context)?.settings.arguments) ?? "";
+    if((email as String).isNotEmpty) {
+      setState(() {
+        _email = email;
+      });
+    }
     return Scaffold(body: viewSignIn());
   }
 

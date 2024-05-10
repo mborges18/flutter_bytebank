@@ -22,9 +22,9 @@ class Application extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => Modular.get<SignInBloc>()),
-          BlocProvider(create: (context) => SignUpBloc()),
-          BlocProvider(create: (context) => CreditCardListBloc()),
-          BlocProvider(create: (context) => CreditCardFormBloc()),
+          BlocProvider(create: (context) => Modular.get<SignUpBloc>()),
+          BlocProvider(create: (context) => Modular.get<CreditCardListBloc>()),
+          BlocProvider(create: (context) => Modular.get<CreditCardFormBloc>()),
         ],
         child: MaterialApp(
             debugShowCheckedModeBanner: false,

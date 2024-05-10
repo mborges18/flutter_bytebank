@@ -44,7 +44,7 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
                     description: msgErrorUnKnow
                 ).showError(context);
               } else if(state is CreditCardListEditStateSuccess) {
-                Navigator.pushNamed(context, '/form', arguments: {'edit': state.model as dynamic},);
+                Navigator.pushNamed(context, '/form', arguments: {'edit': state.model as dynamic },);
 
               }
             },

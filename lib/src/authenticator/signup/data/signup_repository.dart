@@ -3,18 +3,17 @@ import 'package:pretty_http_logger/pretty_http_logger.dart';
 import '../../../../core/clienthttp/ClientHttp.dart';
 import '../../../../core/clienthttp/StatusRequest.dart';
 import '../model/signup_model.dart';
+import 'signup_api.dart';
 
-class SignUpRepository {
+class SignUpRepositoryImpl implements SignUpRepository {
+  final SignUpApi api;
+  SignUpRepositoryImpl({required this.api});
+
+  @override
   Future<StatusRequest> signUp(SignUpModel model) async {
+    SignUpApi api = SignUpApiImpl();
 
-    HttpWithMiddleware http = HttpWithMiddleware.build(middlewares: [
-      HttpLogger(logLevel: LogLevel.BODY),
-    ]);
-    final response = await http.post(
-      ClientHttps.setUrl('signup'),
-      headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'},
-      body: jsonEncode(model.toJson()),
-    );
+    var response = await api.signUp(model);
     if(response.statusCode==201){
       return Success(response.body);
     }
@@ -25,4 +24,8 @@ class SignUpRepository {
       return Error(response.body);
     }
   }
+}
+
+abstract class SignUpRepository {
+  Future<StatusRequest> signUp(SignUpModel model);
 }
