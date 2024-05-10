@@ -83,6 +83,12 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
         .add(CreditCardFormNextEvent(model: _model));
   }
 
+  void _handlerResult(TransferObject result) {
+    setState(() {
+      _result = result;
+    });
+  }
+
   void _handlerResetData() {
     setState(() {
       _model = CreditCardFormModel.initObject();
@@ -194,11 +200,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                     inputName(model: _model, eventName: _handlerEventName, eventButton: _handlerEventButton,),
                     inputDate(model: _model, eventDate: _handlerEventDate, eventButton: _handlerEventButton,),
                     inputCvv(model: _model, eventCvv: _handlerEventCvv, eventButton: _handlerEventButton,),
-                    inputButtons(result: (result) {
-                      setState(() {
-                        _result = result;
-                      });
-                    }, prev: _prev, next: _next,),
+                    inputButtons(result: _handlerResult, prev: _prev, next: _next,),
                   ],
                 ),
               ),
