@@ -6,7 +6,7 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bitybank/home/ui/creditcard_list_screen.dart';
+import 'package:flutter_bitybank/src/creditcard/list/ui/creditcard_list_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 
