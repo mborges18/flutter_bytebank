@@ -6,11 +6,11 @@ import '../bloc/creditcard_form_bloc.dart';
 import '../bloc/creditcard_form_state.dart';
 import '../model/creditcard_form_model.dart';
 
-Widget inputName(
-    CreditCardFormModel model,
-    Function handlerEventName,
-    Function handlerEventButton,
-    ) {
+Widget inputName({
+  required CreditCardFormModel model,
+  required Function eventName,
+  required Function eventButton,
+}) {
   return BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
       listener: (context, state) {},
       buildWhen: (context, state) {
@@ -31,8 +31,8 @@ Widget inputName(
               return _handlerErrorName(state);
             },
             onTextChangeListener: (text) {
-              handlerEventName(text.toString().toUpperCase());
-              handlerEventButton();
+              eventName(text.toString().toUpperCase());
+              eventButton();
             },
           ),
         );

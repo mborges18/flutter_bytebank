@@ -7,11 +7,11 @@ import '../../../../util/string/strings.dart';
 import '../bloc/creditcard_form_bloc.dart';
 import '../bloc/creditcard_form_state.dart';
 
-Widget inputNumber(
-    CreditCardFormModel model,
-    Function handlerEventNumber,
-    Function handlerEventButton,
-    ) {
+Widget inputNumber({
+  required CreditCardFormModel model,
+  required Function eventNumber,
+  required Function eventButton,
+}) {
   return BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
       listener: (context, state) {},
       buildWhen: (context, state) {
@@ -34,8 +34,8 @@ Widget inputNumber(
               return _handlerErrorNumber(state);
             },
             onTextChangeListener: (text) {
-              handlerEventNumber(text ?? "");
-              handlerEventButton();
+              eventNumber(text ?? "");
+              eventButton();
             },
           ),
         );

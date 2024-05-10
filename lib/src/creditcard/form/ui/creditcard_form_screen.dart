@@ -26,7 +26,7 @@ class CreditCardFormScreen extends StatefulWidget {
 
 class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
   CreditCardFormModel _model = CreditCardFormModel.initObject();
-  TransferObject result = EmptyData();
+  final TransferObject _result = EmptyData();
   String newNumber = maskNumber;
   CreditCardType creditCardType = CreditCardType.undefined;
 
@@ -149,7 +149,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
         if (didPop) {
           return;
         }
-        Navigator.of(context).pop(result);
+        Navigator.of(context).pop(_result);
       },
     child:Scaffold(
       appBar: AppBar(
@@ -190,11 +190,11 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                 child: Column(
                   children: [
                     const SizedBox(height: 30,),
-                    inputNumber(_model, _handlerEventNumber, _handlerEventButton,),
-                    inputName(_model, _handlerEventName, _handlerEventButton,),
-                    inputDate(_model, _handlerEventDate, _handlerEventButton,),
-                    inputCvv(_model, _handlerEventCvv, _handlerEventButton,),
-                    inputButtons(prev: _prev, next: _next, result: result,),
+                    inputNumber(model: _model, eventNumber: _handlerEventNumber, eventButton: _handlerEventButton,),
+                    inputName(model: _model, eventName: _handlerEventName, eventButton: _handlerEventButton,),
+                    inputDate(model: _model, eventDate: _handlerEventDate, eventButton: _handlerEventButton,),
+                    inputCvv(model: _model, eventCvv: _handlerEventCvv, eventButton: _handlerEventButton,),
+                    inputButtons(result: _result, prev: _prev, next: _next,),
                   ],
                 ),
               ),
