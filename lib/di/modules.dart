@@ -6,7 +6,11 @@ import '../src/authenticator/signup/bloc/signup_bloc.dart';
 import '../src/authenticator/signup/data/signup_api.dart';
 import '../src/authenticator/signup/data/signup_repository.dart';
 import '../src/creditcard/form/bloc/creditcard_form_bloc.dart';
+import '../src/creditcard/form/data/creditcard_form_api.dart';
+import '../src/creditcard/form/data/creditcard_form_repository.dart';
 import '../src/creditcard/list/bloc/creditcard_list_bloc.dart';
+import '../src/creditcard/list/data/creditcard_list_api.dart';
+import '../src/creditcard/list/data/creditcard_list_repository.dart';
 
 class Modules extends Module {
 
@@ -22,7 +26,11 @@ class Modules extends Module {
     i.add<SignUpApi>(SignUpApiImpl.new);
     ///List
     i.addSingleton(CreditCardListBloc.new);
+    i.add<CreditCardListRepository>(CreditCardListRepositoryImpl.new);
+    i.add<CreditCardListApi>(CreditCardListApiImpl.new);
     ///Form
     i.addSingleton(CreditCardFormBloc.new);
+    i.add<CreditCardFormRepository>(CreditCardFormRepositoryImpl.new);
+    i.add<CreditCardFormApi>(CreditCardFormApiImpl.new);
   }
 }

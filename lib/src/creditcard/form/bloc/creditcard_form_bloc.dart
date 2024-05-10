@@ -11,9 +11,9 @@ import 'creditcard_form_state.dart';
 
 class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> {
 
-  CreditCardFormRepository repository = CreditCardFormRepositoryImpl();
-
-  CreditCardFormBloc() : super(CreditCardFormStateInitial()){
+  CreditCardFormBloc(
+    CreditCardFormRepository repository,
+  ) : super(CreditCardFormStateInitial()) {
 
     on<CreditCardFormNumberEvent>((event, emit) {
       var type = CreditCardFormModel.validateCCNum(event.number);

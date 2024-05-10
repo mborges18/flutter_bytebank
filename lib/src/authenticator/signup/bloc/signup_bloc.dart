@@ -10,7 +10,9 @@ import 'signup_state.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
-  SignUpBloc(SignUpRepository repository) : super(SignUpStateInitial()) {
+  SignUpBloc(
+    SignUpRepository repository,
+  ) : super(SignUpStateInitial()) {
 
     on<SignUpEnableButtonEvent>((event, emit) async {
       var isEnabled = event.model.name.length > 2 &&
