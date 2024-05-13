@@ -86,12 +86,15 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
                           numberCard: _listModel[index].number,
                           dateExpiredCard: _listModel[index].dateExpire,
                           cvvCard: _listModel[index].cvv,
-                          isExpanded: false,
+                          isClickable: true,
+                          isOpen: false,
                           deleteClick: () {
                             _delete(_listModel[index].rowId, _listModel);
                           },
                           editClick: () {
                             _edit(_listModel[index].rowId, _listModel);
+                          },
+                          cardClick: (isExpanded, number) {
                           },
                         );
                       },

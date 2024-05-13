@@ -12,6 +12,7 @@ class CreditCardModel {
   String flag = "";
   String dateExpire = "";
   String status = "";
+  bool isOpen = false;
 
   CreditCardModel({
     required this.rowId,

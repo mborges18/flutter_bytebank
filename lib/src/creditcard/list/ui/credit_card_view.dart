@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,30 +10,32 @@ import '../model/credit_card_type.dart';
 class CreditCardItem extends StatefulWidget {
   const CreditCardItem({
     super.key,
-    required this.isFront,
     required this.status,
     required this.numberCard,
     required this.nameUser,
     required this.dateExpiredCard,
-    required this.typeCard,
     required this.cvvCard,
-    required this.isExpanded,
+    required this.typeCard,
+    required this.isFront,
+    required this.isClickable,
+    required this.isOpen,
     this.editClick,
     this.deleteClick,
     this.cardClick,
   });
 
-  final bool isFront;
   final String status;
   final String numberCard;
-  final CreditCardType typeCard;
   final String nameUser;
   final String dateExpiredCard;
   final String cvvCard;
-  final bool isExpanded;
+  final CreditCardType typeCard;
+  final bool isFront;
+  final bool isClickable;
+  final bool isOpen;
   final Function()? editClick;
   final Function()? deleteClick;
-  final Function()? cardClick;
+  final Function(bool, String)? cardClick;
 
   @override
   State<CreditCardItem> createState() => _CreditCardItemState();
@@ -46,7 +49,7 @@ class _CreditCardItemState extends State<CreditCardItem> {
   @override
   void initState() {
     super.initState();
-    if (widget.isExpanded) {
+    if (widget.isOpen) {
       _updateHeight();
     }
   }
@@ -194,9 +197,10 @@ class _CreditCardItemState extends State<CreditCardItem> {
         children: [
           GestureDetector(
             onTap: () {
-              if (!widget.isExpanded) {
+              if (widget.isClickable) {
                 _updateHeight();
               }
+              widget.cardClick?.call(_isExpanded, widget.numberCard);
             },
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
