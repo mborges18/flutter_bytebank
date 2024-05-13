@@ -108,6 +108,7 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
           if (response is Success) {
             emit(CreditCardFlipper());
             emit(CreditCardFromStateStep(1));
+            emit(CreditCardFormStateInitial());
             emit(CreditCardFormStateSuccess(response.object as CreditCardFormModel));
           } else if(response is Exists) {
             emit(CreditCardFormStateExists());
@@ -127,6 +128,7 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
     var isEnabledBtPrev = false;
 
       if (model.step == 1) {
+        isEnabledBtPrev = false;
         isEnabledBtNext = model.flag.isNotEmpty && model.flag!="undefined";
       } else if (model.step == 2) {
         isEnabledBtPrev = true;

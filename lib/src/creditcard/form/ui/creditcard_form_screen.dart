@@ -30,6 +30,12 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
   String newNumber = maskNumber;
   CreditCardType creditCardType = CreditCardType.undefined;
 
+  @override
+  void initState() {
+    _handlerResetData();
+    super.initState();
+  }
+
   void _handlerEventNumber(String text) {
     setState(() {
       _model.number = text;
@@ -95,6 +101,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
       _model.step = 1;
       newNumber = maskNumber;
       creditCardType = CreditCardType.undefined;
+      _handlerEventNumber(_model.number);
     });
   }
 
@@ -107,13 +114,12 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
         _model.rowId = modelEdit.rowId;
         _model.idUser = modelEdit.idUser;
         _model.status = modelEdit.status;
-        _model.step = 3;
-        _handlerEventNumber(modelEdit.number);
-        _handlerEventName(modelEdit.nameUser);
+        _model.step = 1;
+         _handlerEventCvv(modelEdit.cvv);
         _handlerEventDate(modelEdit.dateExpire);
-        _handlerEventCvv(modelEdit.cvv);
+        _handlerEventName(modelEdit.nameUser);
+        _handlerEventNumber(modelEdit.number);
         _handlerEventButton();
-        _next();
       });
     }
   }
@@ -127,7 +133,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
       numberCard: newNumber,
       dateExpiredCard: _model.dateExpire.isEmpty ? "00/0000" : _model.dateExpire,
       cvvCard: "",
-      expanded: true,
+      isExpanded: true,
     );
   }
 
@@ -140,7 +146,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
       numberCard: "",
       dateExpiredCard: "",
       cvvCard: _model.cvv,
-      expanded: true,
+      isExpanded: true,
     );
   }
 

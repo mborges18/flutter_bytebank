@@ -16,9 +16,10 @@ class CreditCardItem extends StatefulWidget {
     required this.dateExpiredCard,
     required this.typeCard,
     required this.cvvCard,
-    required this.expanded,
+    required this.isExpanded,
     this.editClick,
     this.deleteClick,
+    this.cardClick,
   });
 
   final bool isFront;
@@ -28,9 +29,10 @@ class CreditCardItem extends StatefulWidget {
   final String nameUser;
   final String dateExpiredCard;
   final String cvvCard;
-  final bool expanded;
+  final bool isExpanded;
   final Function()? editClick;
   final Function()? deleteClick;
+  final Function()? cardClick;
 
   @override
   State<CreditCardItem> createState() => _CreditCardItemState();
@@ -44,7 +46,7 @@ class _CreditCardItemState extends State<CreditCardItem> {
   @override
   void initState() {
     super.initState();
-    if (widget.expanded) {
+    if (widget.isExpanded) {
       _updateHeight();
     }
   }
@@ -192,7 +194,7 @@ class _CreditCardItemState extends State<CreditCardItem> {
         children: [
           GestureDetector(
             onTap: () {
-              if (!widget.expanded) {
+              if (!widget.isExpanded) {
                 _updateHeight();
               }
             },
