@@ -23,15 +23,19 @@ class CreditCardListBloc extends Bloc<CreditCardListEvent, CreditCardListState> 
     });
 
     on<HomeCreditCardsDeleteEvent>((event, emit) async {
-      String number = event.list.singleWhere((element) => element.rowId==event.id).number;
-      emit(CreditCardListDeleteStateLoading(number));
-      var response = await repository.deleteCreditCard(event.id);
-      if (response is Success) {
-        event.list.removeWhere((element) => element.rowId==event.id);
-        //event.list.firstWhere((element) => element.rowId==event.id).status="DELETED";
-        emit(CreditCardListStateSuccess(event.list));
-      }  else {
-        emit(CreditCardListStateError());
+      if(event.isConfirm) {
+        emit(CreditCardListStateDeleteConfirm(event.id, event.list));
+      } else {
+        String number = event.list.singleWhere((element) => element.rowId==event.id).number;
+        emit(CreditCardListDeleteStateLoading(number));
+        var response = await repository.deleteCreditCard(event.id);
+        if (response is Success) {
+          event.list.removeWhere((element) => element.rowId==event.id);
+          //event.list.firstWhere((element) => element.rowId==event.id).status="DELETED";
+          emit(CreditCardListStateSuccess(event.list));
+        }  else {
+          emit(CreditCardListStateError());
+        }
       }
     });
 
