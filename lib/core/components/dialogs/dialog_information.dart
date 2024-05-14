@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../util/string/strings.dart';
 import '../../../util/theme/theme_constants.dart';
 
 class DialogInformation extends StatelessWidget {
@@ -15,12 +16,12 @@ class DialogInformation extends StatelessWidget {
       content: Text(description),
       actions: <Widget>[
         TextButton(
-          onPressed: () => Navigator.pop(context, 'Cancelar'),
-          child: const Text('Cancelar'),
+          onPressed: () => Navigator.pop(context, actionCancel),
+          child: const Text(actionCancel),
         ),
         TextButton(
-          onPressed: () => Navigator.pop(context, 'Ok'),
-          child: const Text('Ok'),
+          onPressed: () => Navigator.pop(context, actionOk),
+          child: const Text(actionOk),
         ),
       ],
     );
@@ -102,7 +103,7 @@ class AlertInformation {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context, 'OK');
+                    Navigator.pop(context, actionOk);
                   },
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -113,7 +114,7 @@ class AlertInformation {
                       minimumSize: const Size.fromHeight(60),
                       textStyle:
                       const TextStyle(fontWeight: FontWeight.bold)),
-                  child: const Text("OK"),
+                  child: const Text(actionOk),
                 ),
               ],
             ),
@@ -168,7 +169,7 @@ class AlertInformation {
                         padding: const EdgeInsets.only(right: 5),
                         child:ElevatedButton(
                         onPressed: () {
-                          Navigator.pop(context, 'CANCELAR');
+                          Navigator.pop(context, actionCancel);
                         },
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -179,7 +180,7 @@ class AlertInformation {
                             minimumSize: const Size.fromHeight(60),
                             textStyle:
                                 const TextStyle(fontWeight: FontWeight.bold)),
-                        child: const Text("CANCELAR"),
+                        child: const Text(actionCancel),
                       ),
                     ),
                     ),
@@ -189,7 +190,7 @@ class AlertInformation {
                         child:ElevatedButton(
                         onPressed: () {
                           clickConfirm();
-                          Navigator.pop(context, 'CONFIRMAR');
+                          Navigator.pop(context, actionConfirm);
                         },
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -200,7 +201,7 @@ class AlertInformation {
                             minimumSize: const Size.fromHeight(60),
                             textStyle:
                                 const TextStyle(fontWeight: FontWeight.bold)),
-                        child: const Text("CONFIRMAR"),
+                        child: const Text(actionConfirm),
                       ),
                     ),
                     ),

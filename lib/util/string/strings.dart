@@ -14,6 +14,9 @@ const actionRegister = "Cadastrar";
 const actionNext = "Próximo";
 const actionPrev = "Anterior";
 const actionForgotPassword = "Esqueci a senha";
+const actionOk = "Ok";
+const actionCancel = "Cancelar";
+const actionConfirm = "Confirmar";
 
 const labelName = "Nome";
 const labelValidate = "Validade";
