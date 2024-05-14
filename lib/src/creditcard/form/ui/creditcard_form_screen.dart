@@ -6,7 +6,7 @@ import '../../../../util/transfer_object.dart';
 import '../../../../util/util.dart';
 import '../../list/model/credit_card_type.dart';
 import '../../list/model/creditcard_model.dart';
-import '../../list/ui/credit_card_view.dart';
+import '../../list/ui/creditcard_view.dart';
 import '../bloc/creditcard_form_bloc.dart';
 import '../bloc/creditcard_form_event.dart';
 import '../bloc/creditcard_form_state.dart';

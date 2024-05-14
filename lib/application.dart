@@ -35,7 +35,7 @@ class Application extends StatelessWidget {
             darkTheme: darkTheme,
             initialRoute: '/',
             routes: {
-              '/': (context) => const AuthenticatorScreen(),
+              '/': (context) => const CreditCardListScreen(),
               '/list': (context) => const CreditCardListScreen(),
               '/form': (context) => const CreditCardFormScreen(),
             },

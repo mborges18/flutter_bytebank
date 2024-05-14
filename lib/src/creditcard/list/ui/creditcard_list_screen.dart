@@ -9,7 +9,8 @@ import '../bloc/creditcard_list_event.dart';
 import '../bloc/creditcard_list_state.dart';
 import '../model/credit_card_type.dart';
 import '../model/creditcard_model.dart';
-import 'credit_card_view.dart';
+import 'creditcard_list_accordion.dart';
+import 'creditcard_view.dart';
 
 class CreditCardListScreen extends StatefulWidget {
   const CreditCardListScreen({super.key});
@@ -70,37 +71,25 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
               return  (state is CreditCardListStateLoading) || (state is CreditCardListStateInitial)
                   ? const Center(child: Padding(padding: EdgeInsets.only(top: 0.0), child: CircularProgressIndicator(),))
                   : (state is CreditCardListStateSuccess) && state.list.isNotEmpty
-                  ? SingleChildScrollView(
-                  child:ListView.builder(
-                      padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0,),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: _listModel.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return CreditCardItem(
-                          isFront: true,
-                          status: _listModel[index].status,
-                          typeCard: CreditCardType.values.byName(_listModel[index].flag),
-                          nameUser: _listModel[index].nameUser,
-                          numberCard: _listModel[index].number,
-                          dateExpiredCard: _listModel[index].dateExpire,
-                          cvvCard: _listModel[index].cvv,
-                          isClickable: true,
-                          isOpen: false,
-                          deleteClick: () {
-                            _delete(_listModel[index].rowId, _listModel);
-                          },
-                          editClick: () {
-                            _edit(_listModel[index].rowId, _listModel);
-                          },
-                          cardClick: (isExpanded, number) {
-                          },
-                        );
-                      },
-                    ),
-                    )
-                  : const Center(
+                ? SingleChildScrollView(
+                    child: CreditCardListAccordion(
+                    listModel: _listModel,
+                    editClick: (rowId, list) {
+                      _edit(rowId, list);
+                    },
+                    deleteClick: (rowId, list) {
+                      _delete(rowId, list);
+                    },
+                    cardClick: (bool isOpen, int index, CreditCardModel item) {
+                      setState(() {
+                        for (var element in _listModel) {
+                          element.isOpen = false;
+                        }
+                        _listModel[index].isOpen = !isOpen;
+                      });
+                    },
+                  ))
+                : const Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
