@@ -58,7 +58,13 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
                     _listModel.insert(index, model);
                   });
                 }
-
+              } else if(state is CreditCardListStateDeleteConfirm) {
+                const AlertInformation(
+                    title: titleInformation,
+                    description: msgConfirmDelete
+                ).showConfirm(context, (){
+                  _delete(false, state.id, state.list);
+                });
               }
             },
             buildWhen: (context, state) {
@@ -78,7 +84,7 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
                       _edit(rowId, list);
                     },
                     deleteClick: (rowId, list) {
-                      _delete(rowId, list);
+                      _delete(true, rowId, list);
                     },
                     cardClick: (bool isOpen, int index, CreditCardModel item) {
                       setState(() {
@@ -123,8 +129,8 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
     );
   }
 
-  void _delete(String id, List<CreditCardModel> list) {
-    BlocProvider.of<CreditCardListBloc>(context).add(HomeCreditCardsDeleteEvent(id: id, list: list));
+  void _delete(bool isConfirm, String id, List<CreditCardModel> list) {
+    BlocProvider.of<CreditCardListBloc>(context).add(HomeCreditCardsDeleteEvent(isConfirm: isConfirm, id: id, list: list));
   }
 
   void _edit(String id, List<CreditCardModel> list) {

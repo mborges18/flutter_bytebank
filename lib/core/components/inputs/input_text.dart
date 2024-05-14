@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bitybank/util/theme/theme_constants.dart';
 import 'MaskType.dart';
 
 class InputText extends StatefulWidget {
@@ -53,8 +54,8 @@ class InputTextCustom extends State<InputText> {
             });
           },
           child: TextField(
-            controller:
-                TextEditingController.fromValue(TextEditingValue(
+            controller: TextEditingController.fromValue(
+                TextEditingValue(
                     text: widget.value ?? "",
                     selection: TextSelection.collapsed(
                         offset:
@@ -68,7 +69,16 @@ class InputTextCustom extends State<InputText> {
             obscureText: widget.isToggleSecret && !isToggleSecretVisible,
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: context.isDarkMode
+                        ? Colors.grey
+                        : Theme.of(context).colorScheme.primary,
+                    width: 0.0
+                )
+              ),
               labelText: widget.textLabel,
+              floatingLabelStyle: TextStyle(color: _handlerColorIcon()),
               hintText: widget.textHint,
               errorText: widget.onValidatorListener(),
               counterStyle: const TextStyle(color: Colors.transparent),
@@ -101,12 +111,18 @@ class InputTextCustom extends State<InputText> {
   Color _handlerColorIcon() {
     var color = Theme.of(context).colorScheme.onSurfaceVariant;
     if(isFocused) {
-      color = _hasError() ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.primary;
+      color = _hasError() ? Theme.of(context).colorScheme.error : _checkDark();
     } else {
       color = _hasError() ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.onSurfaceVariant;
     }
     return color;
   }
+
+  Color _checkDark() {
+    var color = Theme.of(context).colorScheme.onSurfaceVariant;
+    color = context.isDarkMode ? Colors.grey : Theme.of(context).colorScheme.primary;
+    return color;
+}
 
   Widget? _suffixButton() {
     return widget.isToggleSecret == true

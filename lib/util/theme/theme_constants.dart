@@ -30,7 +30,7 @@ ThemeData darkTheme =
             error: Color(0xFFffb4a9),
             onError: Color(0xFF680003),
             background: Color(0xFF1b1b1b),
-            onBackground: Color(0xFFe2e2e6),
+            onBackground: Color(0xff56595e),
             surface: Color(0xFF1b1b1b),
             onSurface: Color(0xFFe2e2e6),
             surfaceVariant: Color(0xff2d3034),
@@ -43,3 +43,10 @@ const colorError = Color(0xffb94e4e);
 const colorSuccess = Color(0xff499865);
 const colorInfo = Color(0xff5c89b6);
 const colorWarning = Color(0xffb2a065);
+
+extension DarkMode on BuildContext {
+    bool get isDarkMode {
+        final brightness = MediaQuery.of(this).platformBrightness;
+        return brightness == Brightness.dark;
+    }
+}
