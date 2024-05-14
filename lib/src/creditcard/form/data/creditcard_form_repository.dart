@@ -4,11 +4,12 @@ import '../model/creditcard_form_model.dart';
 import 'creditcard_form_api.dart';
 
 class CreditCardFormRepositoryImpl implements CreditCardFormRepository {
+  final CreditCardFormApi api;
+  CreditCardFormRepositoryImpl(this.api);
 
-  final CreditCardFormApi api = CreditCardFormApiImpl();
-
-  Future<StatusRequest> create(CreditCardFormModel model) async {
-    var response = await api.create(model);
+  @override
+  Future<StatusRequest> create(CreditCardFormModel data) async {
+    var response = await api.create(data);
 
     if(response.statusCode==201){
       final map = json.decode(response.body) as Map<String, dynamic>;
@@ -23,8 +24,9 @@ class CreditCardFormRepositoryImpl implements CreditCardFormRepository {
     }
   }
 
-  Future<StatusRequest> update(CreditCardFormModel model) async {
-    var response = await api.update(model);
+  @override
+  Future<StatusRequest> update(CreditCardFormModel data) async {
+    var response = await api.update(data);
 
     if(response.statusCode==200){
       final map = json.decode(response.body) as Map<String, dynamic>;
@@ -41,6 +43,6 @@ class CreditCardFormRepositoryImpl implements CreditCardFormRepository {
 }
 
 abstract class CreditCardFormRepository {
-  Future<StatusRequest> create(CreditCardFormModel model);
-  Future<StatusRequest> update(CreditCardFormModel model);
+  Future<StatusRequest> create(CreditCardFormModel data);
+  Future<StatusRequest> update(CreditCardFormModel data);
 }

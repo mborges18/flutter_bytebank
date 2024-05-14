@@ -4,15 +4,13 @@ import '../model/creditcard_model.dart';
 import 'creditcard_list_api.dart';
 
 class CreditCardListRepositoryImpl extends CreditCardListRepository {
-
-  final CreditCardListApi api = CreditCardListApiImpl();
+  final CreditCardListApi api;
+  CreditCardListRepositoryImpl(this.api);
 
   @override
   Future<StatusRequest> getCreditCards() async {
     final response = await api.getCreditCards();
     if(response.statusCode==200){
-      //final Map parsed = json.decode(res);
-      //final response = HomeResponse.fromJson(parsed);
       final List parsedList = json.decode(response.body);
       List<CreditCardModel> list = parsedList.map((val) => CreditCardModel.fromJson(val)).toList();
       return Success(list);
