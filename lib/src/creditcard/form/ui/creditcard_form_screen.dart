@@ -199,18 +199,15 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                 );
               }),
               const Spacer(),
-              Container(
-                color: Colors.white,
-                child: Column(
-                  children: [
-                    const SizedBox(height: 30,),
-                    inputNumber(model: _model, eventNumber: _handlerEventNumber, eventButton: _handlerEventButton,),
-                    inputName(model: _model, eventName: _handlerEventName, eventButton: _handlerEventButton,),
-                    inputDate(model: _model, eventDate: _handlerEventDate, eventButton: _handlerEventButton,),
-                    inputCvv(model: _model, eventCvv: _handlerEventCvv, eventButton: _handlerEventButton,),
-                    inputButtons(result: _handlerResult, prev: _prev, next: _next,),
-                  ],
-                ),
+              Column(
+                children: [
+                  const SizedBox(height: 30,),
+                  inputNumber(model: _model, eventNumber: _handlerEventNumber, eventButton: _handlerEventButton,),
+                  inputName(model: _model, eventName: _handlerEventName, eventButton: _handlerEventButton,),
+                  inputDate(model: _model, eventDate: _handlerEventDate, eventButton: _handlerEventButton,),
+                  inputCvv(model: _model, eventCvv: _handlerEventCvv, eventButton: _handlerEventButton,),
+                  inputButtons(result: _handlerResult, prev: _prev, next: _next,),
+                ],
               ),
             ],
           ),
