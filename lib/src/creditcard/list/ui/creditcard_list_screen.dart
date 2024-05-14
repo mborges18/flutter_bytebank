@@ -9,7 +9,8 @@ import '../bloc/creditcard_list_event.dart';
 import '../bloc/creditcard_list_state.dart';
 import '../model/credit_card_type.dart';
 import '../model/creditcard_model.dart';
-import 'credit_card_view.dart';
+import 'creditcard_list_accordion.dart';
+import 'creditcard_view.dart';
 
 class CreditCardListScreen extends StatefulWidget {
   const CreditCardListScreen({super.key});
@@ -37,14 +38,26 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
         title: const Text("ByteBank"),
       ),
       body:  BlocConsumer<CreditCardListBloc, CreditCardListState>(
-            listener: (context, state) {
+            listener: (context, state) async {
               if(state is CreditCardListStateError) {
                 const AlertInformation(
                     title: titleInformation,
                     description: msgErrorUnKnow
                 ).showError(context);
               } else if(state is CreditCardListEditStateSuccess) {
-                Navigator.pushNamed(context, '/form', arguments: {'edit': state.model as dynamic},);
+                print("--------------------UPDATE WAIT RESULT pushNamed");
+                final result = await Navigator.pushNamed(context, '/form', arguments: {'edit': state.model as dynamic },);
+                print("--------------------UPDATE RESULT $result");
+                if(result is FilledData) {
+                  setState(() {
+                    print("--------------------UPDATE SAVE STATE ${ result.object }");
+                    CreditCardModel model = CreditCardModel.initObject();
+                    model = model.toModel(result.object as CreditCardFormModel);
+                    var index = _listModel.indexWhere((data) => data.rowId == model.rowId);
+                    _listModel.removeAt(index);
+                    _listModel.insert(index, model);
+                  });
+                }
 
               }
             },
@@ -58,34 +71,25 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
               return  (state is CreditCardListStateLoading) || (state is CreditCardListStateInitial)
                   ? const Center(child: Padding(padding: EdgeInsets.only(top: 0.0), child: CircularProgressIndicator(),))
                   : (state is CreditCardListStateSuccess) && state.list.isNotEmpty
-                  ? SingleChildScrollView(
-                  child:ListView.builder(
-                      padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0,),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: _listModel.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return CreditCardItem(
-                          isFront: true,
-                          status: _listModel[index].status,
-                          typeCard: CreditCardType.values.byName(_listModel[index].flag),
-                          nameUser: _listModel[index].nameUser,
-                          numberCard: _listModel[index].number,
-                          dateExpiredCard: _listModel[index].dateExpire,
-                          cvvCard: _listModel[index].cvv,
-                          expanded: false,
-                          deleteClick: () {
-                            _delete(_listModel[index].rowId, _listModel);
-                          },
-                          editClick: () {
-                            _edit(_listModel[index].rowId, _listModel);
-                          },
-                        );
-                      },
-                    ),
-                    )
-                  : const Center(
+                ? SingleChildScrollView(
+                    child: CreditCardListAccordion(
+                    listModel: _listModel,
+                    editClick: (rowId, list) {
+                      _edit(rowId, list);
+                    },
+                    deleteClick: (rowId, list) {
+                      _delete(rowId, list);
+                    },
+                    cardClick: (bool isOpen, int index, CreditCardModel item) {
+                      setState(() {
+                        for (var element in _listModel) {
+                          element.isOpen = false;
+                        }
+                        _listModel[index].isOpen = !isOpen;
+                      });
+                    },
+                  ))
+                : const Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -102,10 +106,12 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          print("--------------------CREATE WAIT result pushNamed");
           final result = await Navigator.pushNamed(context, '/form');
+          print("--------------------CREATE result $result");
           if(result is FilledData) {
             setState(() {
-              print("--------------------result ${ result.object }");
+              print("--------------------CREATE result ${ result.object }");
               CreditCardModel model = CreditCardModel.initObject();
               model = model.toModel(result.object as CreditCardFormModel);
               _listModel.insert(0, model);

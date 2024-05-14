@@ -6,7 +6,7 @@ import '../../../../util/transfer_object.dart';
 import '../../../../util/util.dart';
 import '../../list/model/credit_card_type.dart';
 import '../../list/model/creditcard_model.dart';
-import '../../list/ui/credit_card_view.dart';
+import '../../list/ui/creditcard_view.dart';
 import '../bloc/creditcard_form_bloc.dart';
 import '../bloc/creditcard_form_event.dart';
 import '../bloc/creditcard_form_state.dart';
@@ -26,9 +26,15 @@ class CreditCardFormScreen extends StatefulWidget {
 
 class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
   CreditCardFormModel _model = CreditCardFormModel.initObject();
-  TransferObject result = EmptyData();
+  TransferObject _result = EmptyData();
   String newNumber = maskNumber;
   CreditCardType creditCardType = CreditCardType.undefined;
+
+  @override
+  void initState() {
+    _handlerResetData();
+    super.initState();
+  }
 
   void _handlerEventNumber(String text) {
     setState(() {
@@ -83,12 +89,19 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
         .add(CreditCardFormNextEvent(model: _model));
   }
 
+  void _handlerResult(TransferObject result) {
+    setState(() {
+      _result = result;
+    });
+  }
+
   void _handlerResetData() {
     setState(() {
       _model = CreditCardFormModel.initObject();
       _model.step = 1;
       newNumber = maskNumber;
       creditCardType = CreditCardType.undefined;
+      _handlerEventNumber(_model.number);
     });
   }
 
@@ -101,13 +114,12 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
         _model.rowId = modelEdit.rowId;
         _model.idUser = modelEdit.idUser;
         _model.status = modelEdit.status;
-        _model.step = 3;
-        _handlerEventNumber(modelEdit.number);
-        _handlerEventName(modelEdit.nameUser);
+        _model.step = 1;
+         _handlerEventCvv(modelEdit.cvv);
         _handlerEventDate(modelEdit.dateExpire);
-        _handlerEventCvv(modelEdit.cvv);
+        _handlerEventName(modelEdit.nameUser);
+        _handlerEventNumber(modelEdit.number);
         _handlerEventButton();
-        _next();
       });
     }
   }
@@ -121,7 +133,8 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
       numberCard: newNumber,
       dateExpiredCard: _model.dateExpire.isEmpty ? "00/0000" : _model.dateExpire,
       cvvCard: "",
-      expanded: true,
+      isClickable: false,
+      isOpen: true,
     );
   }
 
@@ -134,7 +147,8 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
       numberCard: "",
       dateExpiredCard: "",
       cvvCard: _model.cvv,
-      expanded: true,
+      isClickable: false,
+      isOpen: true,
     );
   }
 
@@ -149,7 +163,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
         if (didPop) {
           return;
         }
-        Navigator.of(context).pop(result);
+        Navigator.of(context).pop(_result);
       },
     child:Scaffold(
       appBar: AppBar(
@@ -190,11 +204,11 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                 child: Column(
                   children: [
                     const SizedBox(height: 30,),
-                    inputNumber(_model, _handlerEventNumber, _handlerEventButton,),
-                    inputName(_model, _handlerEventName, _handlerEventButton,),
-                    inputDate(_model, _handlerEventDate, _handlerEventButton,),
-                    inputCvv(_model, _handlerEventCvv, _handlerEventButton,),
-                    inputButtons(prev: _prev, next: _next, result: result,),
+                    inputNumber(model: _model, eventNumber: _handlerEventNumber, eventButton: _handlerEventButton,),
+                    inputName(model: _model, eventName: _handlerEventName, eventButton: _handlerEventButton,),
+                    inputDate(model: _model, eventDate: _handlerEventDate, eventButton: _handlerEventButton,),
+                    inputCvv(model: _model, eventCvv: _handlerEventCvv, eventButton: _handlerEventButton,),
+                    inputButtons(result: _handlerResult, prev: _prev, next: _next,),
                   ],
                 ),
               ),

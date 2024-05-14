@@ -8,9 +8,10 @@ import 'creditcard_list_state.dart';
 
 class CreditCardListBloc extends Bloc<CreditCardListEvent, CreditCardListState> {
 
-  var repository = CreditCardListRepositoryImpl();
+  CreditCardListBloc(
+    CreditCardListRepository repository,
+  ) : super(CreditCardListStateInitial()) {
 
-  CreditCardListBloc() :super(CreditCardListStateInitial()) {
     on<HomeCreditCardsListEvent>((event, emit) async {
       emit(CreditCardListStateLoading());
       var response = await repository.getCreditCards();

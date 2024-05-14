@@ -83,6 +83,12 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final email = (ModalRoute.of(context)?.settings.arguments) ?? "";
+    if((email as String).isNotEmpty) {
+      setState(() {
+        _email = email;
+      });
+    }
     return Scaffold(body: viewSignIn());
   }
 
@@ -112,7 +118,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       return InputText(
                         textLabel: labelEmail,
                         textHint: hintEmail,
-                        value: _email,
+                        value: _email.isEmpty ? _email = "marcioorges18@gmail.com" : _email,
                         inputType: TextInputType.emailAddress,
                         iconStart: Icons.alternate_email,
                         onValidatorListener: () {
@@ -136,7 +142,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       return InputText(
                         textLabel: labelPassword,
                         textHint: hintPassword,
-                        value: _password,
+                        value: _password.isEmpty ? _password = "123456": _password,
                         iconStart: Icons.key,
                         isToggleSecret: true,
                         maxLength: 12,

@@ -291,7 +291,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   return (state is SignUpStateSuccess) || (state is SignUpStateError);
                 }, listener: (context, state) {
                       if((state is SignUpStateSuccess)) {
-                        Navigator.pushNamed(context, '/');
+                        Navigator.pushNamed(context, '/', arguments: _model.email);
                       } else {
                         const AlertInformation(
                             title: titleInformation,
@@ -304,8 +304,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       isEnabled: (state is SignUpStateButton)
                           ? state.isEnabled
                           : false,
-                      isLoading:
-                          (state is SignUpStateLoading) == true ? true : false,
+                      isLoading: (state is SignUpStateLoading) == true ? true : false,
                       functionClick: () {
                         _register(state);
                       });

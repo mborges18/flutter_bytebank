@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/components/inputs/MaskType.dart';
@@ -8,11 +7,11 @@ import '../bloc/creditcard_form_bloc.dart';
 import '../bloc/creditcard_form_state.dart';
 import '../model/creditcard_form_model.dart';
 
-Widget inputDate(
-    CreditCardFormModel model,
-    Function handlerEventDate,
-    Function handlerEventButton,
-    ) {
+Widget inputDate({
+  required CreditCardFormModel model,
+  required Function eventDate,
+  required Function eventButton,
+}) {
 
   return BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
       listener: (context, state) {},
@@ -35,8 +34,8 @@ Widget inputDate(
               return _handlerErrorDate(state);
             },
             onTextChangeListener: (text) {
-              handlerEventDate(text ?? "");
-              handlerEventButton();
+              eventDate(text ?? "");
+              eventButton();
             },
           ),
         );
