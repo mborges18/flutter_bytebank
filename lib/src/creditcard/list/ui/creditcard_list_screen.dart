@@ -54,6 +54,8 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
                     CreditCardModel model = CreditCardModel.initObject();
                     model = model.toModel(result.object as CreditCardFormModel);
                     var index = _listModel.indexWhere((data) => data.rowId == model.rowId);
+                    _closeAllCard();
+                    model.isOpen = true;
                     _listModel.removeAt(index);
                     _listModel.insert(index, model);
                   });
@@ -88,9 +90,7 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
                     },
                     cardClick: (bool isOpen, int index, CreditCardModel item) {
                       setState(() {
-                        for (var element in _listModel) {
-                          element.isOpen = false;
-                        }
+                        _closeAllCard();
                         _listModel[index].isOpen = !isOpen;
                       });
                     },
@@ -120,6 +120,8 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
               print("--------------------CREATE result ${ result.object }");
               CreditCardModel model = CreditCardModel.initObject();
               model = model.toModel(result.object as CreditCardFormModel);
+              _closeAllCard();
+              model.isOpen = true;
               _listModel.insert(0, model);
             });
           }
@@ -127,6 +129,12 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  void _closeAllCard() {
+    for (var element in _listModel) {
+      element.isOpen = false;
+    }
   }
 
   void _delete(bool isConfirm, String id, List<CreditCardModel> list) {
