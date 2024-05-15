@@ -20,8 +20,8 @@ class ClientHttps {
    static Map<String, String> _setHeaders() {
      return <String, String>{
        'Content-Type': 'application/json; charset=UTF-8',
-       'X-Auth-Token': prefs?.getString(userToken) ?? "xhjXi2YSrWVQ03c2johE3er4U3Cud24k5AzFUljrfm9LYC2YhykbJdGepiDIZwzJ.creditcard",
-       'X-User-Id': prefs?.getString(userId) ?? "10205000000176097",
+       'X-Auth-Token': prefs?.getString(userToken) ?? "",
+       'X-User-Id': prefs?.getString(userId) ?? "",
      };
    }
 

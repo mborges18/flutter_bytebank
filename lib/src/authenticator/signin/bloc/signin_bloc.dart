@@ -43,6 +43,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
             var res = response.object.toString().split("-");
             prefs.setString(userId, res[0].replaceAll('"', ""));
             prefs.setString(userToken, res[1].replaceAll('"', ""));
+            prefs.setBool(isKeepConnected, event.isKeepConnected);
             emit(SignInStateSuccess(response.object.toString()));
           } else if (response is Unauthorized) {
             emit(SignInStateEmail(msgEmailUnauthorized));

@@ -169,7 +169,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
-        title: const Text("ByteBank"),
+        title: const Text(titleApp),
       ),
       body: CustomScrollView(
         slivers: [

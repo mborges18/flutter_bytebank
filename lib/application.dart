@@ -11,6 +11,8 @@ import 'src/creditcard/form/bloc/creditcard_form_bloc.dart';
 import 'src/creditcard/form/ui/creditcard_form_screen.dart';
 import 'src/creditcard/list/bloc/creditcard_list_bloc.dart';
 import 'src/creditcard/list/ui/creditcard_list_screen.dart';
+import 'src/splash/bloc/splash_bloc.dart';
+import 'src/splash/ui/splash_screen.dart';
 
 class Application extends StatelessWidget {
   const Application({super.key});
@@ -21,6 +23,7 @@ class Application extends StatelessWidget {
       module: Modules(),
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(create: (context) => Modular.get<SplashBloc>()),
           BlocProvider(create: (context) => Modular.get<SignInBloc>()),
           BlocProvider(create: (context) => Modular.get<SignUpBloc>()),
           BlocProvider(create: (context) => Modular.get<CreditCardListBloc>()),
@@ -35,7 +38,8 @@ class Application extends StatelessWidget {
             darkTheme: darkTheme,
             initialRoute: '/',
             routes: {
-              '/': (context) => const AuthenticatorScreen(),
+              '/': (context) => const SplashScreen(),
+              '/auth': (context) => const AuthenticatorScreen(),
               '/list': (context) => const CreditCardListScreen(),
               '/form': (context) => const CreditCardFormScreen(),
             },

@@ -78,7 +78,7 @@ class _SignInScreenState extends State<SignInScreen> {
   void _login(SignInState state) {
     Util.closeKeyboard(context);
     BlocProvider.of<SignInBloc>(context)
-        .add(SignInSubmitEvent(email: _email, password: _password));
+        .add(SignInSubmitEvent(isKeepConnected: _isKeepConnected, email: _email, password: _password));
   }
 
   @override

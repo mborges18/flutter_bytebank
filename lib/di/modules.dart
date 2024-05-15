@@ -1,4 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../src/authenticator/signin/bloc/signin_bloc.dart';
 import '../src/authenticator/signin/data/signin_api.dart';
 import '../src/authenticator/signin/data/signin_repository.dart';
@@ -11,11 +12,16 @@ import '../src/creditcard/form/data/creditcard_form_repository.dart';
 import '../src/creditcard/list/bloc/creditcard_list_bloc.dart';
 import '../src/creditcard/list/data/creditcard_list_api.dart';
 import '../src/creditcard/list/data/creditcard_list_repository.dart';
+import '../src/splash/bloc/splash_bloc.dart';
+import '../src/splash/data/splash_repository.dart';
 
 class Modules extends Module {
 
   @override
   void binds(i) {
+    ///Splash
+    i.addSingleton(SplashBloc.new);
+    i.add<SplashRepository>(SplashRepositoryImpl.new);
     ///SignIn
     i.addSingleton(SignInBloc.new);
     i.add<SignInRepository>(SignInRepositoryImpl.new);

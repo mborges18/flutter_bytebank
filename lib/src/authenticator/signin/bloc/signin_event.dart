@@ -2,9 +2,10 @@
 abstract class SignInEvent {}
 
 class SignInSubmitEvent extends SignInEvent {
+  final bool isKeepConnected;
   final String email;
   final String password;
-  SignInSubmitEvent({required this.email, required this.password});
+  SignInSubmitEvent({required this.isKeepConnected, required this.email, required this.password});
 }
 
 class SignInSetEmailEvent extends SignInEvent {

@@ -1,4 +1,5 @@
 
+const titleApp = "ByteBank";
 const titleAccess = "Acesso";
 const titleRegister = "Cadastro";
 const titleWellCome = "Seja bem vindo!";
@@ -58,3 +59,4 @@ const maskNumber = "XXXX XXXX XXXX XXXX";
 
 const userId = "userId";
 const userToken = "userToken";
+const isKeepConnected = "isKeepConnected";
