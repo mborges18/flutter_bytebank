@@ -7,10 +7,8 @@ import '../../form/model/creditcard_form_model.dart';
 import '../bloc/creditcard_list_bloc.dart';
 import '../bloc/creditcard_list_event.dart';
 import '../bloc/creditcard_list_state.dart';
-import '../model/credit_card_type.dart';
 import '../model/creditcard_model.dart';
 import 'creditcard_list_accordion.dart';
-import 'creditcard_view.dart';
 
 class CreditCardListScreen extends StatefulWidget {
   const CreditCardListScreen({super.key});
@@ -35,12 +33,12 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
-        title: const Text("ByteBank"),
+        title: const Text(titleApp),
       ),
       body:  BlocConsumer<CreditCardListBloc, CreditCardListState>(
             listener: (context, state) async {
               if(state is CreditCardListStateError) {
-                const AlertInformation(
+                 AlertInformation(
                     title: titleInformation,
                     description: msgErrorUnKnow
                 ).showError(context);
@@ -54,12 +52,14 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
                     CreditCardModel model = CreditCardModel.initObject();
                     model = model.toModel(result.object as CreditCardFormModel);
                     var index = _listModel.indexWhere((data) => data.rowId == model.rowId);
+                    _closeAllCard();
+                    model.isOpen = true;
                     _listModel.removeAt(index);
                     _listModel.insert(index, model);
                   });
                 }
               } else if(state is CreditCardListStateDeleteConfirm) {
-                const AlertInformation(
+                AlertInformation(
                     title: titleInformation,
                     description: msgConfirmDelete
                 ).showConfirm(context, (){
@@ -88,9 +88,7 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
                     },
                     cardClick: (bool isOpen, int index, CreditCardModel item) {
                       setState(() {
-                        for (var element in _listModel) {
-                          element.isOpen = false;
-                        }
+                        _closeAllCard();
                         _listModel[index].isOpen = !isOpen;
                       });
                     },
@@ -120,6 +118,8 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
               print("--------------------CREATE result ${ result.object }");
               CreditCardModel model = CreditCardModel.initObject();
               model = model.toModel(result.object as CreditCardFormModel);
+              _closeAllCard();
+              model.isOpen = true;
               _listModel.insert(0, model);
             });
           }
@@ -127,6 +127,12 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  void _closeAllCard() {
+    for (var element in _listModel) {
+      element.isOpen = false;
+    }
   }
 
   void _delete(bool isConfirm, String id, List<CreditCardModel> list) {

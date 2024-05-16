@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'package:pretty_http_logger/pretty_http_logger.dart';
-import '../../../../core/clienthttp/ClientHttp.dart';
 import '../../../../core/clienthttp/StatusRequest.dart';
 import '../model/signup_model.dart';
 import 'signup_api.dart';

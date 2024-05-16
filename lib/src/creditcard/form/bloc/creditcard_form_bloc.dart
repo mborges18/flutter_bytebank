@@ -97,7 +97,7 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
             emit(CreditCardFlipper());
             emit(CreditCardFromStateStep(1));
             emit(CreditCardFormStateInitial());
-            emit(CreditCardFormStateSuccess(response.object as CreditCardFormModel));
+            emit(CreditCardFormStateSuccess(isCreate: true, model: response.object as CreditCardFormModel));
           } else if(response is Exists) {
             emit(CreditCardFormStateExists());
           } else {
@@ -109,7 +109,7 @@ class CreditCardFormBloc extends Bloc<CreditCardFormEvent, CreditCardFormState> 
             emit(CreditCardFlipper());
             emit(CreditCardFromStateStep(1));
             emit(CreditCardFormStateInitial());
-            emit(CreditCardFormStateSuccess(response.object as CreditCardFormModel));
+            emit(CreditCardFormStateSuccess(isCreate:false, model: response.object as CreditCardFormModel));
           } else if(response is Exists) {
             emit(CreditCardFormStateExists());
           } else {

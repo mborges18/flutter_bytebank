@@ -1,6 +1,7 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/components/dialogs/dialog_information.dart';
 import '../../../../util/string/strings.dart';
 import '../../../../util/transfer_object.dart';
 import '../../../../util/util.dart';
@@ -89,9 +90,12 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
         .add(CreditCardFormNextEvent(model: _model));
   }
 
-  void _handlerResult(TransferObject result) {
+  void _handlerResult(bool isCreate,TransferObject result) {
     setState(() {
-      _result = result;
+      if(result is FilledData){
+        _result = result;
+        isCreate==false ? _model = (result.object as CreditCardFormModel) : {};
+      }
     });
   }
 
@@ -102,6 +106,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
       newNumber = maskNumber;
       creditCardType = CreditCardType.undefined;
       _handlerEventNumber(_model.number);
+      print("_handlerResetData -------------------------------------");
     });
   }
 
@@ -141,7 +146,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
   Widget _backCard() {
     return CreditCardItem(
       isFront: false,
-      status: '',
+      status: "",
       typeCard: creditCardType,
       nameUser: "",
       numberCard: "",
@@ -169,7 +174,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
-        title: const Text("ByteBank"),
+        title: const Text(titleApp),
       ),
       body: CustomScrollView(
         slivers: [
@@ -183,10 +188,33 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
             children: [
               BlocConsumer<CreditCardFormBloc, CreditCardFormState>(
                   listenWhen: (context, state) {
-                return (state is CreditCardFlipper) || (state is CreditCardFormStateInitial);
+                return (state is CreditCardFlipper)
+                    || (state is CreditCardFormStateInitial)
+                    || (state is CreditCardFormStateSuccess)
+                    || (state is CreditCardFormStateError);
               }, listener: (context, state) {
-                (state is CreditCardFlipper) ? cardKey.currentState?.toggleCard() : _handlerResetData();
-              }, builder: (context, state) {
+
+                (state is CreditCardFlipper)
+                    ? cardKey.currentState?.toggleCard()
+                    : (state is CreditCardFormStateSuccess && state.isCreate)
+                    ? _handlerResetData()
+                    : {};
+
+                if (state is CreditCardFormStateSuccess) {
+                  _handlerResult(state.isCreate, FilledData(state.model));
+                  if(AlertInformation.alertKey.currentContext == null) {
+                    AlertInformation(
+                        title: titleInformation,
+                        description: msgErrorUnKnow).showSuccess(context);
+                  }
+                } else if (state is CreditCardFormStateError){
+                        if (AlertInformation.alertKey.currentContext == null) {
+                          AlertInformation(
+                              title: titleInformation,
+                              description: msgErrorUnKnow).showError(context);
+                        }
+                      }
+                    }, builder: (context, state) {
                 print("FLIPPER---------------------- $state");
                 return FlipCard(
                   key: cardKey,
@@ -206,7 +234,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
                   inputName(model: _model, eventName: _handlerEventName, eventButton: _handlerEventButton,),
                   inputDate(model: _model, eventDate: _handlerEventDate, eventButton: _handlerEventButton,),
                   inputCvv(model: _model, eventCvv: _handlerEventCvv, eventButton: _handlerEventButton,),
-                  inputButtons(result: _handlerResult, prev: _prev, next: _next,),
+                  inputButtons(prev: _prev, next: _next,),
                 ],
               ),
             ],
