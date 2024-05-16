@@ -14,7 +14,9 @@ Widget inputButtons({
         return (state is CreditCardFormStateSuccess) || (state is CreditCardFormStateError);
       },
       listener: (context, state) {
-      }, builder: (context, state) {
+      },
+      builder: (context, state) {
+    print("BUTTONS----------------------$state ${(state is CreditCardFromStateButton) ? "${state.isEnabledPrev} - ${state.isEnabledNext}" : {} }");
     return Row(
       children: [
         Expanded(

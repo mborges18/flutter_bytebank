@@ -12,7 +12,7 @@ import '../bloc/creditcard_form_bloc.dart';
 import '../bloc/creditcard_form_event.dart';
 import '../bloc/creditcard_form_state.dart';
 import '../model/creditcard_form_model.dart';
-import 'input_buttons.dart';
+import 'buttons.dart';
 import 'input_cvv.dart';
 import 'input_date.dart';
 import 'input_name.dart';
