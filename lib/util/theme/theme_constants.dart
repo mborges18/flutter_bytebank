@@ -14,7 +14,7 @@ ThemeData lightTheme = ThemeData(
         surface: Color(0xFFfdfcff),
         onSurface: Color(0xFF1b1b1b),
         surfaceVariant: Color(0xFFdfe2eb),
-        onSurfaceVariant: Color(0xFF42474e),
+        onSurfaceVariant: Color(0xffa6a6a6),
         brightness: Brightness.light
     )
 );
@@ -29,12 +29,12 @@ ThemeData darkTheme =
             onSecondary: Color(0xFF1b1b1b),
             error: Color(0xFFffb4a9),
             onError: Color(0xFF680003),
-            background: Color(0xFF1b1b1b),
-            onBackground: Color(0xff56595e),
-            surface: Color(0xFF1b1b1b),
+            background: Color(0xff343434),
+            onBackground: Color(0xff888b8f),
+            surface: Color(0xff333333),
             onSurface: Color(0xFFe2e2e6),
-            surfaceVariant: Color(0xff2d3034),
-            onSurfaceVariant: Color(0xff56595e),
+            surfaceVariant: Color(0xff3c3e42),
+            onSurfaceVariant: Color(0xffa6a6a6),
             brightness: Brightness.dark
         )
     );
