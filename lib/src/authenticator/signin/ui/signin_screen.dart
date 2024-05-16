@@ -118,7 +118,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       return InputText(
                         textLabel: labelEmail,
                         textHint: hintEmail,
-                        value: _email.isEmpty ? _email = "marcioorges18@gmail.com" : _email,
+                        value: _email,
                         inputType: TextInputType.emailAddress,
                         iconStart: Icons.alternate_email,
                         onValidatorListener: () {
@@ -142,7 +142,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       return InputText(
                         textLabel: labelPassword,
                         textHint: hintPassword,
-                        value: _password.isEmpty ? _password = "123456": _password,
+                        value: _password,
                         iconStart: Icons.key,
                         isToggleSecret: true,
                         maxLength: 12,
