@@ -8,8 +8,9 @@ class CreditCardFormStateInitial extends CreditCardFormState {}
 class CreditCardFormStateLoading extends CreditCardFormState {}
 
 class CreditCardFormStateSuccess extends CreditCardFormState {
+  final bool isCreate;
   final CreditCardFormModel model;
-  CreditCardFormStateSuccess(this.model);
+  CreditCardFormStateSuccess({required this.isCreate, required this.model});
 }
 
 class CreditCardFormStateError extends CreditCardFormState {}

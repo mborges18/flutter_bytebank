@@ -2,37 +2,12 @@ import 'package:flutter/material.dart';
 import '../../../util/string/strings.dart';
 import '../../../util/theme/theme_constants.dart';
 
-class DialogInformation extends StatelessWidget {
-  const DialogInformation(
-      {super.key, required this.title, required this.description});
-
-  final String title;
-  final String description;
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(title),
-      content: Text(description),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => Navigator.pop(context, actionCancel),
-          child: const Text(actionCancel),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(context, actionOk),
-          child: const Text(actionOk),
-        ),
-      ],
-    );
-  }
-}
-
 class AlertInformation {
-  const AlertInformation({required this.title, required this.description});
+   AlertInformation({required this.title, required this.description});
 
   final String title;
   final String description;
+  static final GlobalKey alertKey = GlobalKey();
 
   Future showError(BuildContext context) {
     return showDialog<void>(
@@ -63,6 +38,7 @@ class AlertInformation {
 
   Widget _buildAlert(BuildContext context, Color color, IconData icon) {
     return AlertDialog(
+      key: alertKey,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8.0))),
       contentPadding: const EdgeInsets.only(top: 0.0),
@@ -126,6 +102,7 @@ class AlertInformation {
 
   Widget _buildAlertConfirm(BuildContext context, Color color, IconData icon, Function clickConfirm) {
     return AlertDialog(
+      key: alertKey,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8.0))),
       contentPadding: const EdgeInsets.only(top: 0.0),

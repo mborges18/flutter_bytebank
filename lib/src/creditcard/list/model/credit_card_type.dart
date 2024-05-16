@@ -38,7 +38,7 @@ enum CreditCardType {
   ),
   discover(
     "Discover",
-    "assets/ic_discovers.svg",
+    "assets/ic_discover.svg",
     Color(0xFF8D4701),
     Color(0xFFEA8524),
     Color(0xFFFFFFFF),
