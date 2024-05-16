@@ -72,12 +72,13 @@ class InputTextCustom extends State<InputText> {
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                     color: context.isDarkMode
-                        ? Colors.grey
+                        ? Theme.of(context).colorScheme.onSurface
                         : Theme.of(context).colorScheme.primary,
                     width: 0.0
                 )
               ),
               labelText: widget.textLabel,
+              labelStyle: TextStyle(color: _handlerColorIcon()),
               floatingLabelStyle: TextStyle(color: _handlerColorIcon()),
               hintText: widget.textHint,
               errorText: widget.onValidatorListener(),
@@ -109,18 +110,18 @@ class InputTextCustom extends State<InputText> {
   }
 
   Color _handlerColorIcon() {
-    var color = Theme.of(context).colorScheme.onSurfaceVariant;
+    var color = Theme.of(context).colorScheme.onBackground;
     if(isFocused) {
       color = _hasError() ? Theme.of(context).colorScheme.error : _checkDark();
     } else {
-      color = _hasError() ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.onSurfaceVariant;
+      color = _hasError() ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.onBackground;
     }
     return color;
   }
 
   Color _checkDark() {
-    var color = Theme.of(context).colorScheme.onSurfaceVariant;
-    color = context.isDarkMode ? Colors.grey : Theme.of(context).colorScheme.primary;
+    var color = Theme.of(context).colorScheme.onBackground;
+    color = context.isDarkMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.primary;
     return color;
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bitybank/util/theme/theme_constants.dart';
 
 class ButtonOutline extends StatelessWidget{
 
@@ -18,9 +19,9 @@ class ButtonOutline extends StatelessWidget{
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
-            side: BorderSide(color: Theme.of(context).colorScheme.primary),
+            side: BorderSide(color: context.isDarkMode ? Theme.of(context).colorScheme.onSurfaceVariant : Theme.of(context).colorScheme.primary,),
             backgroundColor: Colors.transparent,
-            foregroundColor: Theme.of(context).colorScheme.primary,
+            foregroundColor: context.isDarkMode ? Theme.of(context).colorScheme.onSurfaceVariant : Theme.of(context).colorScheme.primary,
             disabledForegroundColor: Theme.of(context).colorScheme.surfaceVariant,
             minimumSize: const Size.fromHeight(60),
             textStyle: const TextStyle(fontWeight: FontWeight.bold)),
