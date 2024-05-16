@@ -167,7 +167,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       if(state is SignInStateSuccess) {
                         Navigator.pushNamed(context, '/list');
                       } else {
-                        const AlertInformation(
+                         AlertInformation(
                             title: titleInformation,
                             description: msgErrorUnKnow
                         ).showError(context);

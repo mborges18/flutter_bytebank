@@ -293,7 +293,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       if((state is SignUpStateSuccess)) {
                         Navigator.pushNamed(context, '/', arguments: _model.email);
                       } else {
-                        const AlertInformation(
+                         AlertInformation(
                             title: titleInformation,
                             description: msgErrorUnKnow
                         ).showError(context);

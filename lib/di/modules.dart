@@ -1,5 +1,4 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../src/authenticator/signin/bloc/signin_bloc.dart';
 import '../src/authenticator/signin/data/signin_api.dart';
 import '../src/authenticator/signin/data/signin_repository.dart';

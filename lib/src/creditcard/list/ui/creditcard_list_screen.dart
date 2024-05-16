@@ -7,10 +7,8 @@ import '../../form/model/creditcard_form_model.dart';
 import '../bloc/creditcard_list_bloc.dart';
 import '../bloc/creditcard_list_event.dart';
 import '../bloc/creditcard_list_state.dart';
-import '../model/credit_card_type.dart';
 import '../model/creditcard_model.dart';
 import 'creditcard_list_accordion.dart';
-import 'creditcard_view.dart';
 
 class CreditCardListScreen extends StatefulWidget {
   const CreditCardListScreen({super.key});
@@ -40,7 +38,7 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
       body:  BlocConsumer<CreditCardListBloc, CreditCardListState>(
             listener: (context, state) async {
               if(state is CreditCardListStateError) {
-                const AlertInformation(
+                 AlertInformation(
                     title: titleInformation,
                     description: msgErrorUnKnow
                 ).showError(context);
@@ -61,7 +59,7 @@ class _CreditCardListScreenState extends State<CreditCardListScreen> {
                   });
                 }
               } else if(state is CreditCardListStateDeleteConfirm) {
-                const AlertInformation(
+                AlertInformation(
                     title: titleInformation,
                     description: msgConfirmDelete
                 ).showConfirm(context, (){
