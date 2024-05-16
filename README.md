@@ -10,17 +10,17 @@ A few resources to get you started if this is your first Flutter project:
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-- [cupertino icons: 1.0.2]()
+- [cupertino icons: 1.0.2](https://pub.dev/packages/cupertino_icons)
 - [device preview: 1.1.0]()
-- [bloc: 8.0.3]()
-- [flutter bloc: 8.0.1]()
-- [http: 1.2.1]()
-- [pretty http_logger: 1.0.3]()
-- [intl: 0.18.1]()
-- [flutter svg: 2.0.10+1]()
-- [flip card: 0.7.0]()
-- [flutter modular: 6.3.3]()
-- [shared preferences: ^2.2.3]()
+- [bloc: 8.0.3](https://pub.dev/packages/device_preview)
+- [flutter bloc: 8.0.1](https://pub.dev/packages/flutter_bloc)
+- [http: 1.2.1](https://pub.dev/packages/http)
+- [pretty http_logger: 1.0.3](https://pub.dev/packages/pretty_http_logger)
+- [intl: 0.18.1](https://pub.dev/packages/intl)
+- [flutter svg: 2.0.10+1](https://pub.dev/packages/flutter_svg)
+- [flip card: 0.7.0](https://pub.dev/packages/flip_card)
+- [flutter modular: 6.3.3](https://pub.dev/packages/flutter_modular)
+- [shared preferences: ^2.2.3](https://pub.dev/packages/shared_preferences)
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
