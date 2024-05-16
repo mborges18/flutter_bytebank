@@ -106,6 +106,7 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
       newNumber = maskNumber;
       creditCardType = CreditCardType.undefined;
       _handlerEventNumber(_model.number);
+      _handlerEventButton();
       print("_handlerResetData -------------------------------------");
     });
   }
@@ -196,8 +197,10 @@ class _CreditCardFormScreenState extends State<CreditCardFormScreen> {
 
                 (state is CreditCardFlipper)
                     ? cardKey.currentState?.toggleCard()
-                    : (state is CreditCardFormStateSuccess && state.isCreate)
+                    : (state is CreditCardFormStateSuccess && state.isCreate==true)
                     ? _handlerResetData()
+                    : (state is CreditCardFormStateSuccess && state.isCreate==false)
+                    ? {_model.step = 1, _handlerEventButton(),}
                     : {};
 
                 if (state is CreditCardFormStateSuccess) {
