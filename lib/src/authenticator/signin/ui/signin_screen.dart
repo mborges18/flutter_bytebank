@@ -16,6 +16,8 @@ import '../../../../util/util.dart';
 import '../bloc/signin_bloc.dart';
 import '../bloc/signin_event.dart';
 import '../bloc/signin_state.dart';
+import 'input_email.dart';
+import 'input_password.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -106,55 +108,8 @@ class _SignInScreenState extends State<SignInScreen> {
             const SizedBox(height: 8.0),
             Column(
               children: <Widget>[
-                BlocConsumer<SignInBloc, SignInState>(
-                    listenWhen: (context, state) {
-                      return (state is SignInStateEmail);
-                    },
-                    listener: (context, state) {},
-                    buildWhen: (context, state) {
-                      return (state is SignInStateEmail);
-                    },
-                    builder: (context, state) {
-                      return InputText(
-                        textLabel: labelEmail,
-                        textHint: hintEmail,
-                        value: _email,
-                        inputType: TextInputType.emailAddress,
-                        iconStart: Icons.alternate_email,
-                        onValidatorListener: () {
-                          return _handleErrorEmail(state);
-                        },
-                        onTextChangeListener: (text) {
-                          _handlerEventEmail(text ?? "");
-                          _handlerEventButton(state);
-                        },
-                      );
-                    }),
-                BlocConsumer<SignInBloc, SignInState>(
-                    listenWhen: (context, state) {
-                      return (state is SignInStatePassword);
-                    },
-                    listener: (context, state) {},
-                    buildWhen: (context, state) {
-                      return (state is SignInStatePassword);
-                    },
-                    builder: (context, state) {
-                      return InputText(
-                        textLabel: labelPassword,
-                        textHint: hintPassword,
-                        value: _password,
-                        iconStart: Icons.key,
-                        isToggleSecret: true,
-                        maxLength: 12,
-                        onValidatorListener: () {
-                          return _handleErrorPassword(state);
-                        },
-                        onTextChangeListener: (text) {
-                          _handlerEventPassword(text ?? "");
-                          _handlerEventButton(state);
-                        },
-                      );
-                    }),
+                inputEmail(_email, _handleErrorEmail, _handlerEventEmail, _handlerEventButton),
+                inputPassword(_password, _handleErrorPassword, _handlerEventPassword, _handlerEventButton),
                 ButtonSwitch(
                     onChecked: _isKeepConnected,
                     onCheckedListener: (isChecked) {
