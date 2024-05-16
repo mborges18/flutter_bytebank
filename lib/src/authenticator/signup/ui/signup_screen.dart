@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/components/buttons/button_filled.dart';
 import '../../../../core/components/dialogs/dialog_information.dart';
-import '../../../../core/components/inputs/MaskType.dart';
 import '../../../../core/components/inputs/input_text.dart';
 import '../../../../core/components/titles/subtitle_left.dart';
 import '../../../../core/components/titles/text_normal.dart';
@@ -14,6 +13,12 @@ import '../bloc/signup_bloc.dart';
 import '../bloc/signup_event.dart';
 import '../bloc/signup_state.dart';
 import '../model/signup_model.dart';
+import 'input_birthdate.dart';
+import 'input_email.dart';
+import 'input_name.dart';
+import 'input_password_confirm.dart';
+import 'input_phone.dart';
+import 'input_password.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -43,62 +48,74 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _handlerEventName(String text) {
-    _model.name = text;
+    setState(() {
+      _model.name = text;
+    });
     BlocProvider.of<SignUpBloc>(context)
         .add(SignUpSetNameEvent(name: text));
   }
 
-  String? _handleErrorName(SignUpState state) {
+  String? _handlerErrorName(SignUpState state) {
     return (state is SignUpStateName) ? state.message : null;
   }
 
   void _handlerEventBirthDate(String text) {
-    _model.birthDate = text;
+    setState(() {
+      _model.birthDate = text;
+    });
     BlocProvider.of<SignUpBloc>(context)
         .add(SignUpSetBirthDateEvent(birthDate: text));
   }
 
-  String? _handleErrorBirthDate(SignUpState state) {
+  String? _handlerErrorBirthDate(SignUpState state) {
     return (state is SignUpStateBirthDate) ? state.message : null;
   }
 
   void _handlerEventPhone(String text) {
-    _model.phone = text;
+    setState(() {
+      _model.phone = text;
+    });
     BlocProvider.of<SignUpBloc>(context)
         .add(SignUpSetPhoneEvent(phone: text));
   }
 
-  String? _handleErrorPhone(SignUpState state) {
+  String? _handlerErrorPhone(SignUpState state) {
     return (state is SignUpStatePhone) ? state.message : null;
   }
 
   void _handlerEventEmail(String text) {
-    _model.email = text;
+    setState(() {
+      _model.email = text;
+    });
     BlocProvider.of<SignUpBloc>(context)
         .add(SignUpSetEmailEvent(email: text));
   }
 
-  String? _handleErrorEmail(SignUpState state) {
+  String? _handlerErrorEmail(SignUpState state) {
     return (state is SignUpStateEmail) ? state.message : null;
   }
 
   void _handlerEventPassword(String text) {
-    _model.password = text;
+    setState(() {
+      _model.password = text;
+    });
     BlocProvider.of<SignUpBloc>(context)
         .add(SignUpSetPasswordEvent(password: text));
   }
 
-  String? _handleErrorPassword(SignUpState state) {
+  String? _handlerErrorPassword(SignUpState state) {
     return (state is SignUpStatePassword) ? state.message : null;
   }
 
   void _handlerEventPasswordConfirm(String text) {
-    _model.passwordConfirm = text;
+    setState(() {
+      _model.passwordConfirm = text;
+    });
     BlocProvider.of<SignUpBloc>(context)
         .add(SignUpSetPasswordConfirmEvent(passwordConfirm: text));
   }
 
-  String? _handleErrorPasswordConfirm(SignUpState state) {
+  String? _handlerErrorPasswordConfirm(SignUpState state) {
     return (state is SignUpStatePasswordConfirm) ? state.message : null;
   }
 
@@ -135,157 +152,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
               children: <Widget>[
                 const SubTitleLeft(text: titleDataPerson),
                 const SizedBox(height: 16.0),
-                BlocConsumer<SignUpBloc, SignUpState>(
-                    listenWhen: (context, state) {
-                      return (state is SignUpStateName);
-                    },
-                    listener: (context, state) {},
-                    buildWhen: (context, state) {
-                      return (state is SignUpStateName);
-                    },
-                    builder: (context, state) {
-                      return InputText(
-                        textLabel: labelNameFull,
-                        textHint: hintName,
-                        value: _model.name,
-                        inputType: TextInputType.name,
-                        iconStart: Icons.person,
-                        onValidatorListener: () {
-                          return _handleErrorName(state);
-                        },
-                        onTextChangeListener: (text) {
-                          _handlerEventName(text ?? "");
-                          _handlerEventButton(state);
-                        },
-                      );
-                    }),
-                BlocConsumer<SignUpBloc, SignUpState>(
-                    listenWhen: (context, state) {
-                      return (state is SignUpStateBirthDate);
-                    },
-                    listener: (context, state) {},
-                    buildWhen: (context, state) {
-                      return (state is SignUpStateBirthDate);
-                    },
-                    builder: (context, state) {
-                      return InputText(
-                        textLabel: labelBirthDate,
-                        textHint: hintDate,
-                        value: _model.birthDate,
-                        maskType: MaskType.date,
-                        inputType: TextInputType.number,
-                        iconStart: Icons.calendar_month_outlined,
-                        onValidatorListener: () {
-                          return _handleErrorBirthDate(state);
-                        },
-                        onTextChangeListener: (text) {
-                          _handlerEventBirthDate(text ?? "");
-                          _handlerEventButton(state);
-                        },
-                      );
-                    }),
-                BlocConsumer<SignUpBloc, SignUpState>(
-                    listenWhen: (context, state) {
-                      return (state is SignUpStatePhone);
-                    },
-                    listener: (context, state) {},
-                    buildWhen: (context, state) {
-                      return (state is SignUpStatePhone);
-                    },
-                    builder: (context, state) {
-                      return InputText(
-                        textLabel: labelPhone,
-                        textHint: hintPhone,
-                        value: _model.phone,
-                        maskType: MaskType.phone,
-                        inputType: TextInputType.number,
-                        iconStart: Icons.settings_cell,
-                        onValidatorListener: () {
-                          return _handleErrorPhone(state);
-                        },
-                        onTextChangeListener: (text) {
-                          _handlerEventPhone(text ?? "");
-                          _handlerEventButton(state);
-                        },
-                      );
-                    }),
-                BlocConsumer<SignUpBloc, SignUpState>(
-                    listenWhen: (context, state) {
-                      return (state is SignUpStateEmail);
-                    },
-                    listener: (context, state) {},
-                    buildWhen: (context, state) {
-                      return (state is SignUpStateEmail);
-                    },
-                    builder: (context, state) {
-                      return InputText(
-                        textLabel: labelEmail,
-                        textHint: hintEmail,
-                        value: _model.email,
-                        iconStart: Icons.alternate_email,
-                        inputType: TextInputType.emailAddress,
-                        onValidatorListener: () {
-                          return _handleErrorEmail(state);
-                        },
-                        onTextChangeListener: (text) {
-                          _handlerEventEmail(text ?? "");
-                          _handlerEventButton(state);
-                        },
-                      );
-                    }),
+                inputName(_model.name, _handlerErrorName, _handlerEventName, _handlerEventButton),
+                inputBirthDate(_model.birthDate, _handlerErrorBirthDate, _handlerEventBirthDate, _handlerEventButton),
+                inputPhone(_model.phone, _handlerErrorPhone, _handlerEventPhone, _handlerEventButton),
+                inputEmail(_model.email, _handlerErrorEmail, _handlerEventEmail, _handlerEventButton),
+
                 const SizedBox(height: 16.0),
                 const SubTitleLeft(text: titleDataAccess),
                 const SizedBox(height: 16.0),
-                BlocConsumer<SignUpBloc, SignUpState>(
-                    listenWhen: (context, state) {
-                      return (state is SignUpStatePassword);
-                    },
-                    listener: (context, state) {},
-                    buildWhen: (context, state) {
-                      return (state is SignUpStatePassword);
-                    },
-                    builder: (context, state) {
-                      return InputText(
-                        textLabel: labelPassword,
-                        textHint: hintPassword,
-                        value: _model.password,
-                        iconStart: Icons.key,
-                        isToggleSecret: true,
-                        maxLength: 12,
-                        onValidatorListener: () {
-                          return _handleErrorPassword(state);
-                        },
-                        onTextChangeListener: (text) {
-                          _handlerEventPassword(text ?? "");
-                          _handlerEventButton(state);
-                        },
-                      );
-                    }),
-                BlocConsumer<SignUpBloc, SignUpState>(
-                    listenWhen: (context, state) {
-                      return (state is SignUpStatePasswordConfirm);
-                    },
-                    listener: (context, state) {},
-                    buildWhen: (context, state) {
-                      return (state is SignUpStatePasswordConfirm);
-                    },
-                    builder: (context, state) {
-                      return InputText(
-                        textLabel: labelPassword,
-                        textHint: hintPassword,
-                        value: _model.passwordConfirm,
-                        iconStart: Icons.key,
-                        isToggleSecret: true,
-                        maxLength: 12,
-                        onValidatorListener: () {
-                          return _handleErrorPasswordConfirm(state);
-                        },
-                        onTextChangeListener: (text) {
-                          _handlerEventPasswordConfirm(text ?? "");
-                          _handlerEventButton(state);
-                        },
-                      );
-                    }),
+
+                inputPassword(_model.password, _handlerErrorPassword, _handlerEventPassword, _handlerEventButton),
+                inputPasswordConfirm(_model.passwordConfirm, _handlerErrorPasswordConfirm, _handlerEventPasswordConfirm, _handlerEventButton),
+
                 BlocConsumer<SignUpBloc, SignUpState>(
                     listenWhen: (context, state) {
                   return (state is SignUpStateSuccess) || (state is SignUpStateError);
