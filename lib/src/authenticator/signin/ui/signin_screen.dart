@@ -7,7 +7,6 @@ import '../../../../core/components/buttons/button_outline.dart';
 import '../../../../core/components/buttons/button_switch.dart';
 import '../../../../core/components/dialogs/dialog_date_picker.dart';
 import '../../../../core/components/dialogs/dialog_information.dart';
-import '../../../../core/components/inputs/input_text.dart';
 import '../../../../core/components/titles/subtitle_left.dart';
 import '../../../../core/components/titles/text_normal.dart';
 import '../../../../core/components/titles/title_center.dart';

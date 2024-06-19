@@ -173,7 +173,7 @@ class AlertInformation {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            backgroundColor: Theme.of(context).colorScheme.surface,
+                            backgroundColor: Theme.of(context).colorScheme.onSurface,
                             foregroundColor: Colors.black,
                             minimumSize: const Size.fromHeight(60),
                             textStyle:

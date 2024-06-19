@@ -23,7 +23,7 @@ enum CreditCardType {
     Color(0xFFFFFFFF),
   ),
   americanExpress(
-    "Amercan Express",
+    "American Express",
     "assets/ic_american_express.svg",
     Color(0xFF01398D),
     Color(0xFF011738),
@@ -43,8 +43,8 @@ enum CreditCardType {
     Color(0xFFEA8524),
     Color(0xFFFFFFFF),
   ),
-  dinners(
-    "Dinners",
+  diners(
+    "Diners",
     "assets/ic_diners.svg",
     Color(0xFF2E6E03),
     Color(0xFF44A124),

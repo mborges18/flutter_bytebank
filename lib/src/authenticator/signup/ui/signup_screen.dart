@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/components/buttons/button_filled.dart';
 import '../../../../core/components/dialogs/dialog_information.dart';
-import '../../../../core/components/inputs/input_text.dart';
 import '../../../../core/components/titles/subtitle_left.dart';
 import '../../../../core/components/titles/text_normal.dart';
 import '../../../../core/components/titles/title_center.dart';
